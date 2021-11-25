@@ -1,423 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-
-
+<html class="has-navbar-fixed-top">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>
-    一Chi寫程式
-  </title>
-  <meta name="description" content="">
-  
-  <meta name="author" content="Chi Lin">
+    <meta charset="utf-8">
+<title>一Chi寫程式</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta http-equiv="Cache-Control" content="no-transform"/>
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="theme-color" content="#1e2327">
-  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
-  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  
 
-  
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+
+<meta name="description" content="">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
 <meta name="generator" content="Hexo 5.4.0"></head>
-
-<body id="replica-app">
-
-<nav class="navbar-wrapper">
-  <div class="navbar">
-    <div class="container clearfix">
-      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
-
-      <div class="navbar-search float-left desktop-only">
-        <div class="navbar-search-form">
-          <label for="gsc-i-id1">This website</label>
-          <div id="google-search">
-            <gcse:search></gcse:search>
-          </div>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-      </div>
-
-      <ul class="navbar-nav float-left">
         
-        <li><a href="/archives">Archives</a></li>
-        
-        
-        <li><a href="/categories">Categories</a></li>
-        
-        
-        <li><a href="/tags">Tags</a></li>
-        
-        
-        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
-        
-      </ul>
-
-      <ul class="navbar-nav user-nav float-right desktop-only">
-        <li class="user-nav-notification">
-          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
-        </li>
-        <li>
-          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
-        </li>
-        <li class="user-nav-logo">
-          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></i></a>
-        </li>
-      </ul>
+        <div class="navbar-menu navbar-end">
+            
+            
+            
+        </div>
     </div>
-  </div>
 </nav>
 
-<div class="main-container">
-  
-
-<div class="container-lg">
-  
-
-<div class="blog-intro">
-  <div class="blog-intro-user">
-    <img class="avatar" src="https://octodex.github.com/images/baracktocat.jpg">
-    <div class="user-name">
-      <div class="blog-title"></div>
-      <div class="blog-author"></div>
-        <ul class="user-detail mobile-only">
+    <section class="section">
+    <div class="container">
     
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="https://chiderlin.github.io">https://chiderlin.github.io</a>
-    </li>
-  </ul>
-    </div>
-    <div class="blog-description">
-      
-    </div>
-  </div>
-
-  <ul class="user-detail desktop-only">
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="https://chiderlin.github.io">https://chiderlin.github.io</a>
-    </li>
-  </ul>
-
-  <div class="social-media desktop-only">
-    <h4>Social Media</h4>
-    <ul>
-      
-    </ul>
-  </div>
-</div>
-
-
-  <div class="blog-detail">
-    
-<nav class="blog-detail-nav desktop-only">
-  <ul class="clearfix">
-    <li class="selected">
-      <a href="/">Overview</a></li>
-    <li class="">
-      <a href="/archives">Posts <span class="counter">1</span></a>
-    </li>
-    <li class="">
-      <a href="/categories">Categories <span
-                class="counter">1</span></a></li>
-    <li class="">
-      <a href="/tags">Tags <span class="counter">3</span></a></li>
-  </ul>
-</nav>
-
-    <div class="body-secondary">
-      <p class="right-title">Recent post</p>
-      <ul class="recent-post clearfix">
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-        <li class="recent-post-item">
-          <div class="clearfix">
-            <h5 class="post-title text-ellipsis">
-              <i class="fa fa-bars"></i>
-              <a href="/2021/11/25/git-ssh/">&lt;git筆記&gt;電腦設定SSH使用多個Git帳號</a>
-            </h5>
-            <p class="post-description text-ellipsis desktop-only">
-                 前言  公司也使用Github，導致會有一台電腦需要將程式碼上傳到不同GitHub帳號的煩惱，
-            </p>
-            <p class="post-info desktop-only">
-              <span>
-                
-                  <a class="category-link" href="/categories/git/"><i class="fa fa-folder-open"></i> git</a>
-                
-              </span>
-              <span><i class="fa fa-tag"></i> 3 </span>
-            </p>
-          </div>
-        </li>
+            <a href="/2021/11/25/git-ssh/" itemprop="url">&lt;git筆記&gt;電腦設定SSH使用多個Git帳號</a>
         
-      </ul>
-      <div class="calendar-container" id="calendar">
-  <div class="calendar">
-    <h3>
-      {{posts.length}} contributions in the last year
-    </h3>
-    <div class="calendar-graph-container">
-      <div class="calendar-graph">
-        <svg width="676" height="104" @mouseout="mouseoverDate=null">
-          <g transform="translate(16, 20)">
-            <g v-for="week in calendar" :transform="week.transform">
-              <rect v-for="day in week.days"
-                    :x="day.x"
-                    :y="day.y"
-                    :fill="day.fill"
-                    @click="selectedDate=day.date"
-                    @mouseover="mouseoverDate=day.date"
-                    :class="{active:selectedDate===day.date}"
-                    data-count="{{day.posts.length}}"
-                    data-date="{{day.date}}"
-                    class="day" width="10" height="10"
-              ></rect>
-            </g>
-
-            <text v-for="month in monthLabels"
-                  :x="month.x"
-                  y="-5"
-                  class="month">{{month.text}}
-            </text>
-
-
-            <text text-anchor="start" class="wday" dx="-14" dy="8"
-                  style="display: none;">S
-            </text>
-            <text text-anchor="start" class="wday" dx="-14" dy="20">Mon</text>
-            <text text-anchor="start" class="wday" dx="-14" dy="32"
-                  style="display: none;">T
-            </text>
-            <text text-anchor="start" class="wday" dx="-14" dy="44">Wed</text>
-            <text text-anchor="start" class="wday" dx="-14" dy="57"
-                  style="display: none;">T
-            </text>
-            <text text-anchor="start" class="wday" dx="-14" dy="69">Fri</text>
-            <text text-anchor="start" class="wday" dx="-14" dy="81"
-                  style="display: none;">S
-            </text>
-          </g>
-        </svg>
-        <div class="svg-tip svg-tip-one-line"
-             v-bind:style="{ top: svgtip.top, left: svgtip.left, display: svgtip.display}">
-          <strong>{{svgtip.text}}</strong> on
-          {{moment(mouseoverDate).format('MMM DD, YYYY')}}
-        </div>
-      </div>
-      <div class="calendar-footer clearfix">
-      <span>
-        <a href="#">Learn how we count contributions.</a>
-      </span>
-        <div class="calendar-legend">
-          <span>Less</span>
-          <ul class="legend">
-            <li style="background-color: #eee"></li>
-            <li style="background-color: #d6e685"></li>
-            <li style="background-color: #8cc665"></li>
-            <li style="background-color: #44a340"></li>
-            <li style="background-color: #1e6823"></li>
-          </ul>
-          <span>More</span>
-        </div>
-      </div>
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2021-11-25T03:51:44.000Z" itemprop="datePublished">Nov 25 2021</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/git/">git</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            4 minutes read (About 605 words)
+        </span>
+        
     </div>
-  </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>公司也使用Github，導致會有一台電腦需要將程式碼上傳到不同GitHub帳號的煩惱，一開始試過直接設定 git config –global來切換帳號但是沒有成功，後來使用ssh（公私鑰）就ＯＫ了，因此來寫一下筆記。</p>
+<hr>
+<h3 id="1-在電腦產生公鑰私鑰"><a href="#1-在電腦產生公鑰私鑰" class="headerlink" title="1. 在電腦產生公鑰私鑰"></a>1. 在電腦產生公鑰私鑰</h3><figure class="highlight shell hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash">ssh-keygen -t rsa -C <span class="hljs-string">"your email"</span></span></span><br></pre></td></tr></tbody></table></figure>
 
-  <h3>Contribution activity</h3>
-  <div class="contribution-list">
-    <ul>
-      <li v-for="post in posts | filterBy selectedDate in 'date'">
-        <a href="{{post.url}}">{{post.title}}
-        </a>
-        <span>{{post.date}}</span>
-      </li>
-    </ul>
-  </div>
+<p>接下來會填入你想存放key-pair的路徑及設定密碼，我就是照原本預設路徑存放。存放完成會有id_rsa, id_rsa.pub， id_rsa.pub為公鑰，id_rsa為私鑰。</p>
+<h3 id="2-把SSH-KEY-公鑰：-pub-貼到要操控的GitHub帳號上"><a href="#2-把SSH-KEY-公鑰：-pub-貼到要操控的GitHub帳號上" class="headerlink" title="2. 把SSH-KEY(公鑰：.pub)貼到要操控的GitHub帳號上"></a>2. 把SSH-KEY(公鑰：.pub)貼到要操控的GitHub帳號上</h3><p><img src="github.png" alt="github"></p>
+<h3 id="3-將私鑰加到ssh-agent中"><a href="#3-將私鑰加到ssh-agent中" class="headerlink" title="3. 將私鑰加到ssh-agent中"></a>3. 將私鑰加到ssh-agent中</h3><figure class="highlight shell hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash">ssh-add ~/.ssh/id_rsa</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p><em>ssh-agent是什麼？</em><br><em>(一個作業系統內建幫忙管理 ssh keys 的背景程式，讓使用者只需要輸入一次密碼往後就可以用密鑰自動登入)</em></p>
+</blockquote>
+<h3 id="4-新增-修改Config的檔案資料：在-ssh裡面我原本沒有git-config檔，所以直接新增一個新的。"><a href="#4-新增-修改Config的檔案資料：在-ssh裡面我原本沒有git-config檔，所以直接新增一個新的。" class="headerlink" title="4. 新增/修改Config的檔案資料：在/.ssh裡面我原本沒有git config檔，所以直接新增一個新的。"></a>4. 新增/修改Config的檔案資料：在/.ssh裡面我原本沒有git config檔，所以直接新增一個新的。</h3><figure class="highlight shell hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash">vi config</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight shell hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">----config裡面----</span><br><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="5-測試是否連線成功：第一次連線會詢問你是否確定connecting，選擇yes，成功會顯示successfully的字樣～"><a href="#5-測試是否連線成功：第一次連線會詢問你是否確定connecting，選擇yes，成功會顯示successfully的字樣～" class="headerlink" title="5. 測試是否連線成功：第一次連線會詢問你是否確定connecting，選擇yes，成功會顯示successfully的字樣～"></a>5. 測試是否連線成功：第一次連線會詢問你是否確定connecting，選擇yes，成功會顯示successfully的字樣～</h3><figure class="highlight shell hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash">ssh -T git@github.com</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="6-實際用github操作repo測試"><a href="#6-實際用github操作repo測試" class="headerlink" title="6. 實際用github操作repo測試"></a>6. 實際用github操作repo測試</h3><h3 id="7-取消原本global的設定"><a href="#7-取消原本global的設定" class="headerlink" title="7. 取消原本global的設定"></a>7. 取消原本global的設定</h3><figure class="highlight shell hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash">git config --global --<span class="hljs-built_in">unset</span> user.name</span></span><br><span class="line"><span class="hljs-meta">$</span><span class="hljs-bash">git config --global --<span class="hljs-built_in">unset</span> user.email</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>完成之後再用 <code>$git config --list</code>指令查看，原本設定的 <code>user.name &amp; user.email</code>就已經不見囉<br>可以在個別的專案再設定email, user<br><code>$git config user.email "your email"</code><br><code>$git config user.name "your name"</code></p>
+<hr>
+<h3 id="個人心得紀錄"><a href="#個人心得紀錄" class="headerlink" title="個人心得紀錄"></a>個人心得紀錄</h3><p>目前把公司的設定ssh而已，另外一個帳號還是用http clone，不曉得之後會不會遇到什麼問題，可能可以觀察一下再做更新。另外公鑰私鑰的部分仍還需要多了解一些，下面放的另外兩篇文章會再看一下。</p>
+<p>—<br><br>資料來源：<br><a target="_blank" rel="noopener" href="https://medium.com/@hyWang/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%80%E5%8F%B0%E9%9B%BB%E8%85%A6%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%80%8Bgit%E5%B8%B3%E8%99%9F-907c8eadbabf">如何在一台電腦使用多個Git帳號</a><br><a target="_blank" rel="noopener" href="https://codecharms.me/posts/security-ssh">Security 你該知道所有關於 SSH 的那些事
+</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126117538">ssh agent详解</a></p>
+</body></html>
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+    
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Chi Lin&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        target="_blank" rel="noopener" href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
 </div>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
 <script>
-  var posts = [{"date":"2021-11-25","title":"<git筆記>電腦設定SSH使用多個Git帳號","url":"https://chiderlin.github.io/2021/11/25/git-ssh/"}];
-  var today = moment().format('YYYY-MM-DD');
-  var oneYearAgo = moment(today).subtract(1, 'years');
-  posts = posts.filter(function(post) {
-    return new Date(post.date) > oneYearAgo;
-  });
-  var monthLabels = [];
-  var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var calendar = getCalendar(posts);
-
-  var dateRange = {
-    start: moment(oneYearAgo).format('MMM D, YYYY'),
-    end: moment().format('MMM D, YYYY')
-  }
-
-  var app = new Vue({
-    el: '#calendar',
-    data: {
-      posts: posts,
-      selectedDate: null,
-      calendar: calendar,
-      dateRange: dateRange,
-      mouseoverDate: null,
-      moment: moment,
-      monthLabels: monthLabels
-    },
-    created: function() {
-      this.selectedDate = 'none';
-    },
-    methods: {},
-    computed: {
-      svgtip: function() {
-        var date = this.mouseoverDate;
-        var display = date ? 'block' : 'none';
-        if (date) {
-          var coordinator = getIndexByDate(date);
-          var x = coordinator[0];
-          var y = coordinator[1];
-          var len = this.calendar[x].days[y].posts.length;
-          var text = len ? len + ' contributions' : 'No contributions';
-          var left = coordinator[0] * 12 - 37 + 'px';
-          coordinator[1] = coordinator[0] ? coordinator[1] : coordinator[1] + oneYearAgo.day();
-          var top = coordinator[1] * 12 + 12 - 32 + 'px';
-        }
-        return {
-          text: text,
-          left: left,
-          top: top,
-          display: display
-        }
-      }
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
     }
-  });
-
-  function getCalendar(posts) {
-    // raw calendar
-    var maxCount = 0;
-    var tmr = new Date();
-    tmr.setDate(tmr.getDate() + 1);
-    var tmrStr = tmr.toISOString().slice(0, 10);
-    var date = new Date();
-    date.setYear(date.getFullYear() - 1); // start date is a year ago;
-    var calendar = [];
-    while (date.toISOString().slice(0, 10) !== tmrStr) {
-      var day = date.getDay();
-      if (day === 0 || calendar.length === 0) {
-        var x = calendar.length * 13;
-        calendar.push({
-          transform: 'translate(' + x + ',0)',
-          days: []
-        })
-      }
-
-      calendar[calendar.length - 1].days.push({
-        x: 14 - calendar.length,
-        y: day * 12,
-        date: date.toISOString().slice(0, 10),
-        posts: []
-      });
-
-      if (day === 0 && date.getDate() < 8) {
-        monthLabels.push({
-          x: 14 - calendar.length + x,
-          text: monthName[date.getMonth() - 1]
-        })
-      }
-
-      date.setDate(date.getDate() + 1);
-    }
-
-    // handle post info
-    posts.forEach(function(post) {
-      var x = getIndexByDate(post.date)[0];
-      var y = getIndexByDate(post.date)[1];
-
-      calendar[x].days[y].posts.push({
-        title: post.title,
-        url: post.url
-      });
-
-      var len = calendar[x].days[y].posts.length;
-      maxCount = Math.max(len, maxCount);
-    })
-
-    // handle fill color
-    calendar.forEach(function(week) {
-      week.days.forEach(function(day) {
-        day.fill = getColorByLength(day.posts.length, maxCount);
-      })
-    })
-
-    return calendar;
-  }
-
-  function getIndexByDate(date) {
-    date = moment(date);
-    var firstColumnLen = 7 - oneYearAgo.day();
-    var days = date.diff(oneYearAgo, 'days');
-
-    var x = days > firstColumnLen - 1 ? Math.ceil((days - firstColumnLen + 1) / 7) : 0;
-    var y = days > firstColumnLen - 1 ? date.day() : date.day() - oneYearAgo.day();
-    return [x, y];
-  }
-
-  function getColorByLength(len, max) {
-    var colors = ['#eee', '#d6e685', '#8cc665', '#44a340', '#1e6823'];
-    var colorsLen = colors.length - 1;
-    var color = len ? colors[0] : colors[1];
-    var interval = max / colorsLen;
-    if (max < colorsLen) {
-      color = colors[len];
-    } else {
-      color = colors[Math.ceil(len / interval)];
-    }
-    return color;
-  }
-
+    moment.locale("en-AU");
 </script>
 
 
-    </div>
-  </div>
-</div>
 
-</div>
 
-<div class="footer-wrapper container">
-  <footer class="footer clearfix">
-    <div class="clearfix">
-    <a href="https://chiderlin.github.io" class="footer-logo">
-      <i class="fa fa-github"></i>
-    </a>
-    <ul class="footer-social-link">
-      <li>© 2019 Chi Lin</li>
-      <li><a href="https://chiderlin.github.io">Home</a></li>
-      
-    </ul>
-    <div class="footer-theme-info">
-      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
-      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
-    </div>
-    </div>
+<script src="/js/script.js"></script>
+
+
     
-  </footer>
-</div>
-
-
-
-
-<script src="/js/main.js"></script>
-
 </body>
 </html>
