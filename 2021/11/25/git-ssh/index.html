@@ -145,7 +145,7 @@
 <h3 id="1-在電腦產生公鑰私鑰"><a href="#1-在電腦產生公鑰私鑰" class="headerlink" title="1. 在電腦產生公鑰私鑰"></a>1. 在電腦產生公鑰私鑰</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">ssh-keygen -t rsa -C <span class="string">&quot;your email&quot;</span></span></span><br></pre></td></tr></table></figure>
 
 <p>接下來會填入你想存放key-pair的路徑及設定密碼，我就是照原本預設路徑存放。存放完成會有id_rsa, id_rsa.pub， id_rsa.pub為公鑰，id_rsa為私鑰。</p>
-<h3 id="2-把SSH-KEY-公鑰：-pub-貼到要操控的GitHub帳號上"><a href="#2-把SSH-KEY-公鑰：-pub-貼到要操控的GitHub帳號上" class="headerlink" title="2. 把SSH-KEY(公鑰：.pub)貼到要操控的GitHub帳號上"></a>2. 把SSH-KEY(公鑰：.pub)貼到要操控的GitHub帳號上</h3><p><img src="../_img/github.png" alt="github"></p>
+<h3 id="2-把SSH-KEY-公鑰：-pub-貼到要操控的GitHub帳號上"><a href="#2-把SSH-KEY-公鑰：-pub-貼到要操控的GitHub帳號上" class="headerlink" title="2. 把SSH-KEY(公鑰：.pub)貼到要操控的GitHub帳號上"></a>2. 把SSH-KEY(公鑰：.pub)貼到要操控的GitHub帳號上</h3><p><img src="../img/github.png" alt="github"></p>
 <h3 id="3-將私鑰加到ssh-agent中"><a href="#3-將私鑰加到ssh-agent中" class="headerlink" title="3. 將私鑰加到ssh-agent中"></a>3. 將私鑰加到ssh-agent中</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">ssh-add ~/.ssh/id_rsa</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
