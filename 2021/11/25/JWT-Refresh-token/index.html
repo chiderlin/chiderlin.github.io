@@ -42,7 +42,7 @@
     
 
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<!-- hexo injector head_end start --><script async defer data-domain="chiderlin.github.io" src="https://plausible.io/js/plausible.js" ></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
     <script>
@@ -219,7 +219,7 @@
 <li>Header : 定義 Token 種類及雜湊演算法的地方。<br>  alg : 雜湊演算法使用HS256、type : 定義 Token 種類為JWT。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9部分：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;alg&quot;: &quot;HS256&quot;,</span><br><span class="line">  &quot;typ&quot;: &quot;JWT&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<br/>
+
 
 <ul>
 <li>Payload : 存放用戶相關訊息，通常放id、姓名等等，不可放機敏資料。可以另外設定 exp ( Token到期時間)、iat 設定 Token 簽發時間。</li>
@@ -246,9 +246,10 @@
 <li><p>access token過期之後把登入取得的refresh token 打 post ‘/token’ API，後端驗證可取得新的access token回傳給client端<br><img src="3.png"></p>
 <br/></li>
 <li><p>新的access token 即可再用Bear token再次取得該使用者posts的資料<br><img src="4.png"></p>
-<br/></li>
-<li><p>登出=&gt; 清除db裡的refresh token，搭配網頁的話，cookie也清除</p>
-<br/></li>
+</li>
+</ol>
+<ol start="5">
+<li>登出=&gt; 清除db裡的refresh token，搭配網頁的話，cookie也清除</li>
 </ol>
 <blockquote>
 <p><em>Refresh Token用途，</em></p>
