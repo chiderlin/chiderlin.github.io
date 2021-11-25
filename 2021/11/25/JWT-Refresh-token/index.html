@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>JWT-Refresh-token | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JWT-Refresh-token</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 25, 2021&nbsp;&nbsp;22:36:44</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%B6%B2%E9%A0%81%E9%96%8B%E7%99%BC/">網頁開發</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="JWT-JSON-Web-Token-組成"><a href="#JWT-JSON-Web-Token-組成" class="headerlink" title="JWT ( JSON Web Token )組成"></a>JWT ( JSON Web Token )組成</h3><p>訪問資源的令牌，常用在身份驗證，驗證成功才可以獲取資訊，由明碼組成，可以在 jwt.io 查詢JWT裡存放的資料是什麼，所以不能放機敏資料，組成分成三個部分，分別是Header, Payload, Signature。</p>
+<p>長這樣：Header.Payload.Signature 都轉為Base64編碼</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQ2hpIiwiaWF0IjoxNjM2NzkzOTY3LCJleHAiOjE2MzY3OTQyNTV9.2Ev3rSQwgIYJXVhv7gC5FrLcJdHE2kNliIYvAUd86ZU</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Header : 定義 Token 種類及雜湊演算法的地方。<br>  alg : 雜湊演算法使用HS256、type : 定義 Token 種類為JWT。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9部分：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;alg&quot;: &quot;HS256&quot;,</span><br><span class="line">  &quot;typ&quot;: &quot;JWT&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Payload : 存放用戶相關訊息，通常放id、姓名等等，不可放機敏資料。可以另外設定 exp ( Token到期時間)、iat 設定 Token 簽發時間。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQ2hpIiwiaWF0IjoxNjM2NzkzOTY3LCJleHAiOjE2MzY3OTQyNTV9部分：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;1234567890&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;Chi&quot;,</span><br><span class="line">  &quot;iat&quot;: 1636793967, =&gt; Token簽發時間，Unix時間(點我進去時間轉換網站）</span><br><span class="line">  &quot;exp&quot;: 1636794255 =&gt; Token到期時間，Unix時間(點我進去時間轉換網站）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Signature : 數位簽章，由Header(Base64編碼後)+Paylaod(Base64編碼後)+密鑰一起透過Header定義的HS256雜湊演算法加密產生的。密鑰在伺服器拿到Token之後會進行解碼，確認資料正確、secret正確，以驗證身份。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2Ev3rSQwgIYJXVhv7gC5FrLcJdHE2kNliIYvAUd86ZU部分：</span><br><span class="line">HMACSH256(base64UrlEncode(header)+&#x27;.&#x27;+base54UrlEncode(payload),</span><br><span class="line">secret)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="JWT工作流程"><a href="#JWT工作流程" class="headerlink" title="JWT工作流程"></a>JWT工作流程</h3><p><img src="workflow.png"></p>
+<h3 id="加上Refresh-Token"><a href="#加上Refresh-Token" class="headerlink" title="加上Refresh Token"></a>加上Refresh Token</h3><p>機制符合OAuth2.0規範，JWT＋Refresh Token的機制也可以減少存取Redis的次數。Token分成：Access Token, Refresh Token。</p>
+<ul>
+<li>Access Token: 用來存取資料的Token ，時效較短(ex: 30 mins)。</li>
+<li>Refresh Token: 用來取得Access Token ，時效較長(ex:30天)。如果Refresh Token也過期了，用戶就必須重新登入了。</li>
+</ul>
+<h3 id="加入Refresh-Token則管理流程變更如下："><a href="#加入Refresh-Token則管理流程變更如下：" class="headerlink" title="加入Refresh Token則管理流程變更如下："></a>加入Refresh Token則管理流程變更如下：</h3><p>資料庫已經備好一些簡單的假資料方便實作，建立了三個表分別是access_tokens(token資料), posts(文章資料), users(使用者資料)，這邊著重在jwt的demo，有很多東西都先簡化處理。</p>
+<ol>
+<li><p>這邊我輸入name當作登入，後端驗證完取得access token及refresh token回傳給前端<br><img src="1.png"></p>
+</li>
+<li><p>將access token 放到Bear token ， 送出get ‘/posts’的請求，可取得該使用者po過的文<br><img src="2.png"></p>
+</li>
+<li><p>access token過期之後把登入取得的refresh token 打 post ‘/token’ API，後端驗證可取得新的access token回傳給client端<br><img src="3.png"></p>
+</li>
+<li><p>新的access token 即可再用Bear token再次取得該使用者posts的資料<br><img src="4.png"></p>
+</li>
+<li><p>登出=&gt; 清除db裡的refresh token，搭配網頁的話，cookie也清除</p>
+</li>
+</ol>
+<blockquote>
+<p><em>Refresh Token用途，</em></p>
+</blockquote>
+<ol>
+<li>表明Client端已經從用戶那裡獲得訪問數據許可，因此可以再次請求新訪問令牌。</li>
+<li>與長期Access Token相比，加入Refresh Token助於增加整個安全流程。</li>
+<li>Refresh Token提升用戶體驗，不需一直做重新登入的動作。</li>
+</ol>
+<h3 id="實作JWT-Refresh-Token-，附上程式碼"><a href="#實作JWT-Refresh-Token-，附上程式碼" class="headerlink" title="實作JWT + Refresh Token ，附上程式碼"></a>實作JWT + Refresh Token ，附上程式碼</h3><ul>
+<li><p>index.js檔案引入套件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//載入套件</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;dotenv&#x27;</span>).config()</span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">&#x27;jsonwebtoken&#x27;</span>)</span><br><span class="line">app.use(express.json());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 連線資料庫</span></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&#x27;mongoose&#x27;</span>);</span><br><span class="line">mongoose.connect(process.env.MONGO_URI)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 載入model</span></span><br><span class="line"><span class="keyword">const</span> Posts = <span class="built_in">require</span>(<span class="string">&#x27;./model/post&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">&#x27;./model/user&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> AccessToken = <span class="built_in">require</span>(<span class="string">&#x27;./model/access_token&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 載入驗證middleware</span></span><br><span class="line"><span class="keyword">const</span> authenticateToken = <span class="built_in">require</span>(<span class="string">&#x27;./auth&#x27;</span>)</span><br><span class="line"><span class="comment">// 載入model</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>auth.js middleware驗證檔</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">&#x27;jsonwebtoken&#x27;</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;dotenv&#x27;</span>).config()</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="keyword">async</span> (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> authHeader = req.headers[<span class="string">&#x27;authorization&#x27;</span>];</span><br><span class="line">    <span class="keyword">const</span> token = authHeader &amp;&amp; authHeader.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span> (!token) <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>) <span class="comment">// 沒有token</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> payload = <span class="keyword">await</span> jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);</span><br><span class="line">        req.user = payload;</span><br><span class="line">        req.token = token;</span><br><span class="line">        res.set(<span class="string">&#x27;Authorization&#x27;</span>, <span class="string">`Bearer <span class="subst">$&#123;token&#125;</span>`</span>)</span><br><span class="line">        res.cookie(<span class="string">&#x27;jwt&#x27;</span>, token)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// token沒有權限或者過期</span></span><br><span class="line">        <span class="keyword">if</span> (e.name === <span class="string">&#x27;TokenExpiredError&#x27;</span>) <span class="keyword">return</span> res.sendStatus(<span class="number">403</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    next()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li>回到index.js=&gt; 登入部分＆refresh token取得新access token程式碼<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//自己包一個產生access token的function，demo所以15秒就過期</span></span><br><span class="line"><span class="keyword">const</span> generateAccessToken = <span class="function">(<span class="params">payload</span>) =&gt;</span> jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, &#123; <span class="attr">expiresIn</span>: <span class="string">&#x27;15s&#x27;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 登入</span></span><br><span class="line">app.post(<span class="string">&#x27;/login&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 取得前端的json資料（使用者名稱）</span></span><br><span class="line">    <span class="keyword">const</span> username = req.body.username;</span><br><span class="line">    <span class="keyword">const</span> user = &#123; <span class="attr">name</span>: username &#125;</span><br><span class="line">    <span class="comment">// 和db驗證是否有此使用者</span></span><br><span class="line">    <span class="keyword">const</span> _f = <span class="keyword">await</span> User.findOne(&#123; <span class="attr">name</span>:user.name &#125;)</span><br><span class="line">    <span class="keyword">if</span> (!username) <span class="keyword">return</span> res.json(&#123; <span class="attr">error</span>: <span class="literal">true</span>, <span class="attr">msg</span>: <span class="string">&#x27;provide username&#x27;</span> &#125;)</span><br><span class="line">    <span class="keyword">if</span> (!_f) <span class="keyword">return</span> res.json(&#123; <span class="attr">error</span>: <span class="literal">true</span>, <span class="attr">msg</span>: <span class="string">&#x27;user not exist&#x27;</span> &#125;)</span><br><span class="line">    <span class="comment">// 驗證ok產生access_token, refresh_token</span></span><br><span class="line">    <span class="keyword">const</span> accessToken = generateAccessToken(user)</span><br><span class="line">    <span class="keyword">const</span> refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) <span class="comment">// refresh token沒有設定期限，登出清除refresh token</span></span><br><span class="line">    <span class="comment">// 把access_token, refresh_token存到AccessToken表</span></span><br><span class="line">    <span class="keyword">const</span> newToken = <span class="keyword">await</span> <span class="keyword">new</span> AccessToken(&#123;</span><br><span class="line">        <span class="attr">user_id</span>: _f._id.toString(),</span><br><span class="line">        <span class="attr">access_token</span>: accessToken,</span><br><span class="line">        <span class="attr">refresh_token</span>: refreshToken</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">await</span> newToken.save();</span><br><span class="line">    <span class="comment">//回傳前端</span></span><br><span class="line">    <span class="keyword">return</span> res.send(&#123; accessToken, refreshToken &#125;)</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// access token過期時，用refresh token換新access token</span></span><br><span class="line">app.post(<span class="string">&#x27;/token&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 原本access token過期，呼叫/token api</span></span><br><span class="line">    <span class="keyword">const</span> refreshToken = req.body.token;</span><br><span class="line">    <span class="keyword">if</span> (!refreshToken) <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// db驗證refresh token</span></span><br><span class="line">    <span class="keyword">const</span> find_r = <span class="keyword">await</span> AccessToken.findOne(&#123; <span class="attr">refresh_token</span>:refreshToken &#125;);</span><br><span class="line">    <span class="keyword">if</span> (!find_r) <span class="keyword">return</span> res.sendStatus(<span class="number">403</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> payload = <span class="keyword">await</span> jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);</span><br><span class="line">        <span class="comment">// 裡面有iat跟name，只需要name，重新產生iat</span></span><br><span class="line">        <span class="keyword">const</span> new_access_token = <span class="keyword">await</span> generateAccessToken(&#123; <span class="attr">name</span>: payload.name &#125;);</span><br><span class="line">        <span class="keyword">const</span> nowtime = <span class="built_in">Math</span>.floor((<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime() / <span class="number">1000</span>);</span><br><span class="line">        <span class="comment">// 更新AccessToken表的access token</span></span><br><span class="line">        <span class="keyword">await</span> AccessToken.updateOne(</span><br><span class="line">            &#123; <span class="attr">refresh_token</span>: refreshToken &#125;,</span><br><span class="line">            &#123; <span class="attr">access_token</span>: new_access_token, <span class="attr">refresh_at</span>: nowtime &#125;);</span><br><span class="line">        <span class="keyword">return</span> res.json(&#123; new_access_token &#125;);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e.name)</span><br><span class="line">        <span class="built_in">console</span>.log(e, message)</span><br><span class="line">        <span class="keyword">return</span> res.sendStatus(<span class="number">403</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li>登出程式碼<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">app.delete(<span class="string">&#x27;/logout&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> token;</span><br><span class="line">    <span class="keyword">if</span>(!req.token) &#123; <span class="comment">// 我這邊直接用postman 帶上bear token，會在這邊取得token</span></span><br><span class="line">        <span class="keyword">const</span> authHeader = req.headers[<span class="string">&#x27;authorization&#x27;</span>];</span><br><span class="line">        token = authHeader &amp;&amp; authHeader.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>];</span><br><span class="line">        <span class="built_in">console</span>.log(token)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// 有前端頁面的話，可從這裡取得資料</span></span><br><span class="line">        token = req.token</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!token) <span class="keyword">return</span> res.sendStatus(<span class="number">401</span>) <span class="comment">// 沒有token</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// db驗證是否有此refresh token</span></span><br><span class="line">    <span class="keyword">const</span> oldAccessToken = <span class="keyword">await</span> AccessToken.findOne(&#123; <span class="attr">refresh_token</span>: token &#125;)</span><br><span class="line">    <span class="keyword">if</span> (!oldAccessToken) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">await</span> AccessToken.deleteOne(&#123; <span class="attr">refresh_token</span>: oldAccessToken.refresh_token &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有前端頁面的話，清除cookie</span></span><br><span class="line">    res.clearCookie(<span class="string">&#x27;jwt&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> res.sendStatus(<span class="number">204</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><p>剛開始接觸的時候一知半解，也是透過多次摸索慢慢提升自己對JWT的理解，希望能更靈活運用在專案上，以後回來再看一次JWT可能都還會有新的感悟，有一些基礎的概念，但實際運用的方式有很多種，相信還有很多可以優化的地方，至於如何能靈活運用還是要再造化，以上若有建議也請歡迎留言交流討論。</p>
+<hr>
+<p>資料來源：</p>
+<p><a target="_blank" rel="noopener" href="https://www.dotblogs.com.tw/wasichris/2020/10/25/223728">[Web] 以 axios 實踐前端 refresh token 機制</a><br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040410624">为什么 OAuth 里除了 Access Token 之外，还需要 Refresh Token？</a><br><a target="_blank" rel="noopener" href="https://tec.xenby.com/44-%E7%B5%90%E5%90%88-jwt-%E8%88%87-refresh-token-%E9%81%94%E5%88%B0%E9%BB%91%E5%90%8D%E5%96%AE%E5%A4%B1%E6%95%88%E6%A9%9F%E5%88%B6">結合 JWT 與 Refresh Token 達到黑名單失效機制</a><br><a target="_blank" rel="noopener" href="https://5xruby.tw/posts/what-is-jwt">是誰在敲打我窗？什麼是 JWT ？</a><br><a target="_blank" rel="noopener" href="https://medium.com/%E9%BA%A5%E5%85%8B%E7%9A%84%E5%8D%8A%E8%B7%AF%E5%87%BA%E5%AE%B6%E7%AD%86%E8%A8%98/%E7%AD%86%E8%A8%98-%E9%80%8F%E9%81%8E-jwt-%E5%AF%A6%E4%BD%9C%E9%A9%97%E8%AD%89%E6%A9%9F%E5%88%B6-2e64d72594f8">[筆記] 透過 JWT 實作驗證機制</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2021/11/25/JWT-Refresh-token/">https://chiderlin.github.io/2021/11/25/JWT-Refresh-token/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/jwt/"># jwt</a>
+                    
+                        <a href="/tags/Jsonwebtoken/"># Jsonwebtoken</a>
+                    
+                        <a href="/tags/Refresh-token/"># Refresh token</a>
+                    
+                        <a href="/tags/Authentication/"># Authentication</a>
+                    
+                        <a href="/tags/Nodejs/"># Nodejs</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/11/25/git-ssh/"><git筆記>電腦設定SSH使用多個Git帳號</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
