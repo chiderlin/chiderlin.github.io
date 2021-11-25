@@ -219,32 +219,36 @@
 <li>Header : 定義 Token 種類及雜湊演算法的地方。<br>  alg : 雜湊演算法使用HS256、type : 定義 Token 種類為JWT。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9部分：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;alg&quot;: &quot;HS256&quot;,</span><br><span class="line">  &quot;typ&quot;: &quot;JWT&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br/>
 
 <ul>
 <li>Payload : 存放用戶相關訊息，通常放id、姓名等等，不可放機敏資料。可以另外設定 exp ( Token到期時間)、iat 設定 Token 簽發時間。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eyJpZCI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQ2hpIiwiaWF0IjoxNjM2NzkzOTY3LCJleHAiOjE2MzY3OTQyNTV9部分：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;1234567890&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;Chi&quot;,</span><br><span class="line">  &quot;iat&quot;: 1636793967, =&gt; Token簽發時間，Unix時間(點我進去時間轉換網站）</span><br><span class="line">  &quot;exp&quot;: 1636794255 =&gt; Token到期時間，Unix時間(點我進去時間轉換網站）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br/>
+
 <ul>
-<li>Signature : 數位簽章，由Header(Base64編碼後)+Paylaod(Base64編碼後)+密鑰一起透過Header定義的HS256雜湊演算法加密產生的。密鑰在伺服器拿到Token之後會進行解碼，確認資料正確、secret正確，以驗證身份。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2Ev3rSQwgIYJXVhv7gC5FrLcJdHE2kNliIYvAUd86ZU部分：</span><br><span class="line">HMACSH256(base64UrlEncode(header)+&#x27;.&#x27;+base54UrlEncode(payload),</span><br><span class="line">secret)</span><br></pre></td></tr></table></figure></li>
+<li>Signature : 數位簽章，由Header(Base64編碼後)+Paylaod(Base64編碼後)+密鑰一起透過Header定義的HS256雜湊演算法加密產生的。密鑰在伺服器拿到Token之後會進行解碼，確認資料正確、secret正確，以驗證身份。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2Ev3rSQwgIYJXVhv7gC5FrLcJdHE2kNliIYvAUd86ZU部分：</span><br><span class="line">HMACSH256(base64UrlEncode(header)+&#x27;.&#x27;+base54UrlEncode(payload),</span><br><span class="line">secret)</span><br></pre></td></tr></table></figure>
+<br/></li>
 </ul>
 <h3 id="JWT工作流程"><a href="#JWT工作流程" class="headerlink" title="JWT工作流程"></a>JWT工作流程</h3><p><img src="workflow.png"></p>
 <h3 id="加上Refresh-Token"><a href="#加上Refresh-Token" class="headerlink" title="加上Refresh Token"></a>加上Refresh Token</h3><p>機制符合OAuth2.0規範，JWT＋Refresh Token的機制也可以減少存取Redis的次數。Token分成：Access Token, Refresh Token。</p>
 <ul>
 <li>Access Token: 用來存取資料的Token ，時效較短(ex: 30 mins)。</li>
-<li>Refresh Token: 用來取得Access Token ，時效較長(ex:30天)。如果Refresh Token也過期了，用戶就必須重新登入了。</li>
+<li>Refresh Token: 用來取得Access Token ，時效較長(ex:30天)。如果Refresh Token也過期了，用戶就必須重新登入了。<br/></li>
 </ul>
 <h3 id="加入Refresh-Token則管理流程變更如下："><a href="#加入Refresh-Token則管理流程變更如下：" class="headerlink" title="加入Refresh Token則管理流程變更如下："></a>加入Refresh Token則管理流程變更如下：</h3><p>資料庫已經備好一些簡單的假資料方便實作，建立了三個表分別是access_tokens(token資料), posts(文章資料), users(使用者資料)，這邊著重在jwt的demo，有很多東西都先簡化處理。</p>
 <ol>
 <li><p>這邊我輸入name當作登入，後端驗證完取得access token及refresh token回傳給前端<br><img src="1.png"></p>
-</li>
+<br/></li>
 <li><p>將access token 放到Bear token ， 送出get ‘/posts’的請求，可取得該使用者po過的文<br><img src="2.png"></p>
-</li>
+<br/></li>
 <li><p>access token過期之後把登入取得的refresh token 打 post ‘/token’ API，後端驗證可取得新的access token回傳給client端<br><img src="3.png"></p>
-</li>
+<br/></li>
 <li><p>新的access token 即可再用Bear token再次取得該使用者posts的資料<br><img src="4.png"></p>
-</li>
+<br/></li>
 <li><p>登出=&gt; 清除db裡的refresh token，搭配網頁的話，cookie也清除</p>
-</li>
+<br/></li>
 </ol>
 <blockquote>
 <p><em>Refresh Token用途，</em></p>
