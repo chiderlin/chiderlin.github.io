@@ -215,15 +215,17 @@
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前自己做專案時都是使用MySQL搭配居多，公司是使用Node，也因為公司需求最近開始踏上MongoDB學習之旅，記錄一下基本用法。</p>
 <h2 id="Node套件部分"><a href="#Node套件部分" class="headerlink" title="Node套件部分"></a>Node套件部分</h2><p>以Node來說常見的套件我知道有兩個，而今天主要整理mongoose的一些用法。</p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://docs.mongodb.com/drivers/node/current/quick-start/">mongodb</a><br>這個是官方提供的套件，有提供一整套蠻詳細的使用方法。最近也開始練習直接看官方文件～</li>
-<li><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/index.html">mongoose</a><br>很多剛開始寫mongodb的人應該最多人是使用mongoose，我的感覺是ODM的方式讓他在管理上很淺顯易懂吧。<blockquote>
-<p><em>ODM是什麼？=&gt; Object Document Mapping<br>跟MySQL的ORM是同樣的意思</em> </p>
+<li><p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/drivers/node/current/quick-start/">mongodb</a><br>這個是官方提供的套件，有提供一整套蠻詳細的使用方法。最近也開始練習直接看官方文件～</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/index.html">mongoose</a><br>很多剛開始寫mongodb的人應該最多人是使用mongoose，我的感覺是ODM的方式讓他在管理上很淺顯易懂吧。</p>
+<blockquote>
+<p><em>ODM是什麼？=&gt; Object Document Mapping<br> 跟MySQL的ORM是同樣的意思</em> </p>
+</blockquote>
+<blockquote>
+<p>_於是又會問ORM是什麼？ =&gt; Object Relational Mapping<br> 簡單來說是： 把資料庫操作轉成抽象的程式碼物件的使用方式<br> 在google上面搜尋一下都有蠻清楚的解釋<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10185085">可看</a></p>
 </blockquote>
 </li>
 </ol>
-<blockquote>
-<p><em>於是又會問ORM是什麼？ =&gt; Object Relational Mapping<br>簡單來說是： 把資料庫操作轉成抽象的程式碼物件的使用方式</em><br>在google上面搜尋一下都有蠻清楚的解釋<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10185085">可看</a></p>
-</blockquote>
 <h2 id="一些mongoose語法紀錄"><a href="#一些mongoose語法紀錄" class="headerlink" title="一些mongoose語法紀錄"></a>一些mongoose語法紀錄</h2><h3 id="lean-⇒"><a href="#lean-⇒" class="headerlink" title=".lean() ⇒"></a>.lean() ⇒</h3><p>讓回傳回來的資料容量變小</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> schema = <span class="keyword">new</span> mongoose.Schema(&#123; <span class="attr">name</span>: <span class="built_in">String</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> MyModel = mongoose.model(<span class="string">&#x27;Test&#x27;</span>, schema);</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> MyModel.create(&#123; <span class="attr">name</span>: <span class="string">&#x27;test&#x27;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Module that estimates the size of an object in memory</span></span><br><span class="line"><span class="keyword">const</span> sizeof = <span class="built_in">require</span>(<span class="string">&#x27;object-sizeof&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> normalDoc = <span class="keyword">await</span> MyModel.findOne();</span><br><span class="line"><span class="comment">// To enable the `lean` option for a query, use the `lean()` function.</span></span><br><span class="line"><span class="keyword">const</span> leanDoc = <span class="keyword">await</span> MyModel.findOne().lean();</span><br><span class="line"></span><br><span class="line">sizeof(normalDoc); <span class="comment">// approximately 600</span></span><br><span class="line">sizeof(leanDoc); <span class="comment">// 36, more than 10x smaller!**</span></span><br></pre></td></tr></table></figure>
 
@@ -238,11 +240,7 @@
 <ul>
 <li>如果出現error更好的追蹤是在你程式碼哪一行出錯</li>
 <li>回傳的promise是fully-fledged promise<blockquote>
-<p>_什麼是fully-fledged promise?</p>
-<pre><code>  - 使用.exec()執行出來的程式碼是真的Promise，Promise所有的方法都有。
-  - 而上面1程式碼是queries，然後可以使用.then()來接，但.then()接出來的資料不是真正的Promise，有些Promise原生的方法像catch, finally，這邊都不能使用。_
-  [來源](https://stackoverflow.com/questions/53470299/what-is-fully-fledged-promise)
-</code></pre>
+<p><em>什麼是fully-fledged promise?</em><br>  <em>1.使用.exec()執行出來的程式碼是真的Promise，Promise所有的方法都有。<br>  2.而上面1程式碼是queries，然後可以使用.then()來接，但.then()接出來的資料不是真正的Promise，有些Promise原生的方法像catch, finally，這邊都不能使用。<br>  <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/53470299/what-is-fully-fledged-promise">來源</a></em></p>
 </blockquote>
 </li>
 </ul>
