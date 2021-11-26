@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>MongoDB 學習之旅-1 Mongoose | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- hexo injector head_end start --><script async defer data-domain="chiderlin.github.io" src="https://plausible.io/js/plausible.js" ></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MongoDB 學習之旅-1 Mongoose</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 26, 2021&nbsp;&nbsp;20:47:09</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/">資料庫</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前自己做專案時都是使用MySQL搭配居多，公司是使用Node，也因為公司需求最近開始踏上MongoDB學習之旅，記錄一下基本用法。</p>
+<h2 id="Node套件部分"><a href="#Node套件部分" class="headerlink" title="Node套件部分"></a>Node套件部分</h2><p>以Node來說常見的套件我知道有兩個，而今天主要整理mongoose的一些用法。</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://docs.mongodb.com/drivers/node/current/quick-start/">mongodb</a><br>這個是官方提供的套件，有提供一整套蠻詳細的使用方法。最近也開始練習直接看官方文件～</li>
+<li><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/index.html">mongoose</a><br>很多剛開始寫mongodb的人應該最多人是使用mongoose，我的感覺是ODM的方式讓他在管理上很淺顯易懂吧。<blockquote>
+<p><em>ODM是什麼？=&gt; Object Document Mapping<br>跟MySQL的ORM是同樣的意思</em> </p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p><em>於是又會問ORM是什麼？ =&gt; Object Relational Mapping<br>簡單來說是： 把資料庫操作轉成抽象的程式碼物件的使用方式</em><br>在google上面搜尋一下都有蠻清楚的解釋<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10185085">可看</a></p>
+</blockquote>
+<h2 id="一些mongoose語法紀錄"><a href="#一些mongoose語法紀錄" class="headerlink" title="一些mongoose語法紀錄"></a>一些mongoose語法紀錄</h2><h3 id="lean-⇒"><a href="#lean-⇒" class="headerlink" title=".lean() ⇒"></a>.lean() ⇒</h3><p>讓回傳回來的資料容量變小</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> schema = <span class="keyword">new</span> mongoose.Schema(&#123; <span class="attr">name</span>: <span class="built_in">String</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> MyModel = mongoose.model(<span class="string">&#x27;Test&#x27;</span>, schema);</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> MyModel.create(&#123; <span class="attr">name</span>: <span class="string">&#x27;test&#x27;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Module that estimates the size of an object in memory</span></span><br><span class="line"><span class="keyword">const</span> sizeof = <span class="built_in">require</span>(<span class="string">&#x27;object-sizeof&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> normalDoc = <span class="keyword">await</span> MyModel.findOne();</span><br><span class="line"><span class="comment">// To enable the `lean` option for a query, use the `lean()` function.</span></span><br><span class="line"><span class="keyword">const</span> leanDoc = <span class="keyword">await</span> MyModel.findOne().lean();</span><br><span class="line"></span><br><span class="line">sizeof(normalDoc); <span class="comment">// approximately 600</span></span><br><span class="line">sizeof(leanDoc); <span class="comment">// 36, more than 10x smaller!**</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/tutorials/lean.html">來源</a></p>
+<h3 id="exec-⇒"><a href="#exec-⇒" class="headerlink" title=".exec() ⇒"></a>.exec() ⇒</h3><p>其實用法有三種差異，我這邊用query Posts來測試</p>
+<ol>
+<li><p><code>Posts.findOne(&#123;name:&#39;chi&#39;&#125;)</code> =&gt; return a Query {}<br>如果要取用裡面資料會需要再使用<code>.then((doc)=&gt;&#123;&#125;)</code>把資料抓出來</p>
+</li>
+<li><p><code>Posts.findOne(&#123;name:&#39;chi&#39;&#125;).then()</code> =&gt; return a Promise {}<br>假議題，就是上面的用法用.then來接</p>
+</li>
+<li><p><code>Posts.findOne(&#123;name:&#39;chi&#39;&#125;).exec()</code> =&gt; return a Promise {}<br>也是回傳promise，那跟上面有什麼不同？<br>如果沒有用async/await，exec()返回來的資料也是要用.then把資料抓出來，他的優點在於其他地方：</p>
+<ul>
+<li>如果出現error更好的追蹤是在你程式碼哪一行出錯</li>
+<li>回傳的promise是fully-fledged promise<blockquote>
+<p>_什麼是fully-fledged promise?</p>
+<pre><code>  - 使用.exec()執行出來的程式碼是真的Promise，Promise所有的方法都有。
+  - 而上面1程式碼是queries，然後可以使用.then()來接，但.then()接出來的資料不是真正的Promise，有些Promise原生的方法像catch, finally，這邊都不能使用。_
+  [來源](https://stackoverflow.com/questions/53470299/what-is-fully-fledged-promise)
+</code></pre>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 擷取測試結果的其中一小部分，這個程式碼有搭配express來query data</span></span><br><span class="line">app.get(<span class="string">&#x27;/test&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> query = Posts.findOne(&#123; <span class="attr">name</span>: <span class="string">&#x27;chi&#x27;</span> &#125;)</span><br><span class="line">    <span class="comment">// console.log(query) =&gt; return a Query &#123;&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> promise = Posts.findOne(&#123; <span class="attr">name</span>: <span class="string">&#x27;chi&#x27;</span> &#125;).exec()</span><br><span class="line">    <span class="comment">// console.log(promise) =&gt; return a Promise &#123;&lt;pending&gt;&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> then = Posts.findOne(&#123; <span class="attr">name</span>: <span class="string">&#x27;chi&#x27;</span> &#125;).then()</span><br><span class="line">    <span class="comment">// console.log(then) =&gt; return a Promise 假&#123;&lt;pending&gt;&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 這三個正確，不會報錯</span></span><br><span class="line">        assert.ok(!(query <span class="keyword">instanceof</span> <span class="built_in">Promise</span>))</span><br><span class="line">        assert.ok(promise <span class="keyword">instanceof</span> <span class="built_in">Promise</span>)</span><br><span class="line">        assert.ok(then <span class="keyword">instanceof</span> <span class="built_in">Promise</span>)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;ok&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>以上是為了測試他本身回傳回來的東西，但現在我們基本上都一定會搭配async/await來寫程式碼（對吧！！），如果是使用async/await都會成功回傳資料的，差別還是在於我剛列出來的那兩點，<br><strong>1 .exec()可以追蹤錯誤程式碼</strong> =&gt; 是建議使用.exec()的喔<br><strong>2 .exec()回傳真正的promise</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> query = <span class="keyword">await</span> Posts.findOne(&#123; <span class="attr">name</span>: <span class="string">&#x27;chi&#x27;</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> promise = <span class="keyword">await</span> Posts.findOne(&#123; <span class="attr">name</span>: <span class="string">&#x27;chi&#x27;</span> &#125;).exec()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 這邊就沒有在列出.then()用法了，因為他是假議題</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;6190c61ede7ec25305b1f563&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;chi&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Post 1&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;__v&quot;</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/promises.html">官方解釋，我就是個翻譯仔</a></p>
+<h3 id="select-⇒"><a href="#select-⇒" class="headerlink" title=".select() ⇒"></a>.select() ⇒</h3><p>選取特定欄位query出來，裡面有其他用法，可以傳遞參數的方式有很多，<br>所以用法上也很彈性，可以看到比較多不同的寫法。<br>直接貼官方code來偷懶。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只選a,b欄位</span></span><br><span class="line">query.select(<span class="string">&#x27;a b&#x27;</span>);</span><br><span class="line">query.select([<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]);</span><br><span class="line">query.select(&#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">1</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要c,d欄位其他都要</span></span><br><span class="line">query.select(<span class="string">&#x27;-c -d&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//原本foo select設定false</span></span><br><span class="line"><span class="keyword">const</span> schema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  <span class="attr">foo</span>: &#123; <span class="attr">type</span>: <span class="built_in">String</span>, <span class="attr">select</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">  <span class="attr">bar</span>: <span class="built_in">String</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//這個語法改寫foo欄位的select:false，讓他顯示此欄位</span></span><br><span class="line"><span class="comment">// bar也會顯示，不會只顯示foo</span></span><br><span class="line">query.select(<span class="string">&#x27;+foo&#x27;</span>); </span><br><span class="line"></span><br><span class="line"><span class="comment">//自行定義1 or 0 ， 1顯示/0不顯示</span></span><br><span class="line">query.select(&#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">1</span> &#125;);</span><br><span class="line">query.select(&#123; <span class="attr">c</span>: <span class="number">0</span>, <span class="attr">d</span>: <span class="number">0</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 </span></span><br><span class="line"><span class="comment">//最新用法，就不用.select()，直接在第二個參數選取要的欄位</span></span><br><span class="line"><span class="comment">// query.select(&#x27;a b&#x27;);</span></span><br><span class="line">Model.find(&#123;<span class="attr">username</span> : user.username&#125;, <span class="string">&#x27;first last&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, docs</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果要排除特定欄位則用 -</span></span><br><span class="line"><span class="comment">//query.select(&#x27;-a -b&#x27;);</span></span><br><span class="line">Model.find(&#123;<span class="attr">username</span> : user.username&#125;, <span class="string">&#x27;-first -last&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, docs</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// select用法</span></span><br><span class="line">Model.find(&#123;<span class="attr">username</span> : user.username&#125;)</span><br><span class="line">.select(<span class="string">&#x27;first last&#x27;</span>) <span class="comment">// first, last欄位</span></span><br><span class="line">.exec() <span class="comment">// 執行query</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//其他相等用法</span></span><br><span class="line"><span class="comment">// Equivalent syntaxes:</span></span><br><span class="line">Model.select([<span class="string">&#x27;first&#x27;</span>, <span class="string">&#x27;last&#x27;</span>]);</span><br><span class="line">Model.select(&#123; <span class="attr">first</span>: <span class="number">1</span>, <span class="attr">last</span>: <span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/api/query.html#query_Query-select">官方</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9548186/mongoose-use-of-select-method">其他來源</a></p>
+<h3 id="sort-⇒"><a href="#sort-⇒" class="headerlink" title=".sort() ⇒"></a>.sort() ⇒</h3><p>排序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//由小排到大</span></span><br><span class="line">Model.find().sort(&#123;<span class="attr">_id</span>:<span class="number">1</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//由大排到小</span></span><br><span class="line">Model.find().sort(&#123;<span class="attr">_id</span>:-<span class="number">1</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//其他相等用法 asc(ascending), desc(descending), 1, -1</span></span><br><span class="line">Model.sort(&#123; <span class="attr">field</span>: <span class="string">&#x27;asc&#x27;</span>, <span class="attr">_id</span>: -<span class="number">1</span> &#125;);</span><br><span class="line">Model.sort(<span class="string">&#x27;field -test&#x27;</span>); <span class="comment">// field小到大, -test大到小</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/api/query.html#query_Query-sort">官方來源</a><br><a target="_blank" rel="noopener" href="https://www.bmc.com/blogs/mongodb-sorting/">其他來源</a></p>
+<h3 id="創建Schema時可用expires來設定過期時間-TTL"><a href="#創建Schema時可用expires來設定過期時間-TTL" class="headerlink" title="創建Schema時可用expires來設定過期時間(TTL)"></a>創建Schema時可用expires來設定過期時間(TTL)</h3><p>過期後，該筆資料自動刪除</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&#x27;mongoose&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> schema = <span class="keyword">new</span> mongoose.Schema(&#123;</span><br><span class="line">  <span class="attr">code</span>: &#123; <span class="attr">type</span>: <span class="built_in">String</span>, <span class="attr">index</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">  <span class="attr">created_at</span>: &#123; <span class="attr">type</span>: <span class="built_in">Date</span>, <span class="attr">default</span>: <span class="built_in">Date</span>.now, <span class="attr">expires</span>: <span class="number">60</span> * <span class="number">5</span> &#125;, <span class="comment">// 5分鐘後失效</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = mongoose.model(<span class="string">&#x27;sl2_captchas&#x27;</span>, schema);</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.itread01.com/content/1546830386.html">來源</a></p>
+<h3 id="紀錄"><a href="#紀錄" class="headerlink" title="紀錄"></a>紀錄</h3><p>目前常碰到的是這幾個，之後如果有碰到別的用法將持續更新。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2021/11/26/MongoDB-learning/">https://chiderlin.github.io/2021/11/26/MongoDB-learning/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/database/"># database</a>
+                    
+                        <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/"># 資料庫</a>
+                    
+                        <a href="/tags/NoSQL/"># NoSQL</a>
+                    
+                        <a href="/tags/Mongoose/"># Mongoose</a>
+                    
+                        <a href="/tags/MongoDB/"># MongoDB</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/11/25/JWT-Refresh-token/">JWT＋Refresh token觀念及實作驗證</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
