@@ -234,7 +234,7 @@
 <ol>
 <li>writeable打開pipe管道，開始接收readable的stream</li>
 <li>readable的data事件觸發，開始將數據轉換成buffer</li>
-<li>readable的end事件觸發，數據以全數轉換完畢</li>
+<li>readable的end事件觸發，數據已全數轉換完畢</li>
 <li>writeable的finish事件觸發，數據全數完成寫入新檔案</li>
 </ol>
 <p>還有其他的<code>事件</code>可以到<a target="_blank" rel="noopener" href="https://nodejs.org/api/stream.html">官方文件</a>看看</p>
