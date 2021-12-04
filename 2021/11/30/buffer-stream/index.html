@@ -220,7 +220,7 @@
 <li>Duplex streams 可讀可寫流</li>
 <li>Transform streams 基於Duplex，在讀寫過程可以調整數據的流<br>在實作上我們常用的fs套件就是base on 原生的stream再包裝，所以在fs裡面也可以看到很多stream的使用方法。</li>
 </ol>
-<h3 id="Buffer-緩衝區"><a href="#Buffer-緩衝區" class="headerlink" title="Buffer - 緩衝區"></a>Buffer - 緩衝區</h3><p>二進制緩衝區，和String可以互相做轉換。使用buffer的話，Stream的傳輸會將數據儲存到內部的緩衝區(buffer)中，buffer容量滿時再流向另一端，這麼做可以減少stream直接對磁碟頻繁的操作，對機器會是比較有效率的做法。而緩衝器的容量大小也可以藉由<code>highWaterMark</code>來做設定。</p>
+<h3 id="Buffer-緩衝區"><a href="#Buffer-緩衝區" class="headerlink" title="Buffer - 緩衝區"></a>Buffer - 緩衝區</h3><p>二進制緩衝區，和String可以互相做轉換。Stream的傳輸會將數據儲存到內部的緩衝區(buffer)中，buffer容量滿時再流向另一端，這麼做可以減少stream直接對磁碟頻繁的操作。而緩衝器的容量大小也可以藉由<code>highWaterMark</code>來做設定。</p>
 <hr>
 <p><strong>附上fs操作檔案的實作</strong></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> read = fs.readFileSync(<span class="string">&#x27;./test1.txt&#x27;</span>); <span class="comment">// return buffer type =&gt; &lt;Buffer 71 77 65 65 72 74 79 79&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readstream = fs.createReadStream(<span class="string">&#x27;./test1.txt&#x27;</span>);<span class="comment">// return stream type </span></span><br><span class="line"><span class="comment">// 兩種方式都可以用來傳輸或寫入新檔案，只是用法上的不同</span></span><br></pre></td></tr></table></figure>
