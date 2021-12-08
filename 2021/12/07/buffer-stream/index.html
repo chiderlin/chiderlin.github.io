@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>Node的buffer和stream概念加一點google storage實作 | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- hexo injector head_end start --><script async defer data-domain="chiderlin.github.io" src="https://plausible.io/js/plausible.js" ></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Node的buffer和stream概念加一點google storage實作</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 7, 2021&nbsp;&nbsp;21:21:25</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Nodejs/">Nodejs</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>雖然實作過檔案之間的傳送或編寫/覆蓋新檔案，但發現自己對底層實作的原理完全沒有概念，加上這次在研究GCS的實作，因此有了這篇文章的誕生。學習程式之後察覺，每個部分都可以越挖越深，越看越細。</p>
+<h2 id="Stream-流"><a href="#Stream-流" class="headerlink" title="Stream - 流"></a>Stream - 流</h2><p>什麼是Stream流？ I/O的傳輸=&gt;資料輸入輸出，有資料從一端流向另一端的感覺。HTTP請求、檔案傳輸都會使用到Stream的概念。<br>有四種不同的流：</p>
+<ol>
+<li>Readable streams 創造讀取的流</li>
+<li>Writable streams 創造寫入的流</li>
+<li>Duplex streams 可讀可寫流</li>
+<li>Transform streams 基於Duplex，在讀寫過程可以調整數據的流<br>在實作上我們常用的fs套件就是base on 原生的stream再包裝，所以在fs裡面也可以看到很多stream的使用方法。</li>
+</ol>
+<h2 id="Buffer-緩衝區"><a href="#Buffer-緩衝區" class="headerlink" title="Buffer - 緩衝區"></a>Buffer - 緩衝區</h2><p>二進制緩衝區，和String可以互相做轉換。Stream的傳輸會將數據儲存到內部的緩衝區(buffer)中，buffer容量滿時再流向另一端，這麼做可以減少stream直接對磁碟頻繁的操作。而緩衝器的容量大小也可以藉由<code>highWaterMark</code>來做設定。</p>
+<hr>
+<p><strong>附上fs操作檔案的實作</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> read = fs.readFileSync(<span class="string">&#x27;./test1.txt&#x27;</span>); <span class="comment">// return buffer type =&gt; &lt;Buffer 71 77 65 65 72 74 79 79&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readstream = fs.createReadStream(<span class="string">&#x27;./test1.txt&#x27;</span>);<span class="comment">// return stream type </span></span><br><span class="line"><span class="comment">// 兩種方式都可以用來傳輸或寫入新檔案，只是用法上的不同</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><em>如果使用<code>createreadstream</code>做傳輸的話，會使用pipe()來做搭配，資料在流動的時候需要有一個管道讓它進行傳輸</em><br>而有趣的是，read &amp; write的用法是有對應的</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">&#x27;test1.txt&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> writeable = fs.createWriteStream(<span class="string">&#x27;test2.txt&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 讀取檔案再把內容傳到新檔案</span></span><br><span class="line">readable</span><br><span class="line">.on(<span class="string">&#x27;error&#x27;</span>,<span class="function">(<span class="params">err</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 處理過程出現錯誤會觸發此事件</span></span><br><span class="line">&#125;)</span><br><span class="line">.on(<span class="string">&#x27;data&#x27;</span>,<span class="function">(<span class="params">chunk</span>)=&gt;</span>&#123; <span class="comment">// 2</span></span><br><span class="line">    <span class="built_in">console</span>.log(chunk) <span class="comment">//數據在這裡被轉成buffer</span></span><br><span class="line">    <span class="comment">//再由buffer把資料傳出去</span></span><br><span class="line">&#125;)</span><br><span class="line">.on(<span class="string">&#x27;end&#x27;</span>,<span class="function">()=&gt;</span>&#123; <span class="comment">// 3</span></span><br><span class="line">    <span class="comment">// 已經沒有數據需要解析</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;there will be no more data.&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">writeable</span><br><span class="line">.on(<span class="string">&#x27;pipe&#x27;</span>,<span class="function">(<span class="params">stream</span>)=&gt;</span>&#123; <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">console</span>.log(stream) <span class="comment">// 接收stream時觸發事件 </span></span><br><span class="line">&#125;)</span><br><span class="line">.on(<span class="string">&#x27;finish&#x27;</span>,<span class="function">()=&gt;</span>&#123; <span class="comment">// 4</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;數據寫入新檔案完成會觸發&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">readable.pipe(writeable); <span class="comment">//用管道進行資料傳送，傳送到可寫流，也就是test2.txt的檔案</span></span><br></pre></td></tr></table></figure>
+
+<p>以上的執行順序會是</p>
+<ol>
+<li>writeable打開pipe管道，開始接收readable的stream</li>
+<li>readable的data事件觸發，開始將數據轉換成buffer</li>
+<li>readable的end事件觸發，數據已全數轉換完畢</li>
+<li>writeable的finish事件觸發，數據全數完成寫入新檔案</li>
+</ol>
+<p>還有其他的<code>事件</code>可以到<a target="_blank" rel="noopener" href="https://nodejs.org/api/stream.html">官方文件</a>看看</p>
+<hr>
+<blockquote>
+<p>因為使用方法很多，這裡我是想自己記錄另外一些使用方法，<br><em>自行將檔案轉成buffer再透過可寫流寫入檔案，<br>也就是使用上面的readFileSync方法</em></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> readbuffer = fs.readFileSync(<span class="string">&#x27;./test1.txt&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> writeable = fs.createWriteStream();</span><br><span class="line">writeable.write(readbuffer,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;write successfully&#x27;</span>)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> readbuffer = fs.readFileSync(<span class="string">&#x27;./test1.txt&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> writeable = fs.createWriteStream();</span><br><span class="line">writeable</span><br><span class="line">.on(<span class="string">&#x27;finish&#x27;</span>,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;完成&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">.end(readbuffer,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 會在finish事件觸發完後執行最後一個寫入的動作，因此也可以直接在這邊寫入buffer</span></span><br><span class="line">    <span class="comment">// 寫完便會關閉流</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;最後一個想寫入的東西，寫入完成&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Google-Storage實作檔案傳輸"><a href="#Google-Storage實作檔案傳輸" class="headerlink" title="Google Storage實作檔案傳輸"></a>Google Storage實作檔案傳輸</h2><p>google storage，google提供的雲端空間，用來存放檔案或圖片，和AWS的S3是相同功能，實務上用來將網頁上傳的檔案跟圖片存放到這邊來，成功之後就可以返回一個url提供我們下載自己上傳的檔案&amp;呈現在自己的網頁上。</p>
+<ol>
+<li>必須先npm <code>@google-cloud/storage</code>才能連接google storage空間</li>
+<li>必須先到GCP取得憑證，利用憑證才能進入google storage空間</li>
+<li>提供GCS bucket name =&gt; 也就是你在google storage中開創的空間名稱</li>
+</ol>
+<p><strong>完成以上才會開始寫程式</strong><br><em>*這邊沒有寫太多GCS說明，主要注重在傳輸檔案的部分</em></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; keyFilename &#125; = <span class="built_in">require</span>(<span class="string">&#x27;./config&#x27;</span>); <span class="comment">//存放我的設定檔，裡面有憑證檔的路徑</span></span><br><span class="line"><span class="keyword">const</span> &#123; Storage &#125; = <span class="built_in">require</span>(<span class="string">&#x27;@google-cloud/storage&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> storage = <span class="keyword">new</span> Storage(&#123; keyFilename &#125;); <span class="comment">//提供憑證來初始化</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bucket = storage.bucket(<span class="string">&#x27;your_bucket_name&#x27;</span>) <span class="comment">//連線到google storage 你創的空間</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* @param &#123;String&#125; buffer - 要傳送的檔案的buffer</span></span><br><span class="line"><span class="comment">* @destination &#123;String&#125; destination - 到目的地（雲端）後檔案的名稱</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">const</span> uploadFromBuffer = <span class="function">(<span class="params">buffer, destination</span>) =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> file = bucket.file(destination) <span class="comment">//先創造檔案物件</span></span><br><span class="line">    <span class="keyword">const</span> ws = file.createWriteStream(); <span class="comment">//創造可寫流</span></span><br><span class="line">    ws</span><br><span class="line">    .on(<span class="string">&#x27;error&#x27;</span>,<span class="function">(<span class="params">err</span>)=&gt;</span>&#123;</span><br><span class="line">        reject(err);</span><br><span class="line">    &#125;)</span><br><span class="line">    .on(<span class="string">&#x27;finish&#x27;</span>,<span class="keyword">async</span>()=&gt;&#123;</span><br><span class="line">        resolve(<span class="keyword">await</span> file.publicUrl()); <span class="comment">// 會回傳檔案的url</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .end(buffer); <span class="comment">//寫入資料囉</span></span><br><span class="line">    </span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>會看到<code>@google-cloud/storage</code>的使用也有<code>createReadStream</code>, <code>createWriteStream</code>的方法，表示他們也有使用stream再包裝～</p>
+<h2 id="前後端上傳檔案實作"><a href="#前後端上傳檔案實作" class="headerlink" title="前後端上傳檔案實作"></a>前後端上傳檔案實作</h2><p>以上是單純上傳到google storage的程式碼，這部分通常都會寫在後端，現在想實作從前端串接後端API再上傳至GCS上，前端到後端API的這段我也研究了一些時間，原因是因為跟postman的不熟悉？以及傳送檔案這樣的實物和傳送JSON感覺上不同而導致在操作上會有很多疑惑，許多不確定經過一試再試的精神才總算完成了！！</p>
+<h3 id="1-前端使用-FormData"><a href="#1-前端使用-FormData" class="headerlink" title="1. 前端使用 FormData"></a>1. 前端使用 FormData</h3><p>之前也有實作過傳送檔案的方法，當時使用的方式是google搜尋後比較常見的方法，是使用FormData在前端抓取到資料，而他的實作順序是</p>
+<ol>
+<li>使用者上傳檔案，前端接收到data訊息</li>
+<li>打後端API傳送formData，檔案被傳送到專案的資料夾內，檔案相關資料用Multer接收</li>
+<li>後端API用stream傳送資料到GCS上<br>完成前到後的流程，如果想看相關教學可以看<a target="_blank" rel="noopener" href="https://medium.com/%E9%BA%A5%E5%85%8B%E7%9A%84%E5%8D%8A%E8%B7%AF%E5%87%BA%E5%AE%B6%E7%AD%86%E8%A8%98/%E7%AD%86%E8%A8%98-%E4%BD%BF%E7%94%A8-multer-%E5%AF%A6%E4%BD%9C%E5%A4%A7%E9%A0%AD%E8%B2%BC%E4%B8%8A%E5%82%B3-ee5bf1683113">這裡</a></li>
+</ol>
+<h3 id="2-前端直接傳送buffer到後端"><a href="#2-前端直接傳送buffer到後端" class="headerlink" title="2. 前端直接傳送buffer到後端"></a>2. 前端直接傳送buffer到後端</h3><p>用buffer傳到後端是這次新的學習，這邊紀錄一下。<br>後端的Buffer在前端是概括了ArrayBuffer、TypeBuffer、viewData，<br>ArrayBuffer是一大塊內存，只能唯讀，若想對ArrayBuffer暫存器做操作，要使用TypeBuffer的種類才可以，而TypeBuffer種類有Uint8array, Uint16array…等等，而此次前端的資料流就使用了Uint8array來傳送到Server端。</p>
+<ol>
+<li>前端使用file API - FileReader操作，將檔案讀取成ArrayBuffer格式</li>
+<li>fetch給server時 body的data要將ArrayBuffer轉成Uint8array才可傳送</li>
+<li>server接收到Uint8array後再轉成Buffer才可傳至gcs</li>
+</ol>
+<p>upload.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> <span class="attr">accept</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;file-uploader&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">value</span>=<span class="string">&quot;案 下去&quot;</span> <span class="attr">id</span>=<span class="string">&quot;btn&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> fileUploader = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;file-uploader&#x27;</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> file;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> filename;</span></span><br><span class="line"><span class="javascript">        fileUploader.addEventListener(<span class="string">&#x27;change&#x27;</span>, handleFileUpload);</span></span><br><span class="line"><span class="javascript">        btn.addEventListener(<span class="string">&#x27;click&#x27;</span>, upload);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> beforeUploadCheck = <span class="keyword">await</span> beforeUpload(file);</span></span><br><span class="line"><span class="javascript">                <span class="keyword">if</span> (!beforeUploadCheck.isValid) <span class="keyword">throw</span> beforeUploadCheck.errorMessages;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> arrayBuffer = <span class="keyword">await</span> getArrayBuffer(file);</span></span><br><span class="line"><span class="javascript">                <span class="keyword">await</span> uploadFileAJAX(arrayBuffer, filename);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">console</span>.log(<span class="string">&quot;File Uploaded Success&quot;</span>);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">catch</span> (err) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="built_in">console</span>.log(err)</span></span><br><span class="line"><span class="javascript">            &#125;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">handleFileUpload</span>(<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            file = e.target.files[<span class="number">0</span>]</span></span><br><span class="line"><span class="javascript">            filename = e.target.files[<span class="number">0</span>].name</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(file)</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(filename)</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (!file) <span class="keyword">return</span>;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">beforeUpload</span>(<span class="params">fileobj</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> validFileTypes = [<span class="string">&quot;image/jpeg&quot;</span>, <span class="string">&quot;image/png&quot;</span>, <span class="string">&quot;xlsx&quot;</span>];</span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> isValidFileType = validFileTypes.includes(fileobj.type)</span></span><br><span class="line"><span class="javascript">                <span class="keyword">let</span> errorMessages = [];</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">                <span class="keyword">if</span> (!isValidFileType) errorMessages.push(<span class="string">&#x27;You can only upload JPG or PNG file!&#x27;</span>);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> isValidFileSize = fileobj.size / <span class="number">1024</span> / <span class="number">1024</span> &lt; <span class="number">2</span>;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">if</span> (!isValidFileSize) errorMessages.push(<span class="string">&#x27;Image must smaller than 2MB!&#x27;</span>);</span></span><br><span class="line"><span class="javascript">                resolve(&#123;</span></span><br><span class="line"><span class="javascript">                    <span class="attr">isValid</span>: isValidFileType &amp;&amp; isValidFileSize,</span></span><br><span class="line"><span class="javascript">                    <span class="attr">errorMessages</span>: errorMessages.join(<span class="string">&quot;\n&quot;</span>)</span></span><br><span class="line"><span class="javascript">                &#125;);</span></span><br><span class="line"><span class="javascript">            &#125;);</span></span><br><span class="line"><span class="javascript">        &#125;;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">getArrayBuffer</span>(<span class="params">fileobj</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader()</span></span><br><span class="line"><span class="javascript">                <span class="comment">// get ArrayBuffer when fileReader on load</span></span></span><br><span class="line"><span class="javascript">                reader.addEventListener(<span class="string">&#x27;load&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">console</span>.log(reader)</span></span><br><span class="line"><span class="javascript">                    resolve(reader.result)</span></span><br><span class="line"><span class="javascript">                &#125;);</span></span><br><span class="line"><span class="javascript">                reader.addEventListener(<span class="string">&#x27;error&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                    reject(<span class="string">&#x27;error occurred in getArrayBuffer&#x27;</span>);</span></span><br><span class="line"><span class="javascript">                &#125;);</span></span><br><span class="line"><span class="javascript">                <span class="comment">// read the blob object ad ArrayBuffer</span></span></span><br><span class="line"><span class="javascript">                reader.readAsArrayBuffer(fileobj)</span></span><br><span class="line"><span class="javascript">            &#125;);</span></span><br><span class="line"><span class="javascript">        &#125;;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">uploadFileAJAX</span>(<span class="params">arrayBuffer, filename</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> fetch(<span class="string">&quot;/upload/buffer&quot;</span>, &#123;</span></span><br><span class="line"><span class="javascript">                <span class="attr">headers</span>: &#123;</span></span><br><span class="line"><span class="javascript">                    <span class="string">&quot;content-type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                &#125;,</span></span><br><span class="line"><span class="javascript">                <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span></span><br><span class="line"><span class="javascript">                <span class="attr">body</span>: <span class="built_in">JSON</span>.stringify(&#123;</span></span><br><span class="line"><span class="javascript">                    <span class="attr">uint8array</span>: <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer), <span class="comment">//**** important</span></span></span><br><span class="line"><span class="javascript">                    <span class="attr">filename</span>: <span class="string">`test/<span class="subst">$&#123;filename&#125;</span>`</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">                &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;)</span></span><br><span class="line"><span class="javascript">                .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                    <span class="keyword">return</span> res.json()</span></span><br><span class="line"><span class="javascript">                &#125;)</span></span><br><span class="line"><span class="javascript">            .then(<span class="function"><span class="params">data</span> =&gt;</span> <span class="built_in">console</span>.log(data))</span></span><br><span class="line"><span class="javascript">            .catch(<span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.log(err))</span></span><br><span class="line"><span class="javascript">        &#125;;</span></span><br><span class="line"><span class="javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>express接收部分</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.post(<span class="string">&#x27;/upload/buffer&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> _uint8array = req.body.uint8array <span class="comment">// 原本傳進來是json</span></span><br><span class="line">    <span class="keyword">const</span> _filename = req.body.filename</span><br><span class="line">    <span class="keyword">const</span> uint8array = <span class="built_in">Uint8Array</span>.from(<span class="built_in">Object</span>.values(_uint8array)) <span class="comment">//把value抓出來變成array</span></span><br><span class="line">    <span class="keyword">const</span> buffer = Buffer.from(uint8array) <span class="comment">// array才可以轉成Buffer</span></span><br><span class="line">    <span class="keyword">const</span> g_url = <span class="keyword">await</span> GCS.uploadFromBuffer(buffer, _filename) <span class="comment">//呼叫上面gcs寫的uploadFromBuffer function上傳到google storage</span></span><br><span class="line">    <span class="keyword">return</span> res.json(&#123; <span class="attr">status</span>: <span class="string">&quot;OK&quot;</span>, <span class="attr">data</span>: g_url &#125;) <span class="comment">//成功</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://pjchender.dev/webapis/webapis-file-input/">參考這篇的範例程式碼</a></p>
+<h2 id="心得："><a href="#心得：" class="headerlink" title="心得："></a>心得：</h2><p>邊整理資料邊整理思緒，想了一遍流程後思路也更清晰一些，但寫文章關於架構的整理，想著要怎麼寫才能清楚一點紀錄整個過程還是挺花時間的就是。以上就是近日來了解的部分，若說要研究肯定還可以再看更多細節QQ，只能多看看文件，相信會跟它們熟一點～以上</p>
+<p>資料來源：<br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000011968267">认识node核心模块–从Buffer、Stream到fs</a><br><a target="_blank" rel="noopener" href="https://tw511.com/a/01/23038.html">瞭解Node.js中的Stream</a><br><a target="_blank" rel="noopener" href="https://tw511.com/6/73/2292.html">Node.js流</a><br><a target="_blank" rel="noopener" href="https://medium.com/developers-arena/streams-and-buffers-in-nodejs-30ff53edd50f">Streams and Buffers in Node.js</a><br><a target="_blank" rel="noopener" href="https://nodejs.org/api/stream.html#stream">官方文件</a><br><a target="_blank" rel="noopener" href="https://www.nodeapp.cn/stream.html#stream_writable_end_chunk_encoding_callback">官方文件中文</a><br><a target="_blank" rel="noopener" href="https://googleapis.dev/nodejs/storage/latest/Bucket.html">google storage SDK文件</a><br><a target="_blank" rel="noopener" href="https://hackmd.io/@c36ICNyhQE6-iTXKxoIocg/ByLUTZzhv">Node.js 大檔案上傳</a><br><a target="_blank" rel="noopener" href="https://pjchender.dev/webapis/webapis-file-input/">[WebAPIs] 檔案上傳 Input File, File Upload, and FileList</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37263637/article/details/104560862">nodejs 处理文件上传(express)</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2021/12/07/buffer-stream/">https://chiderlin.github.io/2021/12/07/buffer-stream/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Nodejs/"># Nodejs</a>
+                    
+                        <a href="/tags/buffer/"># buffer</a>
+                    
+                        <a href="/tags/stream/"># stream</a>
+                    
+                        <a href="/tags/file/"># file</a>
+                    
+                        <a href="/tags/google-storage/"># google storage</a>
+                    
+                        <a href="/tags/GCS/"># GCS</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/12/04/mongodb-aggregate/">MongoDB 學習之旅-2 Aggregate</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
