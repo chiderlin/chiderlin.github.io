@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>nodejs-express搭配swagger ui做api文件 | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- hexo injector head_end start --><script async defer data-domain="chiderlin.github.io" src="https://plausible.io/js/plausible.js" ></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">nodejs-express搭配swagger ui做api文件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 16, 2021&nbsp;&nbsp;0:11:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%B6%B2%E9%A0%81%E9%96%8B%E7%99%BC/">網頁開發</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>後端API開發完成之後，很重要的一點就是需要讓前端知道怎麼串接，以前好像沒有什麼固定的格式來做API的文件？後來有Swagger API這個東西，其實也出來一陣子了但直到最近才有機會用到，用過後大致上可以記錄一下如何使用以及使用後的想法。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><ol>
+<li><p>首先下載swagger-ui套件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i swagger-ui-express</span><br></pre></td></tr></table></figure></li>
+<li><p>創建json檔案，我叫swagger.json<br>主要在裡面撰寫API文件，json格式要照著swagger的規則寫程式才會認得～<br>這邊可以先編寫好api的小簡介，雛形如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;swagger&quot;</span>: <span class="string">&quot;2.0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;info&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>, <span class="comment">//你api的版本</span></span><br><span class="line">    <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My User Project CRUD&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;My User Project Application API&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;license&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;MIT&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;https://opensource.org/licenses/MIT&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;host&quot;</span>: <span class="string">&quot;localhost:8000&quot;</span>, <span class="comment">//照你的host, port</span></span><br><span class="line">  <span class="attr">&quot;basePath&quot;</span>: <span class="string">&quot;/&quot;</span>, <span class="comment">// api的路徑</span></span><br><span class="line">  <span class="attr">&quot;schemes&quot;</span>: [<span class="string">&quot;http&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;consumes&quot;</span>: [<span class="string">&quot;application/json&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;produces&quot;</span>: [<span class="string">&quot;application/json&quot;</span>],</span><br><span class="line">  <span class="comment">// 以上是對api document的簡介區</span></span><br><span class="line">  <span class="attr">&quot;paths&quot;</span>:&#123;<span class="comment">/** api在這裡 */</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>跟express串接，啟動程式之後可以在你的localhost看到文件</p>
+</li>
+</ol>
+<p>server.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"><span class="keyword">const</span> swaggerUi = <span class="built_in">require</span>(<span class="string">&#x27;swagger-ui-express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> swaggerDocument = <span class="built_in">require</span>(<span class="string">&#x27;./swagger.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line">app.use(</span><br><span class="line">    <span class="string">&#x27;/api-docs&#x27;</span>, <span class="comment">// 設定查看api文件的路徑</span></span><br><span class="line">    swaggerUi.serve,</span><br><span class="line">    swaggerUi.setup(swaggerDocument)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8000</span>,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;server run..&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>啟動localhost:8000/api-docs就可以看到這個畫面<br>（示意圖）<br><img src="swagger-1.png"></p>
+<ol start="4">
+<li>串起來之後回到swagger.json， api 主要的內容會從paths裡面開始<br>基本的雛形如下：<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">  <span class="comment">// paths直接接著剛剛上面定義的produces之後寫下去</span></span><br><span class="line">  <span class="attr">&quot;paths&quot;</span>:&#123;</span><br><span class="line">      <span class="attr">&quot;/users&quot;</span>: &#123; <span class="comment">// api路徑</span></span><br><span class="line">          <span class="attr">&quot;get&quot;</span>: &#123; <span class="comment">// 你要使用的http method （GET/POST/DELETE/PUT/PATCH..）</span></span><br><span class="line">              <span class="attr">&quot;tags&quot;</span>:[<span class="string">&quot;Users&quot;</span>], <span class="comment">//大分類標籤</span></span><br><span class="line">              <span class="attr">&quot;summary&quot;</span>:<span class="string">&quot;取得所有使用者&quot;</span>, <span class="comment">//摘要說明</span></span><br><span class="line">              <span class="attr">&quot;responses&quot;</span>:&#123;</span><br><span class="line">                  <span class="attr">&quot;200&quot;</span>:&#123;</span><br><span class="line">                      <span class="attr">&quot;description&quot;</span>:<span class="string">&quot;OK&quot;</span>,</span><br><span class="line">                      <span class="attr">&quot;schema&quot;</span>:&#123;</span><br><span class="line">                          <span class="attr">&quot;$ref&quot;</span>:<span class="string">&quot;#/definitions/Users&quot;</span> <span class="comment">// 這邊就會去抓取下面定義的模型=&gt;（也就是這個api需要的參數＆要輸入什麼）</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">&quot;post&quot;</span>: &#123;&#125;, <span class="comment">// post用法放裡面</span></span><br><span class="line">            <span class="attr">&quot;delete&quot;</span>:&#123;&#125;, <span class="comment">// delete用法放裡面</span></span><br><span class="line">            <span class="attr">&quot;put&quot;</span>:&#123;&#125;  <span class="comment">// put用法放裡面</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;definitions&quot;</span>:&#123; <span class="comment">// 模型定義區域開始</span></span><br><span class="line">        <span class="attr">&quot;Users&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;required&quot;</span>: [ <span class="string">&quot;name&quot;</span>, <span class="string">&quot;id&quot;</span>, <span class="string">&quot;company&quot;</span> ], <span class="comment">// 必填參數的話，定義於此</span></span><br><span class="line">            <span class="attr">&quot;properties&quot;</span>: &#123; <span class="comment">//定義參數類型</span></span><br><span class="line">                <span class="attr">&quot;id&quot;</span>: &#123;</span><br><span class="line">                    <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;number&quot;</span>,</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">&quot;age&quot;</span>: &#123; <span class="comment">// 這裡也可以填入選填的參數</span></span><br><span class="line">                    <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;number&quot;</span>,</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">                    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;string&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;example&quot;</span>: <span class="string">&quot;chi&quot;</span> <span class="comment">// 可以放入範例，參數輸入的值</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">&quot;company&quot;</span>: &#123;</span><br><span class="line">                    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;string&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>再度啟動server，可以看到有users的內容了<br>（示意圖）<br><img src="swagger-2.png"></p>
+<hr>
+<h2 id="補充（個人紀錄）"><a href="#補充（個人紀錄）" class="headerlink" title="補充（個人紀錄）"></a>補充（個人紀錄）</h2><p>swagger disable ‘try it out btn’<br><img src="swagger-3.png"><br>預設的api文件會有Try it out的按鈕，如果沒有經過處理，按下去是沒有反應的，而我在這邊就想要把Try it out拿掉，<br>解決的方式如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> swaggerOpt = &#123;</span><br><span class="line">  <span class="attr">swaggerOptions</span>: &#123;</span><br><span class="line">    <span class="attr">tryItOutEnabled</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">supportedSubmitMethods</span>: [<span class="string">&#x27;&#x27;</span>],</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原本的app.use改一下</span></span><br><span class="line">app.use(</span><br><span class="line">    <span class="string">&quot;/api-docs&quot;</span>,</span><br><span class="line">    swaggerUi.serve,</span><br><span class="line">    swaggerUi.setup(swaggerDocument,swaggerOpt)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>是的，這樣就ＯＫ了，再重啟就沒有按鈕囉。</p>
+<h2 id="心得："><a href="#心得：" class="headerlink" title="心得："></a>心得：</h2><p>一開始因為覺得看起來很美觀，整理起來也有固定的格式看起來比較方便而試試看，寫過之後，還是有發現一些限制/缺點:</p>
+<ol>
+<li>因為json格式的關係，要對資料的時候耗時，容易看錯。</li>
+<li>對於每個參數無法更詳細的說明，雖然可以用example來表示，但當類型是有固定選項時則會很難解釋，無法直接在模型裡面寫出來，可能就只能寫在description中。<br>例如users這個api有一個參數是要輸入 上班方式：1=走路, 2=搭公車, 3=騎腳踏車，這個特定的說明就要寫在description。</li>
+<li>json檔案越寫越大包，還沒嘗試如果分不同檔案管理可否讓server啟動成功。</li>
+</ol>
+<p>還是會繼續找有沒有其他撰寫api文件的方式，畢竟越方便越好～但目前實現讓文件有固定規格美美的也是不錯的～</p>
+<h3 id="資料來源："><a href="#資料來源：" class="headerlink" title="資料來源："></a>資料來源：</h3><p><a target="_blank" rel="noopener" href="https://levelup.gitconnected.com/how-to-add-swagger-ui-to-existing-node-js-and-express-js-project-2c8bad9364ce">How to add Swagger UI to an existing Node.js and Express.js project</a><br><a target="_blank" rel="noopener" href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md#parameterObject">更多api寫的方式</a><br><a target="_blank" rel="noopener" href="https://github.com/swagger-api/swagger-ui/issues/3725">How to disable ‘Try it out’ in 3.x #3725</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2021/12/16/swagger-api/">https://chiderlin.github.io/2021/12/16/swagger-api/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/swagger-ui/"># swagger ui</a>
+                    
+                        <a href="/tags/api-document/"># api-document</a>
+                    
+                        <a href="/tags/REST-API/"># REST API</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/12/07/buffer-stream/">Node的buffer和stream概念加一點google storage實作</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
