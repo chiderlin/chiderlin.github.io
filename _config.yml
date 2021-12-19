@@ -13,7 +13,7 @@ timezone: 'Asia/Taipei'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://chiderlin.github.io/project
+url: https://chiderlin.github.io/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -26,6 +26,7 @@ public_dir: public
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
+lifestyle_dir: lifestyle
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
@@ -40,7 +41,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -97,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: replica
+theme: Chic
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -105,3 +106,11 @@ deploy:
   type: git
   repo: https://github.com/chiderlin/chiderlin.github.io.git
   branch: main
+
+# plugin
+# data analytics
+plausible:
+  enable: true
+  domain: chiderlin.github.io
+  pages:
+    - default #每一頁都會觀測
