@@ -6,8 +6,9 @@ tags:
 - buffer
 - stream
 - file
-- google storage
+- Google storage
 - GCS
+- Google cloud
 categories: Nodejs
 ---
 
