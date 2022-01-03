@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>用Goole build和Google run來部屬你的專案 | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">用Goole build和Google run來部屬你的專案</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 30, 2021&nbsp;&nbsp;19:18:44</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E9%9B%B2%E7%AB%AF/">雲端</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一開始先接觸AWS的雲端服務，最近才開始學習使用GCP的服務，之前部署專案的經驗是使用AWS的EC2（對應GCP應該是Compute Engine），GCP我還沒自己開過機器，反而先接觸到了另一個服務，也就是Google run，對於想專心開發業務邏輯的工程師來說，可以更快速地處理部署，俗稱的Serverless。</p>
+<blockquote>
+<p><strong>Serverless?</strong><br>工程師不需要管理伺服器機器，而是讓google cloud來幫你處理大部分的事項，你只需要將你的專案交付給google cloud啟動你的服務。</p>
+</blockquote>
+<h2 id="Serverless服務"><a href="#Serverless服務" class="headerlink" title="Serverless服務"></a>Serverless服務</h2><ol>
+<li>Cloud function: 對應AWS的Lambda。Serverless for function</li>
+<li>App Engine: Serverless for App</li>
+<li>Google run: Serverless for container支援Kubernetes</li>
+</ol>
+<h2 id="部署成功成果圖："><a href="#部署成功成果圖：" class="headerlink" title="部署成功成果圖："></a>部署成功成果圖：</h2><p><img src="1.png" alt="成果圖"></p>
+<h2 id="部署前-設定部分："><a href="#部署前-設定部分：" class="headerlink" title="部署前-設定部分："></a>部署前-設定部分：</h2><ol>
+<li>部署前請先準備好你的專案 ＝&gt; 準備一個hello world<br>如果你懶得想，那我這邊就給你</li>
+</ol>
+<p>用一個簡單的index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> PORT = <span class="number">8080</span></span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.send(&#123; <span class="attr">data</span>: <span class="string">&#x27;hello world&#x27;</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/test&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.send(&#123; <span class="attr">data</span>: <span class="string">&#x27;you are in test page.&#x27;</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/test2&#x27;</span>,<span class="function">(<span class="params">req,res</span>)=&gt;</span>&#123;</span><br><span class="line">    res.send(&#123; <span class="attr">data</span>: <span class="string">&#x27;you are in test2 page.&#x27;</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(PORT, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;server run&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>開通好Google Cloud帳號</p>
+</li>
+<li><p>google build跟GitHub連線你的帳號，才能抓到你的專案<br>會類似像這樣的連線，當時連線時沒有記錄到，所以上網抓了個示意圖<br><img src="3.png" alt="開啟google build服務"></p>
+</li>
+<li><p>google build建立觸發條件，有三種，依照需求選擇</p>
+</li>
+</ol>
+<ul>
+<li>分支觸發：可設定推到特定分支才部署 =&gt; 這邊我選用推到main分支時觸發部署</li>
+<li>新標記： 有符合git tag的部署</li>
+<li>提取要求：有pull request時部署<br><img src="6.png" alt="事件"></li>
+</ul>
+<p><img src="7.png" alt="下方其他設定部分"></p>
+<ol start="5">
+<li>在google run建立一個服務，裡面需要設定抓取github的哪個專案，<br>跟著步驟設定，可依照自己需求去改變選項，範例提供我的截圖<br><img src="4.png" alt="cloud run建立新服務"><br><img src="5.png" alt="下一步設定"></li>
+</ol>
+<h2 id="準備部署-程式部分："><a href="#準備部署-程式部分：" class="headerlink" title="準備部署-程式部分："></a>準備部署-程式部分：</h2><p>在你的專案內準備兩個東西，都是google cloud要啟動你的服務時所需要的</p>
+<ol>
+<li>google build需要的cloudbuild.yml</li>
+<li>google Run需要的Dockerfile，因為google run是for container的～所以他會吃你的dockerfile包出docker image再啟動container服務。<br>而以下就會記錄要怎麼寫這兩個檔案囉<br>這兩個部分就要花比較多時間去了解他的寫法。<h3 id="cloudbubild-yml"><a href="#cloudbubild-yml" class="headerlink" title="cloudbubild.yml"></a>cloudbubild.yml</h3>TODO 寫yml範例<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">steps:</span></span><br><span class="line"><span class="comment"># name的名稱是google中的環境，會抓到對應的docker應用程式</span></span><br><span class="line"><span class="comment"># args裡面放docker的指令，這裡會形成docker image</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&#x27;gcr.io/cloud-builders/docker&#x27;</span></span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&#x27;build&#x27;</span>, <span class="string">&#x27;-t&#x27;</span>,<span class="string">&#x27;gcr.io/$PROJECT_ID/test-cloud/express-image:latest&#x27;</span>,<span class="string">&#x27;.&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在google預設中$PROJEC_ID會自己抓到你的專案ID</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&#x27;gcr.io/cloud-builders/docker&#x27;</span></span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&#x27;push&#x27;</span>,<span class="string">&#x27;gcr.io/$PROJEC_ID/test-cloud/express-image:lastest&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&#x27;google/cloud/sdk&#x27;</span></span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&#x27;gcloud&#x27;</span>,<span class="string">&#x27;run&#x27;</span>,<span class="string">&#x27;deploy&#x27;</span>,<span class="string">&#x27;cloud-run-hello&#x27;</span>,<span class="string">&#x27;--image&#x27;</span>,<span class="string">&#x27;gcr.io/$PROJECT_ID/test-cloud/express-image:lastest&#x27;</span>,<span class="string">&#x27;--region&#x27;</span>,<span class="string">&#x27;asia-east1&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">images:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&#x27;gcr.io/$PROJECT_ID/test-cloud/express-image:latest&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:<span class="number">14</span>-slim</span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir -p /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /app</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> npm install</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> npm run dev</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="部署成功"><a href="#部署成功" class="headerlink" title="部署成功"></a>部署成功</h2><p>會看到Ｖ圖示，且google run會直接給你一個domain，點進去就可以看到你的網站囉。<br><img src="2.png" alt="部署成功"></p>
+<h2 id="心得："><a href="#心得：" class="headerlink" title="心得："></a>心得：</h2><p>成功部署之後真的覺得對工程師來說很方便，前端工程師也可以痛個幾天入門，就可以快速部署上去，然後下一篇可以接續著記錄load balancer的服務，連貫的完成一個架站的過程。</p>
+<h2 id="資料參考："><a href="#資料參考：" class="headerlink" title="資料參考："></a>資料參考：</h2><p><a target="_blank" rel="noopener" href="https://cloud.google.com/run">官方文件</a><br><a target="_blank" rel="noopener" href="https://www.servicemesher.com/blog/google-cloud-run-intro/">Google Cloud Run详细介绍</a><br><a target="_blank" rel="noopener" href="https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run">Cloud Build Deploying to Cloud Run</a><br><a target="_blank" rel="noopener" href="https://cloud.google.com/build/docs/configuring-builds/run-bash-scripts">cloudbuild - bash指令寫法</a><br><a target="_blank" rel="noopener" href="https://cloud.google.com/sdk/gcloud/reference/run/deploy">gcloud run deploy - 官方文件</a><br><a target="_blank" rel="noopener" href="https://tldp.org/LDP/abs/html/standard-options.html">bash指令區</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2021/12/30/goole-build-google-run/">https://chiderlin.github.io/2021/12/30/goole-build-google-run/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Google-Cloud/"># Google Cloud</a>
+                    
+                        <a href="/tags/Google-build/"># Google build</a>
+                    
+                        <a href="/tags/Google-run/"># Google run</a>
+                    
+                        <a href="/tags/docker/"># docker</a>
+                    
+                        <a href="/tags/%E9%83%A8%E7%BD%B2/"># 部署</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/12/21/shorten-url/">簡易短網址實作起來</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
