@@ -39,6 +39,22 @@ TODO（附圖）
 ### cloudbubild.yml
 TODO 寫yml範例
 ```yml
+steps:
+# name的名稱是google中的環境，會抓到對應的docker應用程式
+# args裡面放docker的指令，這裡會形成docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t','gcr.io/$PROJECT_ID/test-cloud/express-image:latest','.']
+
+# 在google預設中$PROJEC_ID會自己抓到你的專案ID
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','gcr.io/$PROJEC_ID/test-cloud/express-image:lastest']
+
+- name: 'google/cloud/sdk'
+  args: ['gcloud','run','deploy','cloud-run-hello','--image','gcr.io/$PROJECT_ID/test-cloud/express-image:lastest','--region','asia-east1']
+
+images:
+- 'gcr.io/$PROJECT_ID/test-cloud/express-image:latest'
+
 ```
 
 ### Dockerfile

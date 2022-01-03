@@ -107,10 +107,12 @@ deploy:
   repo: https://github.com/chiderlin/chiderlin.github.io.git
   branch: main
 
+google_analytics: G-PSN2PDB82D
+# 過期了不需要了，改用ＧＡ
 # plugin
 # data analytics
-plausible:
-  enable: true
-  domain: chiderlin.github.io
-  pages:
-    - default #每一頁都會觀測
+# plausible:
+#   enable: true
+#   domain: chiderlin.github.io
+#   pages:
+#     - default #每一頁都會觀測
