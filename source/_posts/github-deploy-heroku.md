@@ -1,10 +1,11 @@
 ---
-title: Github觸發Heroku部署網站
+title: Github觸發Heroku自動部署網站
 date: 2022-02-26 18:23:44
 tags:
 - Heroku
 - deploy
 - github
+- 部署
 categories: 雲端
 ---
 
