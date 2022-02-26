@@ -9,6 +9,7 @@ tags:
 - Compute Engine
 - 資料庫
 - 雲端
+categories: 雲端
 ---
 ### __廢話生活紀錄:__
 過年前一個禮拜我的mac電腦突然爆了，行程整個被打亂，現在也因為疫情所以電腦零件還沒到，還好我有一台Windows可以充當來用，想著不能因為這件事當作藉口什麼都不做，所以趕快來新增文章，不然很多事情都要忘光光啦。
@@ -108,7 +109,6 @@ $mysqladmin -u admin -p version # 剛新創的使用者看資料庫version <附�
 `$ mysql -u admin -padmin` #-p直接輸入密碼 (-p跟密碼中間不要空格)
 MariaDB[(none)]> `use mysql ;`
 ![附圖3](3.png)
-
 MariaDB[(mysql))]> `SELECT User, Host, plugin FROM mysql.user;` #顯示使用者的資訊
 ![4](4.png)
 
