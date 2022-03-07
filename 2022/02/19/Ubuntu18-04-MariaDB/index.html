@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>Ubuntu18.04 + MariaDB 建置過程(Google Compute Engine) | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Ubuntu18.04 + MariaDB 建置過程(Google Compute Engine)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 19, 2022&nbsp;&nbsp;16:06:36</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E9%9B%B2%E7%AB%AF/">雲端</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="廢話生活紀錄"><a href="#廢話生活紀錄" class="headerlink" title="廢話生活紀錄:"></a><strong>廢話生活紀錄:</strong></h3><p>過年前一個禮拜我的mac電腦突然爆了，行程整個被打亂，現在也因為疫情所以電腦零件還沒到，還好我有一台Windows可以充當來用，想著不能因為這件事當作藉口什麼都不做，所以趕快來新增文章，不然很多事情都要忘光光啦。</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>把最近最新在研究的記憶最猶新的部分趕快來記。最近碰到Google Cloud Compute Engine，跟AWS EC2差不多的服務，這次要完成的是在機器裡面建立好資料庫，讓外部IP可以進來紀錄/讀取資料。</p>
+<h1 id="要做的事"><a href="#要做的事" class="headerlink" title="要做的事:"></a>要做的事:</h1><ol>
+<li>在Google cloud開一台vm機器，作業系統我用Ubuntu18.04</li>
+<li>google cloud防火牆打開port</li>
+<li>vm裡面安裝mariaDB</li>
+<li>mariaDB創建新使用者，設定ip/password/username</li>
+<li>測試MariaDB有無正常運作</li>
+<li>在db config設定可供外部ip連線</li>
+<li>在vm機器裡打開防火牆port 3306<h3 id="完成連線步驟。"><a href="#完成連線步驟。" class="headerlink" title="完成連線步驟。"></a><strong>完成連線步驟。</strong></h3></li>
+</ol>
+<hr>
+<h1 id="依照上面所說的，開始設定"><a href="#依照上面所說的，開始設定" class="headerlink" title="依照上面所說的，開始設定"></a>依照上面所說的，開始設定</h1><h2 id="1-開vm機器"><a href="#1-開vm機器" class="headerlink" title="1. 開vm機器"></a>1. 開vm機器</h2><ul>
+<li><p>運算 &gt; Compute Engine &gt; VM執行個體 </p>
+</li>
+<li><p>點建立執行個體<br><img src="vm1.png" alt="vm1"></p>
+</li>
+<li><p>往下移有個 <code>開機磁碟</code> 選Ubuntu<br><img src="vm2.png" alt="vm2"></p>
+</li>
+<li><p>再往下點選有個倒三角<code>網路、磁碟、安全性、管理、單一用戶群</code></p>
+</li>
+<li><p>選<code>網路</code></p>
+<ol>
+<li>設定<code>網路標記</code>: 為了等下和防火牆連結用的!<br><img src="vm3.png" alt="vm3"></li>
+<li>設定<code>網路介面</code>的<code>外部IP</code> <strong>建立IP位址</strong> : 不要用臨時的，讓外部IP保持一致。<br><img src="vm4.png" alt="vm4"></li>
+</ol>
+</li>
+</ul>
+<p><strong>可以建立了。</strong></p>
+<hr>
+<h2 id="2-google-cloud的防火牆設定"><a href="#2-google-cloud的防火牆設定" class="headerlink" title="2. google cloud的防火牆設定"></a>2. google cloud的防火牆設定</h2><ul>
+<li>網路 &gt; 虛擬私有雲網路 &gt; 防火牆</li>
+<li>點建立防火牆規則<br><img src="ufw1.png" alt="ufw1"><br><img src="ufw2.png" alt="ufw2"><br><strong>可以建立了。</strong></li>
+</ul>
+<hr>
+<h2 id="3-vm裡面安裝mariaDB"><a href="#3-vm裡面安裝mariaDB" class="headerlink" title="3. vm裡面安裝mariaDB"></a>3. vm裡面安裝mariaDB</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo apt update</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo apt install mariadb-server</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo mysql_secure_installation <span class="comment">#資料庫安全設定</span></span></span><br></pre></td></tr></table></figure>
+<p><code>sudo mysql_secure_installation</code>指令下了之後會需要回答一些問題</p>
+<ul>
+<li><p>Enter current password for root (enter for none): <strong>沒有current password直接enter就可</strong></p>
+</li>
+<li><p>Set root password? [Y/n] <code>N</code> <strong>不用設密碼</strong></p>
+</li>
+<li><p>再來的其他問題可以<code>全Y</code>或直接<code>enter</code>用預設設定即可</p>
+</li>
+</ul>
+<hr>
+<h2 id="4-mariaDB創建新使用者並給予最大管理權限"><a href="#4-mariaDB創建新使用者並給予最大管理權限" class="headerlink" title="4. mariaDB創建新使用者並給予最大管理權限"></a>4. mariaDB創建新使用者並給予最大管理權限</h2><ul>
+<li><p>用管理員身分進入mariaDB server</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">以下兩者指令一樣</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo mysql -u root</span> </span><br><span class="line"><span class="meta">$</span><span class="bash">sudo mariadb</span> </span><br></pre></td></tr></table></figure></li>
+<li><p>進入DB之後創建使用者+給權限</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 說明: GRANT ALL ON *.* TO &#x27;設定使用者名稱&#x27;@&#x27;讓哪個IP可以進來資料庫&#x27; IDENTIFIED BY &#x27;設定密碼&#x27; WITH GRANT OPTION;</span><br><span class="line">&gt; IP設%表示讓所有來源的IP都可以連進來。</span><br><span class="line">&gt; 只供本機內部使用的話是設定localhost。</span><br><span class="line">MariaDB[(none)]&gt; GRANT ALL ON *.* TO &#x27;admin&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;admin&#x27; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line"># 說明: 確保使用者被儲存且可以使用</span><br><span class="line">MariaDB[(none)]&gt; FLUSH PRIVILEGES; </span><br><span class="line"></span><br><span class="line"># 說明: 可以退出MariaDB了</span><br><span class="line">MariaDB[(none)]&gt; exit</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="5-測試MariaDB運行"><a href="#5-測試MariaDB運行" class="headerlink" title="5. 測試MariaDB運行"></a>5. 測試MariaDB運行</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo systemctl status mariadb <span class="comment">#成功會顯示active &lt;附圖1&gt;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo mysqladmin version <span class="comment">#管理員看資料庫version</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 說明: -u 輸入創建的使用者username -p要打密碼</span></span><br><span class="line"><span class="meta">$</span><span class="bash">mysqladmin -u admin -p version <span class="comment"># 剛新創的使用者看資料庫version &lt;附圖2&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>附圖1<br><img src="1.png" alt="附圖1"><br>附圖2<br><img src="2.png" alt="附圖2"></p>
+<ul>
+<li>你創建的使用者也擁有root的權限，現在試著用輸入帳密的方式進入mysql server<br><code>$ mysql -u admin -padmin</code> #-p直接輸入密碼 (-p跟密碼中間不要空格)<br>MariaDB[(none)]&gt; <code>use mysql ;</code><br><img src="3.png" alt="附圖3"><br>MariaDB[(mysql))]&gt; <code>SELECT User, Host, plugin FROM mysql.user;</code> #顯示使用者的資訊<br><img src="4.png" alt="4"></li>
+</ul>
+<h2 id="6-db-config設定可供外部ip連線"><a href="#6-db-config設定可供外部ip連線" class="headerlink" title="6. db config設定可供外部ip連線"></a>6. db config設定可供外部ip連線</h2><p>在vm裡面</p>
+<ul>
+<li><p>config路徑: /etc/mysql/mariadb.conf.d 裡面的50-server.cnf檔案 </p>
+<blockquote>
+<p><em>conf檔案不一定是這個喔，網路上找都是 my.cnf，所以還是自己一個一個打開來找是哪個檔最快</em></p>
+</blockquote>
+</li>
+<li><p>進去config檔案裡面會有bind-address = 127.0.0.1 改成 <code>bind-address = 0.0.0.0或#註解掉</code><br><img src="5.png" alt="5"></p>
+</li>
+<li><p>設定完config 要 restart 資料庫 ⇒ <code>$ sudo service mysql restart</code> </p>
+<blockquote>
+<p><em><strong>非常重要</strong></em>，因為我遇到這個坑</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="7-在vm機器裡打開防火牆port-3306"><a href="#7-在vm機器裡打開防火牆port-3306" class="headerlink" title="7. 在vm機器裡打開防火牆port 3306"></a>7. 在vm機器裡打開防火牆port 3306</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo ufw allow 3306 allow port 3306</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo ufw allow 22 補充: allow 22，google cloud vm才不會受到影響連不進來</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo ufw <span class="built_in">enable</span> 打開防火牆</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo ufw status 查看防火牆狀態(開啟還是關閉)</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo ufw <span class="built_in">disable</span> (補充)關掉防火牆</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="遠端連線資料庫成功-工具or程式碼"><a href="#遠端連線資料庫成功-工具or程式碼" class="headerlink" title="遠端連線資料庫成功(工具or程式碼)"></a>遠端連線資料庫成功(工具or程式碼)</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mariadb = <span class="built_in">require</span>(<span class="string">&#x27;mariadb&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> pool = mariadb.createPool(config.MARIADB)</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> conn;</span><br><span class="line">    conn = <span class="keyword">await</span> pool.getConnection();</span><br><span class="line">    <span class="keyword">const</span> row = <span class="keyword">await</span> conn.query(<span class="string">&#x27;show databases&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(row)</span><br><span class="line">  &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="6.png" alt="6"></p>
+<hr>
+<h1 id="心得"><a href="#心得" class="headerlink" title="心得:"></a>心得:</h1><p>仍然有疑問的地方: 在vm裡面開啟了防火牆&amp;允許的port，但在gooogle cloud為什麼還要再設定一次開啟的port? 是因為google 提供了(靜態ip)外部ip，所以要給這個外部ip也設定開啟的port嗎?</p>
+<p>google cloud的機器解鎖了!</p>
+<h1 id="資料參考"><a href="#資料參考" class="headerlink" title="資料參考:"></a>資料參考:</h1><p><a target="_blank" rel="noopener" href="https://ui-code.com/archives/154">[教學][Ubuntu 架站] 如何在 Google Cloud Platform 架設 Ubuntu 伺服器</a><br><a target="_blank" rel="noopener" href="https://medium.com/feveral%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98/%E5%9C%A8-ubuntu-18-04%E4%B8%8A%E5%AE%89%E8%A3%9D-mariadb-a3084dae0304">在 Ubuntu 18.04上安裝 MariaDB</a><br><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04">How To Install MariaDB on Ubuntu 20.04</a><br><a target="_blank" rel="noopener" href="https://zcgnotes.com/ubuntu-18-mysql%E9%96%8B%E5%95%9F%E9%81%A0%E7%AB%AF%E7%99%BB%E5%85%A5/">Ubuntu 18 MySQL開啟遠端登入</a><br><a target="_blank" rel="noopener" href="https://www.ltsplus.com/linux/ubuntu-18-04-disable-enable-firewall">Ubuntu 18.04 關閉及開啟防火牆</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2022/02/19/Ubuntu18-04-MariaDB/">https://chiderlin.github.io/2022/02/19/Ubuntu18-04-MariaDB/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/MariaDB/"># MariaDB</a>
+                    
+                        <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/"># 資料庫</a>
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        <a href="/tags/VM/"># VM</a>
+                    
+                        <a href="/tags/Google-cloud/"># Google cloud</a>
+                    
+                        <a href="/tags/Compute-Engine/"># Compute Engine</a>
+                    
+                        <a href="/tags/%E9%9B%B2%E7%AB%AF/"># 雲端</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/02/26/github-deploy-heroku/">Github觸發Heroku自動部署網站</a>
+            
+            
+            <a class="next" rel="next" href="/2022/01/23/rank-logic-record/"><工作紀錄> 排名比對</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
