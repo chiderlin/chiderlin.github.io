@@ -1,5 +1,5 @@
 ---
-title: 用Goole build和Google run來部屬你的專案
+title: 用Google build和Google run來部屬你的專案
 date: 2022-01-02 19:18:44
 tags:
 - Google Cloud
