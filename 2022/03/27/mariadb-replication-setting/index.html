@@ -223,12 +223,6 @@
         <div class="post-content">
             <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上次說明完用gce架MariaDB，接下來要研究實作兩台database做讀寫分離的架構，<a href="https://chiderlin.github.io/2022/02/19/Ubuntu18-04-MariaDB/">上一篇回顧</a>。<br>一開始設定讀寫分離架構成功，但遇到一個問題：如果寫資料庫閒置10幾分鐘都沒有被寫入之後，讀取的資料庫就停止同步了，要隔大概幾個小時讀的資料庫才會恢復同步….</p>
 <p>正文會紀錄主從設定過程。</p>
-<h1 id="研究過程"><a href="#研究過程" class="headerlink" title="研究過程"></a>研究過程</h1><ol>
-<li>看MariaDB官方文件重新設定 -&gt; 失敗</li>
-<li>google找其他解決方案，設定config檔 -&gt; 失敗</li>
-<li>設定 semi-sync -&gt; 失敗</li>
-<li>heartbeat設定 ＝&gt; <code>成功</code></li>
-</ol>
 <h1 id="開始之前"><a href="#開始之前" class="headerlink" title="開始之前"></a>開始之前</h1><p>開好兩台mariaDB，正文開始設定兩台變成主從架構。</p>
 <h1 id="兩台database資料同步的原理？"><a href="#兩台database資料同步的原理？" class="headerlink" title="兩台database資料同步的原理？"></a>兩台database資料同步的原理？</h1><p><img src="3.png" alt="資料同步原理圖"><br>(圖片來源：<a target="_blank" rel="noopener" href="https://read01.com/zh-tw/BJ368O7.html#.Yj_cnjdBzMI">https://read01.com/zh-tw/BJ368O7.html#.Yj_cnjdBzMI</a>)<br>簡單說：data被寫到binary log裡面，slave就會有一個線程去執行把資料寫到自己slave這邊的log，達到複製資料的效果，此時使用者要讀取資料時就讀取slave的database。</p>
 <h1 id="正文：開始設定"><a href="#正文：開始設定" class="headerlink" title="正文：開始設定"></a>正文：開始設定</h1><h2 id="1-開啟主mariaDB資料庫配置檔案"><a href="#1-開啟主mariaDB資料庫配置檔案" class="headerlink" title="1. 開啟主mariaDB資料庫配置檔案"></a>1. 開啟主mariaDB資料庫配置檔案</h2><p><code>/etc/mysql/mariadb.conf.d/50-server.cnf檔案</code></p>
@@ -249,6 +243,12 @@
 <p>在master mariadb裡創database，slave也會同步了</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> create database testsplit;</span></span><br></pre></td></tr></table></figure>
 <hr>
+<h1 id="停止同步問題的研究過程"><a href="#停止同步問題的研究過程" class="headerlink" title="停止同步問題的研究過程"></a>停止同步問題的研究過程</h1><ol>
+<li>看MariaDB官方文件重新設定 -&gt; 失敗</li>
+<li>google找其他解決方案，設定config檔 -&gt; 失敗</li>
+<li>設定 semi-sync -&gt; 失敗</li>
+<li>heartbeat設定 ＝&gt; <code>成功</code></li>
+</ol>
 <h1 id="Heartbeat設定"><a href="#Heartbeat設定" class="headerlink" title="Heartbeat設定"></a>Heartbeat設定</h1><h2 id="Heartbeat設定之前，Heartbeat是什麼"><a href="#Heartbeat設定之前，Heartbeat是什麼" class="headerlink" title="Heartbeat設定之前，Heartbeat是什麼"></a>Heartbeat設定之前，Heartbeat是什麼</h2><p>有兩個重要的東西需一起設定</p>
 <ol>
 <li><p>MASTER_HEARTBEAT_PERIOD： master沒有更新數據的期間，master會定期發送心跳包給slave，用來確保master是正常運作的，服務沒有掛掉。而設定Heartbeat就是設定多長時間發送一個心跳包。</p>
