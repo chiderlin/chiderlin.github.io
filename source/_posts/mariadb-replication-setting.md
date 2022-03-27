@@ -17,11 +17,6 @@ categories: 資料庫
 
 正文會紀錄主從設定過程。
 
-# 研究過程
-1. 看MariaDB官方文件重新設定 -> 失敗
-2. google找其他解決方案，設定config檔 -> 失敗
-3. 設定 semi-sync -> 失敗
-4. heartbeat設定 ＝> `成功`
 
 # 開始之前
 開好兩台mariaDB，正文開始設定兩台變成主從架構。
@@ -91,6 +86,12 @@ slave_IO_Running & slave_SQL_Running都YES就有連線了
 MariaDB[(none)]> create database testsplit;
 ```
 ---
+
+# 停止同步問題的研究過程
+1. 看MariaDB官方文件重新設定 -> 失敗
+2. google找其他解決方案，設定config檔 -> 失敗
+3. 設定 semi-sync -> 失敗
+4. heartbeat設定 ＝> `成功`
 
 # Heartbeat設定
 ## Heartbeat設定之前，Heartbeat是什麼
