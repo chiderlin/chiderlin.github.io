@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>MariaDB Replication|主從式架構設定 | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MariaDB Replication|主從式架構設定</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 27, 2022&nbsp;&nbsp;14:32:47</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/">資料庫</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上次說明完用gce架MariaDB，接下來要研究實作兩台database做讀寫分離的架構，<a href="https://chiderlin.github.io/2022/02/19/Ubuntu18-04-MariaDB/">上一篇回顧</a>。<br>一開始設定讀寫分離架構成功，但遇到一個問題：如果寫資料庫閒置10幾分鐘都沒有被寫入之後，讀取的資料庫就停止同步了，要隔大概幾個小時讀的資料庫才會恢復同步….</p>
+<p>正文會紀錄主從設定過程。</p>
+<h1 id="研究過程"><a href="#研究過程" class="headerlink" title="研究過程"></a>研究過程</h1><ol>
+<li>看MariaDB官方文件重新設定 -&gt; 失敗</li>
+<li>google找其他解決方案，設定config檔 -&gt; 失敗</li>
+<li>設定 semi-sync -&gt; 失敗</li>
+<li>heartbeat設定 ＝&gt; <code>成功</code></li>
+</ol>
+<h1 id="開始之前"><a href="#開始之前" class="headerlink" title="開始之前"></a>開始之前</h1><p>開好兩台mariaDB，正文開始設定兩台變成主從架構。</p>
+<h1 id="兩台database資料同步的原理？"><a href="#兩台database資料同步的原理？" class="headerlink" title="兩台database資料同步的原理？"></a>兩台database資料同步的原理？</h1><p><img src="3.png" alt="資料同步原理圖"><br>(圖片來源：<a target="_blank" rel="noopener" href="https://read01.com/zh-tw/BJ368O7.html#.Yj_cnjdBzMI">https://read01.com/zh-tw/BJ368O7.html#.Yj_cnjdBzMI</a>)<br>簡單說：data被寫到binary log裡面，slave就會有一個線程去執行把資料寫到自己slave這邊的log，達到複製資料的效果，此時使用者要讀取資料時就讀取slave的database。</p>
+<h1 id="正文：開始設定"><a href="#正文：開始設定" class="headerlink" title="正文：開始設定"></a>正文：開始設定</h1><h2 id="1-開啟主mariaDB資料庫配置檔案"><a href="#1-開啟主mariaDB資料庫配置檔案" class="headerlink" title="1. 開啟主mariaDB資料庫配置檔案"></a>1. 開啟主mariaDB資料庫配置檔案</h2><p><code>/etc/mysql/mariadb.conf.d/50-server.cnf檔案</code></p>
+<h2 id="2-在檔案新增"><a href="#2-在檔案新增" class="headerlink" title="2. 在檔案新增"></a>2. 在檔案新增</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server-id=1 #server id每台要不同，不能重複</span><br><span class="line">log-bin=master-bin #放log</span><br><span class="line">log-bin-index=master-bin.index #放log</span><br><span class="line">replicate-do-db=repl_test #你要同步的table名稱</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-重啟服務-server-mysql-restart"><a href="#3-重啟服務-server-mysql-restart" class="headerlink" title="3. 重啟服務: server mysql restart"></a>3. 重啟服務: <code>server mysql restart</code></h2><h2 id="4-檢查配置，進入db查看master狀態"><a href="#4-檢查配置，進入db查看master狀態" class="headerlink" title="4. 檢查配置，進入db查看master狀態:"></a>4. 檢查配置，進入db查看master狀態:</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo mysql -u root</span> </span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> SHOW MASTER STATUS;</span></span><br></pre></td></tr></table></figure>
+<p>(一開始設定好File名應該是這樣:master-bin.000001)，這樣表示有設定完成。<br><img src="1.png" alt="master status"></p>
+<h2 id="5-到從mariaDB資料庫配置檔案-etc-mysql-mariadb-conf-d-50-server-cnf檔案"><a href="#5-到從mariaDB資料庫配置檔案-etc-mysql-mariadb-conf-d-50-server-cnf檔案" class="headerlink" title="5. 到從mariaDB資料庫配置檔案 /etc/mysql/mariadb.conf.d/50-server.cnf檔案"></a>5. 到從mariaDB資料庫配置檔案 /etc/mysql/mariadb.conf.d/50-server.cnf檔案</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server-id=2</span><br><span class="line">replicate-do-db=repl_test</span><br></pre></td></tr></table></figure>
+<h2 id="6-一樣，重啟服務-server-mysql-restart"><a href="#6-一樣，重啟服務-server-mysql-restart" class="headerlink" title="6. 一樣，重啟服務: server mysql restart"></a>6. 一樣，重啟服務: <code>server mysql restart</code></h2><h2 id="7-建立兩個資料庫的關聯，在主資料庫建立一個操作主從同步資料庫的使用者"><a href="#7-建立兩個資料庫的關聯，在主資料庫建立一個操作主從同步資料庫的使用者" class="headerlink" title="7. 建立兩個資料庫的關聯，在主資料庫建立一個操作主從同步資料庫的使用者"></a>7. 建立兩個資料庫的關聯，在主資料庫建立一個操作主從同步資料庫的使用者</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> create user repl;</span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> GRANT REPLICATION SLAVE ON *.* TO <span class="string">&#x27;repl(帳號)&#x27;</span>@<span class="string">&#x27;從的ipxxx.xxx.xxx.xx(准許從ip可以連進來)&#x27;</span> IDENTIFIED BY <span class="string">&#x27;mysql(密碼)&#x27;</span>;</span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> flush privileges; <span class="comment">#當前用戶訊息/權限設置從mysql內置庫中提取到內存裡 （更新權限功能）</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="8-從資料庫執行："><a href="#8-從資料庫執行：" class="headerlink" title="8. 從資料庫執行："></a>8. 從資料庫執行：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql[(none)]&gt;</span><span class="bash"> change master to master_host=<span class="string">&#x27;主xxx.xxx.xxx.xx&#x27;</span>,</span></span><br><span class="line">master_port=3306,</span><br><span class="line">master_user=&#x27;repl&#x27;,</span><br><span class="line">master_password=&#x27;mysql&#x27;,</span><br><span class="line">master_log_file=&#x27;master-bin.000007&#x27;, # 按照master status出來的資料來填寫(File)</span><br><span class="line">master_log_pos=36974; # 按照master status出來的資料來填寫（Position)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> start slave;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mysql[(none)]&gt; stop slave; (補充：停止slave)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="9-檢視slave狀態mysql-none-gt-show-slave-status-G"><a href="#9-檢視slave狀態mysql-none-gt-show-slave-status-G" class="headerlink" title="9. 檢視slave狀態mysql[(none)]&gt; show slave status \G;"></a>9. 檢視slave狀態<code>mysql[(none)]&gt; show slave status \G;</code></h2><blockquote>
+<p>\G表示換行顯示（美化顯示)<br>slave_IO_Running &amp; slave_SQL_Running都YES就有連線了</p>
+</blockquote>
+<p><img src="2.png" alt="slave status"></p>
+<h2 id="10-測試資料庫有沒有成功同步"><a href="#10-測試資料庫有沒有成功同步" class="headerlink" title="10. 測試資料庫有沒有成功同步"></a>10. 測試資料庫有沒有成功同步</h2><blockquote>
+<p>記得要master資料庫寫入，slave只負責讀取，如果slave不小心寫入就會報錯</p>
+</blockquote>
+<p>在master mariadb裡創database，slave也會同步了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> create database testsplit;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="Heartbeat設定"><a href="#Heartbeat設定" class="headerlink" title="Heartbeat設定"></a>Heartbeat設定</h1><h2 id="Heartbeat設定之前，Heartbeat是什麼"><a href="#Heartbeat設定之前，Heartbeat是什麼" class="headerlink" title="Heartbeat設定之前，Heartbeat是什麼"></a>Heartbeat設定之前，Heartbeat是什麼</h2><p>有兩個重要的東西需一起設定</p>
+<ol>
+<li><p>MASTER_HEARTBEAT_PERIOD： master沒有更新數據的期間，master會定期發送心跳包給slave，用來確保master是正常運作的，服務沒有掛掉。而設定Heartbeat就是設定多長時間發送一個心跳包。</p>
+</li>
+<li><p><strong>SLAVE_NET_TIMEOUT</strong>: slave在多久沒有收到任何數據後(包含binlog or heartbeat)會認為是與master連線斷開了(timeout)而重新連線。而設定SLAVE_NET_TIMEOUT就是設定多長時間重新連線。<br><code>如果單純把slave_net_timeout設得很短而沒設定到HEARTBEAT，則會造成master沒有數據更新時，slave就頻繁重新連線。</code></p>
+</li>
+</ol>
+<h2 id="開始設定"><a href="#開始設定" class="headerlink" title="開始設定"></a>開始設定</h2><p>原本的問題：資料庫閒置10幾分鐘都沒有被寫入之後，讀取的資料庫就會停止同步。</p>
+<p>接下來會發現原本的heartbeat期間設定為1800（秒），也就是master30分鐘才會有一個心跳包。<br><img src="4.png" alt="圖四"></p>
+<p>而slave_net_timeout原本是一小時(3600秒)才會重新連線一次。<br><img src="6.png" alt="圖六"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> show status like <span class="string">&#x27;%heartbeat%&#x27;</span>; <span class="comment"># 查看heartbeat期間</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 這邊要設定heartbeat前，如果有啟動slave的話要先停止！</span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> stop slave;</span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> CHANGE MASTER TO MASTER_HEARTBEAT_PERIOD=1 <span class="comment">#改成你要多久跳一次（我設定每秒跳一次，依情況，每秒有時候會導致loading過重）</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> show variables like <span class="string">&#x27;slave_net_timeout&#x27;</span>;</span></span><br><span class="line"><span class="meta">MariaDB[(none)]&gt;</span><span class="bash"> <span class="built_in">set</span> global slave_net_timeout=60; <span class="comment">#改成timeout 60秒就重新連線</span></span></span><br></pre></td></tr></table></figure>
+
+<p><img src="5.png" alt="圖五"><br><img src="7.png" alt="圖七"></p>
+<p>這樣就完成了設定。</p>
+<hr>
+<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>遇到heartbeat這個坑，卡了兩天，主要是沒有聽過這個詞的話不會用這個關鍵字，也沒有查到相關的解法，後來跟主管討論被提出來，試著去設定發現真的是它的問題而我才得救了QQ，本來要找其他的實作方法(Galera Cluster)，也有設定成功，只是原理還需要再了解一下，下篇文章就寫吧。</p>
+<hr>
+<h1 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源:"></a>資料來源:</h1><p><a target="_blank" rel="noopener" href="https://ui-code.com/archives/154">[教學][Ubuntu 架站] 如何在 Google Cloud Platform 架設 Ubuntu 伺服器</a><br><a target="_blank" rel="noopener" href="https://medium.com/feveral%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98/%E5%9C%A8-ubuntu-18-04%E4%B8%8A%E5%AE%89%E8%A3%9D-mariadb-a3084dae0304">在 Ubuntu 18.04上安裝 MariaDB</a><br><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04">worked=&gt; How To Install MariaDB on Ubuntu 20.04</a><br><a target="_blank" rel="noopener" href="https://www.itread01.com/p/1323839.html">worked =&gt; 資料庫讀寫分離，主從同步實現方法</a><br><a target="_blank" rel="noopener" href="https://mariadb.com/kb/en/setting-up-replication/#setting-up-a-replication-slave-with-mariabackup">官方文件 - Setting Up Replication</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/23798193/what-is-heartbeat-replication-monitoring">worked=&gt; What is heartbeat replication monitoring? [closed]</a><br><a target="_blank" rel="noopener" href="https://www.percona.com/blog/2011/12/29/actively-monitoring-replication-connectivity-with-mysqls-heartbeat/">Actively monitoring replication connectivity with MySQL’s heartbeat</a><br><a target="_blank" rel="noopener" href="https://www.itread01.com/articles/1478099427.html">MySQL主從復制配置心跳功能介紹</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/lanyang123456/article/details/104547838">slave_net_timeout, MASTER_HEARTBEAT_PERIOD, MASTER_CONNECT_RETRY,以及 MASTER_RETRY_COUNT设置和查看</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2022/03/27/mariadb-replication-setting/">https://chiderlin.github.io/2022/03/27/mariadb-replication-setting/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/database/"># database</a>
+                    
+                        <a href="/tags/MariaDB/"># MariaDB</a>
+                    
+                        <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB%E8%AE%80%E5%AF%AB%E5%88%86%E9%9B%A2/"># 資料庫讀寫分離</a>
+                    
+                        <a href="/tags/Google-engine-vm/"># Google engine vm</a>
+                    
+                        <a href="/tags/Replication/"># Replication</a>
+                    
+                        <a href="/tags/Master-Slave/"># Master Slave</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/02/26/github-deploy-heroku/">Github觸發Heroku自動部署網站</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
