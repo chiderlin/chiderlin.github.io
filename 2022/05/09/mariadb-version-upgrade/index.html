@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>MariaDB slave/master備份+升級 | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MariaDB slave/master備份+升級</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 9, 2022&nbsp;&nbsp;21:23:33</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/">資料庫</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>要用到 DATA TYPE JSON 時發現目前 mariaDB 版本不足，原本 10.1.48，<br>要到 10.2.3 才可以儲存 JSON 資料型態，快速記錄一下如何升級。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="資料庫備份＆重新下載-mariaDB"><a href="#資料庫備份＆重新下載-mariaDB" class="headerlink" title="資料庫備份＆重新下載 mariaDB"></a>資料庫備份＆重新下載 mariaDB</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">儲存備份的資料</span><br><span class="line"><span class="meta">#</span><span class="bash">sudo mariabackup --backup -u&lt;username&gt; -p&lt;password&gt; --target-dir=/path/to/save/backup</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo mariabackup --backup -uroot -proot --target-dir=/home/avery_yc/backup/</span></span><br><span class="line"></span><br><span class="line">要恢復備份 要先準備它 (XD)</span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo mariabackup --prepare --target-dir=/home/avery_yc/backup/</span></span><br><span class="line"></span><br><span class="line">停止原本在運作的mariadb</span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl stop mariadb</span></span><br><span class="line"></span><br><span class="line">刪除原本的mariadb</span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get remove mariadb-server</span></span><br><span class="line"></span><br><span class="line">重新下載mariadb，指定版本10.5</span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install wget</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> chmod +x mariadb_repo_setup</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo ./mariadb_repo_setup --mariadb-server-version=<span class="string">&quot;mariadb-10.5&quot;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt update</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install mariadb-server mariadb-backup</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo mariadb-upgrade</span></span><br><span class="line"></span><br><span class="line">此時查看mariadb狀態已經是啟動的了 ⇒ $ sudo systemctl status mariadb</span><br><span class="line"></span><br><span class="line">如果還沒啟動執行 =&gt; $ sudo systemctl start mariadb</span><br></pre></td></tr></table></figure>
+
+<p><img src="1.png" alt="active"></p>
+<p>成功升級成 10.5 了<br><img src="2.png" alt="查看版本"></p>
+<p>我先升級 slave 再 master<br>都是一樣的步驟，升級成功之後也檢查是否還有 slave &amp; master 的關係。</p>
+<h2 id="檢查"><a href="#檢查" class="headerlink" title="檢查"></a>檢查</h2><p><code>show slave status \G</code><br>slave GOOD<br><img src="3.png" alt="查看salve狀況"></p>
+<p><code>show master status</code><br>master GOOD<br><img src="4.png" alt="查看master狀況"></p>
+<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>其實實作起來蠻快的，但在升級前還是要有一顆大膽的心，因為是已經在運作的 database，所以操作時小心翼翼，還好 survey 後一次就成功了，熱騰騰的記錄下來。</p>
+<hr>
+<h1 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h1><p><a target="_blank" rel="noopener" href="https://www.liquidweb.com/kb/upgrade-mariadb-ubuntu-18-04/">How to Upgrade MariaDB in Ubuntu 18.04 LTS</a><br><a target="_blank" rel="noopener" href="https://code.yidas.com/mysqldump/">[MySQL] Mysqldump 備份&amp;還原資料庫 – 指令範例</a><br><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/378339/sudo-mysqldump-permission-denied">sudo mysqldump : Permission denied</a><br><a target="_blank" rel="noopener" href="https://www.ltsplus.com/mysql/check-mysql-version">查詢已安裝的 MySQL / MariaDB 版本</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2022/05/09/mariadb-version-upgrade/">https://chiderlin.github.io/2022/05/09/mariadb-version-upgrade/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/"># 資料庫</a>
+                    
+                        <a href="/tags/database/"># database</a>
+                    
+                        <a href="/tags/Google-engine-vm/"># Google engine vm</a>
+                    
+                        <a href="/tags/MariaDB/"># MariaDB</a>
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        <a href="/tags/Master-Slave/"># Master Slave</a>
+                    
+                        <a href="/tags/upgrade/"># upgrade</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/03/27/mariadb-replication-setting/">MariaDB Replication|主從式架構設定</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
