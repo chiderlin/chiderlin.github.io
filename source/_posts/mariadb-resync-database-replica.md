@@ -30,58 +30,67 @@ categories: 資料庫
 
 # 正文
 
-#### 1. dump sql 檔案
+1. dump sql 檔案
 
-`sudo mysqldump mysql -uroot -p > database.sql`
+    ```shell
+        sudo mysqldump mysql -uroot -p > database.sql
+    ```
 
-#### 2. master server 停機
+2. master server 停機
 
-`sudo service mysqld stop`
+    ```shell
+        sudo service mysqld stop
+    ```
 
-#### 3. 用 ssh ui 介面下載 master database.sql 到本機
+3. 用 ssh ui 介面下載 master database.sql 到本機
 
-#### 4. slave ssh ui 介面上傳 database.sql (會到:~位置)
+4. slave ssh ui 介面上傳 database.sql (會到:~位置)
 
-#### 5.slave server 停止 replica
+5. slave server 停止 replica
 
-mysql>`stop slave`
+    ```shell
+        shell mysql> stop slave
+    ```
 
-#### 6. slave db 匯入 dump sql 檔案
+6. slave db 匯入 dump sql 檔案
+    ```shell
+        /home/path: $sudo mysqldump mysql -uroot -p < database.sql
+    ```
+7. master server 重新啟動
+   為了看 bin-log 目前位置:
+    ```shell
+        $sudo service mysqld restart
+    ```
+8. master server 看 master 狀態
+    ```shell
+        mysql> show master status; 這指令應該看過無數次
+    ```
+    取得目前 bin-log 位置跟檔名。
 
-/home/path: `$sudo mysqldump mysql -uroot -p < database.sql`
+9.slave server 重新設定
 
-#### 7. master server 重新啟動
+    ```shell
+        重新設定追蹤的 master bin-log 位置/檔名
+        mysql> reset slave;
+        mysql>CHANGE MASTER TO MASTER_LOG_FILE='master-bin.000002', MASTER_LOG_POS=343;
+    ```
 
-為了看 bin-log 目前位置
-`$sudo service mysqld restart`
-
-#### 8. master server 看 master 狀態
-
-mysql>`show master status;` 這指令應該看過無數次
-取得目前 bin-log 位置跟檔名。
-
-#### 9.slave server 重新設定
-
-重新設定追蹤的 master bin-log 位置/檔名
-mysql> `reset slave;`
-mysql>`CHANGE MASTER TO MASTER_LOG_FILE='master-bin.000002', MASTER_LOG_POS=343;`
-
-#### 10. slave server 重啟 slave
-
-mysql>`start slave;`
-mysql> `show slave status\G;` 這指令應該看過無數次
+10. slave server 重啟 slave
+    ```shell
+        mysql>`start slave;`
+        mysql> `show slave status\G;` 這指令應該看過無數次
+    ```
 
 **已重新連線完成，到 db 裡面查看，數字同步完成**
 
-# 補充：
+### 補充：
 
-原本要用 scp 遠端複製兩台 gcp instance，
-但 gcp 的設定卡很久一直沒有找到解法
+原本要用 scp 遠端複製兩台 gcp instance，但 gcp 的設定卡很久一直沒有找到解法
 scp error: permission denied.
 gcloud error: request had insufficient authentication scopes.
-，最後決定直接先用 UI 介面直接先下載到本機...又 UI upload 到另一台 remote server...
+最後決定直接先用 UI 介面直接先下載到本機...又 UI upload 到另一台 remote server...
 
-## 這部分
+---
 
 # 資料來源
 
