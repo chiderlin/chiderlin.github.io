@@ -228,17 +228,36 @@
 <li>slave 重新連線 master<br>[其他補充]<br>master 因為 bin-log 檔案太多導致磁碟滿了，原先設定 bin-log 10 天清除，改成 3 天清除<br>也可以加開磁碟空間。</li>
 </ol>
 <hr>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h4 id="1-dump-sql-檔案"><a href="#1-dump-sql-檔案" class="headerlink" title="1. dump sql 檔案"></a>1. dump sql 檔案</h4><p><code>sudo mysqldump mysql -uroot -p &gt; database.sql</code></p>
-<h4 id="2-master-server-停機"><a href="#2-master-server-停機" class="headerlink" title="2. master server 停機"></a>2. master server 停機</h4><p><code>sudo service mysqld stop</code></p>
-<h4 id="3-用-ssh-ui-介面下載-master-database-sql-到本機"><a href="#3-用-ssh-ui-介面下載-master-database-sql-到本機" class="headerlink" title="3. 用 ssh ui 介面下載 master database.sql 到本機"></a>3. 用 ssh ui 介面下載 master database.sql 到本機</h4><h4 id="4-slave-ssh-ui-介面上傳-database-sql-會到-位置"><a href="#4-slave-ssh-ui-介面上傳-database-sql-會到-位置" class="headerlink" title="4. slave ssh ui 介面上傳 database.sql (會到:~位置)"></a>4. slave ssh ui 介面上傳 database.sql (會到:~位置)</h4><h4 id="5-slave-server-停止-replica"><a href="#5-slave-server-停止-replica" class="headerlink" title="5.slave server 停止 replica"></a>5.slave server 停止 replica</h4><p>mysql&gt;<code>stop slave</code></p>
-<h4 id="6-slave-db-匯入-dump-sql-檔案"><a href="#6-slave-db-匯入-dump-sql-檔案" class="headerlink" title="6. slave db 匯入 dump sql 檔案"></a>6. slave db 匯入 dump sql 檔案</h4><p>/home/path: <code>$sudo mysqldump mysql -uroot -p &lt; database.sql</code></p>
-<h4 id="7-master-server-重新啟動"><a href="#7-master-server-重新啟動" class="headerlink" title="7. master server 重新啟動"></a>7. master server 重新啟動</h4><p>為了看 bin-log 目前位置<br><code>$sudo service mysqld restart</code></p>
-<h4 id="8-master-server-看-master-狀態"><a href="#8-master-server-看-master-狀態" class="headerlink" title="8. master server 看 master 狀態"></a>8. master server 看 master 狀態</h4><p>mysql&gt;<code>show master status;</code> 這指令應該看過無數次<br>取得目前 bin-log 位置跟檔名。</p>
-<h4 id="9-slave-server-重新設定"><a href="#9-slave-server-重新設定" class="headerlink" title="9.slave server 重新設定"></a>9.slave server 重新設定</h4><p>重新設定追蹤的 master bin-log 位置/檔名<br>mysql&gt; <code>reset slave;</code><br>mysql&gt;<code>CHANGE MASTER TO MASTER_LOG_FILE=&#39;master-bin.000002&#39;, MASTER_LOG_POS=343;</code></p>
-<h4 id="10-slave-server-重啟-slave"><a href="#10-slave-server-重啟-slave" class="headerlink" title="10. slave server 重啟 slave"></a>10. slave server 重啟 slave</h4><p>mysql&gt;<code>start slave;</code><br>mysql&gt; <code>show slave status\G;</code> 這指令應該看過無數次</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><ol>
+<li><p>dump sql 檔案</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysqldump mysql -uroot -p &gt; database.sql</span><br></pre></td></tr></table></figure></li>
+<li><p>master server 停機</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysqld stop</span><br></pre></td></tr></table></figure></li>
+<li><p>用 ssh ui 介面下載 master database.sql 到本機</p>
+</li>
+<li><p>slave ssh ui 介面上傳 database.sql (會到:~位置)</p>
+</li>
+<li><p>slave server 停止 replica</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell mysql&gt; stop slave</span><br></pre></td></tr></table></figure></li>
+<li><p>slave db 匯入 dump sql 檔案</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/path: $sudo mysqldump mysql -uroot -p &lt; database.sql</span><br></pre></td></tr></table></figure></li>
+<li><p>master server 重新啟動<br>為了看 bin-log 目前位置:</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo service mysqld restart</span></span><br></pre></td></tr></table></figure></li>
+<li><p>master server 看 master 狀態</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show master status; 這指令應該看過無數次</span></span><br></pre></td></tr></table></figure>
+<p> 取得目前 bin-log 位置跟檔名。</p>
+</li>
+</ol>
+<p>9.slave server 重新設定</p>
+<pre><code><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">重新設定追蹤的 master bin-log 位置/檔名</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> reset slave;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">CHANGE MASTER TO MASTER_LOG_FILE=<span class="string">&#x27;master-bin.000002&#x27;</span>, MASTER_LOG_POS=343;</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+<ol start="10">
+<li>slave server 重啟 slave<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">`start slave;`</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> `show slave status\G;` 這指令應該看過無數次</span></span><br></pre></td></tr></table></figure></li>
+</ol>
 <p><strong>已重新連線完成，到 db 裡面查看，數字同步完成</strong></p>
-<h1 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h1><p>原本要用 scp 遠端複製兩台 gcp instance，<br>但 gcp 的設定卡很久一直沒有找到解法<br>scp error: permission denied.<br>gcloud error: request had insufficient authentication scopes.<br>，最後決定直接先用 UI 介面直接先下載到本機…又 UI upload 到另一台 remote server…</p>
-<h2 id="這部分"><a href="#這部分" class="headerlink" title="這部分"></a>這部分</h2><h1 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h1><p><a target="_blank" rel="noopener" href="https://cloud.google.com/compute/docs/instances/transfer-files">[NOT WORK]将文件传输到 Linux 虚拟机</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2366018/how-to-re-sync-the-mysql-db-if-master-and-slave-have-different-database-incase-o">How to re-sync the Mysql DB if Master and slave have different database incase of Mysql replication?</a><br><a target="_blank" rel="noopener" href="https://www.hivelocity.net/kb/how-to-start-stop-and-restart-mysql-server/">How to Start, Stop, and Restart MySQL Server</a><br><a target="_blank" rel="noopener" href="https://medium.com/@hello.renzladroma/how-to-transfer-a-mysql-database-between-two-servers-using-scp-ea474a58cc5b">How to Transfer a MySQL Database between Two Servers using SCP</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/a13568hki/article/details/107936023">mysql 锁库与解锁 FLUSH TABLES WITH READ LOCK 和 UNLOCK TABLES</a></p>
+<h3 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h3><p>原本要用 scp 遠端複製兩台 gcp instance，但 gcp 的設定卡很久一直沒有找到解法<br>scp error: permission denied.<br>gcloud error: request had insufficient authentication scopes.<br>最後決定直接先用 UI 介面直接先下載到本機…又 UI upload 到另一台 remote server…</p>
+<hr>
+<h1 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h1><p><a target="_blank" rel="noopener" href="https://cloud.google.com/compute/docs/instances/transfer-files">[NOT WORK]将文件传输到 Linux 虚拟机</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2366018/how-to-re-sync-the-mysql-db-if-master-and-slave-have-different-database-incase-o">How to re-sync the Mysql DB if Master and slave have different database incase of Mysql replication?</a><br><a target="_blank" rel="noopener" href="https://www.hivelocity.net/kb/how-to-start-stop-and-restart-mysql-server/">How to Start, Stop, and Restart MySQL Server</a><br><a target="_blank" rel="noopener" href="https://medium.com/@hello.renzladroma/how-to-transfer-a-mysql-database-between-two-servers-using-scp-ea474a58cc5b">How to Transfer a MySQL Database between Two Servers using SCP</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/a13568hki/article/details/107936023">mysql 锁库与解锁 FLUSH TABLES WITH READ LOCK 和 UNLOCK TABLES</a></p>
 
         </div>
 
