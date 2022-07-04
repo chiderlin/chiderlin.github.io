@@ -13,7 +13,7 @@
 
 
 
-<title>MariaDB slave/master replica斷掉，讓資料重新同步 | 一Chi寫程式</title>
+<title>GCP-VM硬碟滿了怎麼辦 | 一Chi寫程式</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">MariaDB slave/master replica斷掉，讓資料重新同步</h1>
+            <h1 class="post-title">GCP-VM硬碟滿了怎麼辦</h1>
             
                 <div class="post-meta">
                     
@@ -205,14 +205,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">May 18, 2022&nbsp;&nbsp;0:00:04</a>
+                        Date: <a href="#">July 4, 2022&nbsp;&nbsp;15:05:20</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/">資料庫</a>
+                                <a href="/categories/%E9%9B%B2%E7%AB%AF/">雲端</a>
                             
                         </span>
                     
@@ -221,43 +221,22 @@
         </header>
 
         <div class="post-content">
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近發很多資料庫設定的文章，好像快要變成記錄機器設定的部落格了 XD，<br>當下遇到問題，解決之後紀錄起來，感覺寫在這邊會比較完整，之後找紀錄也知道可以統一來這邊巡巡～ 也是快速紀錄的一篇。</p>
-<p>[問題] 因為 master 磁碟滿了所以 master/slave 連線也斷掉了，<br>[解決] =&gt; 本文重點</p>
-<ol>
-<li>slave 資料要同步回來</li>
-<li>slave 重新連線 master<br>[其他補充]<br>master 因為 bin-log 檔案太多導致磁碟滿了，原先設定 bin-log 10 天清除，改成 3 天清除<br>也可以加開磁碟空間。</li>
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h4 id="問題-google-cloud-上的硬碟滿了。"><a href="#問題-google-cloud-上的硬碟滿了。" class="headerlink" title="[問題]google cloud 上的硬碟滿了。"></a>[問題]google cloud 上的硬碟滿了。</h4><p><img src="1.png" alt="1"><br>原本開一台機器，預設的硬碟大小好像是 10GB，<br>滿了的時候，google cloud 的 ssh 視窗會連不進去，資料庫介面也會顯示 desk full 的相關資訊</p>
+<h4 id="解決-加大硬碟。"><a href="#解決-加大硬碟。" class="headerlink" title="[解決]加大硬碟。"></a>[解決]加大硬碟。</h4><h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><ol>
+<li>進入 磁碟<br><img src="2.png" alt="2"></li>
 </ol>
 <hr>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><ol>
-<li><p>dump sql 檔案</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysqldump mysql -uroot -p &gt; database.sql</span><br></pre></td></tr></table></figure></li>
-<li><p>master server 停機</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysqld stop</span><br></pre></td></tr></table></figure></li>
-<li><p>用 ssh ui 介面下載 master database.sql 到本機</p>
-</li>
-<li><p>slave ssh ui 介面上傳 database.sql (會到:~位置)</p>
-</li>
-<li><p>slave server 停止 replica</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell mysql&gt; stop slave</span><br></pre></td></tr></table></figure></li>
-<li><p>slave db 匯入 dump sql 檔案</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/path: $sudo mysqldump mysql -uroot -p &lt; database.sql</span><br></pre></td></tr></table></figure></li>
-<li><p>master server 重新啟動<br>為了看 bin-log 目前位置:</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo service mysqld restart</span></span><br></pre></td></tr></table></figure></li>
-<li><p>master server 看 master 狀態</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show master status; 這指令應該看過無數次</span></span><br></pre></td></tr></table></figure>
-<p> 取得目前 bin-log 位置跟檔名。</p>
-</li>
+<ol start="2">
+<li>會看到很多已開的機器， 選你要加大的機器，點選編輯<br>加到多大看你的需求<br><img src="3.png" alt="3"></li>
 </ol>
-<p>9.slave server 重新設定</p>
-<pre><code><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">重新設定追蹤的 master bin-log 位置/檔名</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> reset slave;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">CHANGE MASTER TO MASTER_LOG_FILE=<span class="string">&#x27;master-bin.000002&#x27;</span>, MASTER_LOG_POS=343;</span></span><br></pre></td></tr></table></figure>
-</code></pre>
-<ol start="10">
-<li>slave server 重啟 slave<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">`start slave;`</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> `show slave status\G;` 這指令應該看過無數次</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<p><strong>已重新連線完成，到 db 裡面查看，數字同步完成</strong></p>
-<h3 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h3><p>原本要用 scp 遠端複製兩台 gcp instance，但 gcp 的設定卡很久一直沒有找到解法<br>scp error: permission denied.<br>gcloud error: request had insufficient authentication scopes.<br>最後決定直接先用 UI 介面直接先下載到本機…又 UI upload 到另一台 remote server…</p>
 <hr>
-<h1 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h1><p><a target="_blank" rel="noopener" href="https://cloud.google.com/compute/docs/instances/transfer-files">[NOT WORK]将文件传输到 Linux 虚拟机</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2366018/how-to-re-sync-the-mysql-db-if-master-and-slave-have-different-database-incase-o">How to re-sync the Mysql DB if Master and slave have different database incase of Mysql replication?</a><br><a target="_blank" rel="noopener" href="https://www.hivelocity.net/kb/how-to-start-stop-and-restart-mysql-server/">How to Start, Stop, and Restart MySQL Server</a><br><a target="_blank" rel="noopener" href="https://medium.com/@hello.renzladroma/how-to-transfer-a-mysql-database-between-two-servers-using-scp-ea474a58cc5b">How to Transfer a MySQL Database between Two Servers using SCP</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/a13568hki/article/details/107936023">mysql 锁库与解锁 FLUSH TABLES WITH READ LOCK 和 UNLOCK TABLES</a></p>
+<ol start="3">
+<li>更新過後 ssh 還是無法進去，必須重啟機器，重開時他就會幫你重整磁碟大小到你設定的大小。<br>重啟後也就可再度使用 ssh 連進去了。<br><img src="4.png" alt="4"></li>
+</ol>
+<h1 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h1><p>ssh 進不去的期間也可以試著用 cloud shell<br>的 gcloud 指令連進去</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcloud compute ssh --zone &quot;asia-east1-b&quot; &quot;機器vm名稱&quot;  --project &quot;專案名稱(google cloud 最上方的名稱)&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>還有另一種是外加硬碟的方式，而不是直接加大機器本身的硬碟大小，有機會可以再研究。</p>
 
         </div>
 
@@ -272,7 +251,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://chiderlin.github.io/2022/05/18/mariadb-resync-database-replica/">https://chiderlin.github.io/2022/05/18/mariadb-resync-database-replica/</a></span>
+                        <span><a href="https://chiderlin.github.io/2022/07/04/GCP-VM-desk-full/">https://chiderlin.github.io/2022/07/04/GCP-VM-desk-full/</a></span>
                     </p>
                 
                 
@@ -296,19 +275,17 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/"># 資料庫</a>
-                    
-                        <a href="/tags/database/"># database</a>
-                    
                         <a href="/tags/Google-engine-vm/"># Google engine vm</a>
                     
-                        <a href="/tags/MariaDB/"># MariaDB</a>
+                        <a href="/tags/Compute-Engine/"># Compute Engine</a>
                     
-                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                        <a href="/tags/desk-full/"># desk full</a>
                     
-                        <a href="/tags/Master-Slave/"># Master Slave</a>
+                        <a href="/tags/%E7%A1%AC%E7%A2%9F/"># 硬碟</a>
                     
-                        <a href="/tags/re-sync/"># re-sync</a>
+                        <a href="/tags/google-cloud/"># google cloud</a>
+                    
+                        <a href="/tags/VM/"># VM</a>
                     
                         
                 </span>
@@ -321,10 +298,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/07/04/GCP-VM-desk-full/">GCP-VM硬碟滿了怎麼辦</a>
             
-            
-            <a class="next" rel="next" href="/2022/05/09/mariadb-version-upgrade/">MariaDB slave/master備份+升級</a>
+            <a class="next" rel="next" href="/2022/05/18/mariadb-resync-database-replica/">MariaDB slave/master replica斷掉，讓資料重新同步</a>
             
         </section>
 
