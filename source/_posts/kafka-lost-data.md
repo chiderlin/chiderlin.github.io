@@ -6,11 +6,11 @@ tags:
 categories: Message Queue
 ---
 
-### 問題
+## 問題
 
 接起來 Kafka 之後，Consumer 卻遇到有些資料會接收不到的情況。
 
-### 解決
+## 解決
 
 1. Producer Acknowledgements
    _argment: acks_
@@ -50,7 +50,7 @@ categories: Message Queue
 
     ```
 
-### 補充
+## 補充
 
 **kafkajs max.in.flight.requests.per.connection 設定**
 如果資料讀取的順序性對你的 application 很重要的話，要另外設定
@@ -58,7 +58,7 @@ categories: Message Queue
 _max.in.flight.requests.per.connection to 1_
 **but not for my case**
 
-# 資料來源
+## 資料來源
 
 [Help, Kafka ate my data!](https://blog.softwaremill.com/help-kafka-ate-my-data-ae2e5d3e6576)
 [Producing Messages](https://kafka.js.org/docs/producing)
