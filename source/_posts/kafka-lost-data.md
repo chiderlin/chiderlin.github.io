@@ -19,7 +19,7 @@ categories: Message Queue
     0 = 不等
     1 = 等 leader 那台 comsumer 接收到訊息並回覆確認
 
-    ```node
+    ```javascript
     async function audProcessor(config) {
         console.log('.........sending');
         return await producer.send({
@@ -38,7 +38,7 @@ categories: Message Queue
     - 設定 `retries`
       _argment: retry_
 
-    ```node
+    ```javascript
     const producer = kafka.producer({
     ...
     // avoid kafka losing data
