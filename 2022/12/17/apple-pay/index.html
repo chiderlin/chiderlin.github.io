@@ -291,10 +291,8 @@
 </ul>
 <p><img src="3.png" alt="官方Server驗證說明"></p>
 <h4 id="解決："><a href="#解決：" class="headerlink" title="解決："></a>解決：</h4><ol>
-<li>取得的.cer 憑證要轉成.pem 檔案，將.pem 放入 payload 傳送給 apple pay server</li>
-</ol>
-<p><code>openssl x509 -inform der -in certificate.cer -out certificate.pem</code></p>
-<ol start="2">
+<li><p>取得的.cer 憑證要轉成.pem 檔案，將.pem 放入 payload 傳送給 apple pay server<br><code>openssl x509 -inform der -in certificate.cer -out certificate.pem</code></p>
+</li>
 <li><p>key 是產生.csr 也一起產生的 private key.key，因為.cer 裡面的資訊會包含 public key，所以提供 private key 來驗證你是這個 certificate 的 owner</p>
 </li>
 <li><p>如果使用 Axios 的話就會是長這樣</p>
@@ -324,10 +322,11 @@
 <li><p>原本裡面的 AppleRootCA-G3.cer 可以沿用，如果過期可以自行到<a target="_blank" rel="noopener" href="https://www.apple.com/certificateauthority/">APPLE PKI</a>下載 AppleRootCA-G3.cer，一樣要附在程式，因為這個解密會需要去開啟 AppleRootCA-G3.cer 做 signature 驗證<br><img src="5.png" alt="AppleRootCA-G3.cer"></p>
 </li>
 </ol>
+<p>解密完成就會是這些欄位<br><img src="6.png" alt="解密出來的object欄位"></p>
 <h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>一切都還只是在串接階段、測試環境，希望之後到正式環境階段沒差別。<br>研究+卡了好幾天，對憑證的申請/交換更了解，但解密方面，因為有找到相關套件，所以還沒有深入了解，還需要更多時間了解解密程序，還有密碼學相關知識。</p>
-<p>自己研究的 Code 還是放在這裡。</p>
+<p>之後 code 整理好，會放在這。</p>
 <hr>
-<p>資料來源：<br><a target="_blank" rel="noopener" href="https://blog.markkulab.net/2022/08/10/apple-pay-on-web-cybersource-integration/">Apple Pay on Web + Cybersource 串接筆記</a></p>
+<p>其他相關資料來源：<br><a target="_blank" rel="noopener" href="https://blog.markkulab.net/2022/08/10/apple-pay-on-web-cybersource-integration/">Apple Pay on Web + Cybersource 串接筆記</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45068888">关于 Apple Pay 接入和开发</a></p>
 
         </div>
