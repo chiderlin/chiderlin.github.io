@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>Apple pay on web串接/解密紀錄 | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Apple pay on web串接/解密紀錄</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 17, 2022&nbsp;&nbsp;17:21:26</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E4%B8%B2%E6%8E%A5/">第三方串接</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前端使用 Javascript<br>後端使用 Nodejs</p>
+<blockquote>
+<p>注意：</p>
+<ol>
+<li> 這篇文章是紀錄實作 Apple pay on web，且沒有透過第三方金流平台串接。</li>
+</ol>
+<ul>
+<li>  apple pay 按鈕</li>
+<li>  使用者付費</li>
+<li>  解析 token</li>
+</ul>
+<ol start="2">
+<li> apple pay on web 只有 Safari 瀏覽器可以使用</li>
+<li> apple pay 有兩種 API</li>
+</ol>
+<ul>
+<li>  Apple Pay JS API (apple pay 原生的 API)</li>
+<li>  (我用的) Payment Request API(遵照 W3C 準則而出的 API)</li>
+</ul>
+</blockquote>
+<p>＊如果有和第三方金流平台配合例如：Tappay，他們的平台有簡化步驟，幫助大家更快速簡單串接 apple pay, google pay 等等的支付方式。他們也提供很完整的<a target="_blank" rel="noopener" href="https://docs.tappaysdk.com/apple-pay/zh/portal.html#create-merchant-id">文件解說</a></p>
+<p>即使我沒有使用第三方金流平台，他們的操作步驟還是有很多可以參考的地方。</p>
+<p>在正文開始之前需要先準備好以下：（這邊操作可以參考 Tappay 文件，這邊就不會再紀錄）</p>
+<ol>
+<li>註冊 Apple ID</li>
+<li>APPLE ID 加入 Developer Program（要付費)</li>
+<li>有了 Developer Program 之後<ul>
+<li>申請 Merchant ID</li>
+<li>申請 Payment Processing Certificate：解密時會使用到！</li>
+<li>申請 Merchant identity Certificate：自己 Server 和 Apple Pay Server 認證時會用到！<br><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/apple_pay_on_the_web/configuring_your_environment">官方文件</a></li>
+</ul>
+</li>
+<li>準備好 Https 環境。檢查：<ul>
+<li>Https 環境</li>
+<li>TLS 版本在 1.2 或以上</li>
+<li>你網站的 Cipher suites 有包含在 apple 官方文件裡面<br><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/apple_pay_on_the_web/setting_up_your_server">官方文件</a><br><a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest/index.html">可以檢查環境的網站</a></li>
+</ul>
+</li>
+</ol>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="1.png" alt="apple pay流程"></p>
+<h3 id="csr-到-cer-憑證的過程"><a href="#csr-到-cer-憑證的過程" class="headerlink" title=".csr 到.cer 憑證的過程"></a>.csr 到.cer 憑證的過程</h3><ul>
+<li>  Payment Processing Certificate</li>
+<li>  Merchant identity Certificate</li>
+</ul>
+<p>都是以下流程從.csr 到.cer</p>
+<ol>
+<li>自己生成.csr 檔案及 Private Key.key<ul>
+<li>Private Key 自己保留好。</li>
+<li>.csr 上傳到 Apple Pay 平台取得 .cer 憑證<br>(Merchant identity Certificate =&gt; apple 產生 merchant_id.cer)<br>(Payment Processing Certificate =&gt; apple 產生 applepay.cer)</li>
+</ul>
+</li>
+</ol>
+<p>＊如果用 Tappay，會直接從 Tappay 平台取得他們生成的.csr。</p>
+<blockquote>
+<p>.csr 是憑證簽署要求(Certificate Signing Request)</p>
+</blockquote>
+<p>Merchant identity Certificate 生成.csr &amp; private key.key<br><code>openssl req -new -newkey rsa:2048 -nodes -keyout applepay.key -out applepay.csr -subj &#39;/O=Subscribe Pro/C=US&#39;</code><br>openssl req -new -newkey rsa:2048 -nodes -keyout applepay.key -out applepay.csr -subj ‘/O=example.Ltd(公司名)/C=TW(國家)’</p>
+<p><a target="_blank" rel="noopener" href="https://docs.subscribepro.com/integrations/magento-1/apple-pay/merchant-certificate/">有用的參考 Create Merchant Identity Certificate in Apple Developer Account</a></p>
+<p>Payment Processing Certificate 生成.csr &amp; private key.key<br><code>openssl ecparam -out server.key -name prime256v1 -genke</code><br><code>openssl req -new -key server.key -out server.csr -sha256</code><br><a target="_blank" rel="noopener" href="https://www.digicert.com/kb/ecc-csr-creation-ssl-installation-apache.htm">有效參考 Apache: Create ECC CSR and Install ECC SSL Certificate</a></p>
+<h3 id="Apple-Pay-按鈕"><a href="#Apple-Pay-按鈕" class="headerlink" title="Apple Pay 按鈕"></a>Apple Pay 按鈕</h3><p>這邊有前端完整的 code 可以參考/實際操作/也有講解。可以自己玩玩。<br><a target="_blank" rel="noopener" href="https://applepaydemo.apple.com/payment-request-api">官方 Demo 參考：用 Safari 實際操作</a></p>
+<p>畫面會是這樣<br><img src="2.png" alt="apple demo"></p>
+<h3 id="Apple-Pay-付款認證階段"><a href="#Apple-Pay-付款認證階段" class="headerlink" title="Apple Pay 付款認證階段"></a>Apple Pay 付款認證階段</h3><p>Server 驗證 Apple Pay Server 相關文件比較少，我在認證這邊卡了不少時間。<br>這邊只有提到要認證的 endpoint 是前端<code>onvalidatemerchant事件</code>返回的 event.validationURL 要傳到後端，由後端打 POST 到這個 validationURL 連帶 Payload 一起過去驗證。<br><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/requesting_an_apple_pay_payment_session">官方文件</a></p>
+<h4 id="卡關部分："><a href="#卡關部分：" class="headerlink" title="卡關部分："></a>卡關部分：</h4><ul>
+<li>  Payload 部分我覺得範例寫的不是很清楚</li>
+<li>  然後我是使用 Axios，傳 Payload 方式不同</li>
+<li>  傳憑證的部分不知道怎麼傳</li>
+<li>  一開始不清楚上面的 Key 是什麼？</li>
+</ul>
+<p><img src="3.png" alt="官方Server驗證說明"></p>
+<h4 id="解決："><a href="#解決：" class="headerlink" title="解決："></a>解決：</h4><ol>
+<li>取得的.cer 憑證要轉成.pem 檔案，將.pem 放入 payload 傳送給 apple pay server</li>
+</ol>
+<p><code>openssl x509 -inform der -in certificate.cer -out certificate.pem</code></p>
+<ol start="2">
+<li><p>key 是產生.csr 也一起產生的 private key.key，因為.cer 裡面的資訊會包含 public key，所以提供 private key 來驗證你是這個 certificate 的 owner</p>
+</li>
+<li><p>如果使用 Axios 的話就會是長這樣</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> merchIdentityCert = fs.readFileSync(</span><br><span class="line">    path.join(__dirname, <span class="string">&#x27;../&#x27;</span>, <span class="string">&#x27;merchant_id.pem&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> private_key = fs.readFileSync(</span><br><span class="line">    path.join(__dirname, <span class="string">&#x27;../&#x27;</span>, <span class="string">&#x27;applepay.key&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> payload = &#123;</span><br><span class="line">    <span class="attr">merchantIdentifier</span>: <span class="string">&#x27;merchant.com.xx.xx&#x27;</span>, <span class="comment">// merchantID....</span></span><br><span class="line">    <span class="attr">displayName</span>: <span class="string">&#x27;example Ltd&#x27;</span>, <span class="comment">// 公司名</span></span><br><span class="line">    <span class="attr">initiative</span>: <span class="string">&#x27;web&#x27;</span>, <span class="comment">// 種類web</span></span><br><span class="line">    <span class="attr">initiativeContext</span>: <span class="string">&#x27;example.com&#x27;</span>, <span class="comment">//你DOMAIN名字</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> httpsAgent = <span class="keyword">new</span> https.Agent(&#123;</span><br><span class="line">    <span class="attr">rejectUnauthorized</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">cert</span>: merchIdentityCert, <span class="comment">// 憑證放這</span></span><br><span class="line">    <span class="attr">key</span>: private_key, <span class="comment">// pk放這</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rs = <span class="keyword">await</span> axios(&#123;</span><br><span class="line">    <span class="attr">url</span>: authorizeUrl, <span class="comment">// 從前端validationURL來的</span></span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">        <span class="attr">Accept</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/txt;charset=UTF-8&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    httpsAgent,</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">    <span class="attr">data</span>: <span class="built_in">JSON</span>.stringify(payload),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>解決了以上的問題！<br>Apple Pay Server 認證成功會回傳 Payment session Object</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    epochTimestamp: 1670136214313,</span><br><span class="line">    expiresAt: 1670139814313,</span><br><span class="line">    merchantSessionIdentifier: &#x27;REDACTED&#x27;,</span><br><span class="line">    nonce: &#x27;757ae09c&#x27;,</span><br><span class="line">    merchantIdentifier: &#x27;REDACTED&#x27;,</span><br><span class="line">    domainName: &#x27;applepaydemo.apple.com&#x27;,</span><br><span class="line">    displayName: &#x27;Apple Pay Demo&#x27;,</span><br><span class="line">    signature: &#x27;REDACTED&#x27;,</span><br><span class="line">    operationalAnalyticsIdentifier:</span><br><span class="line">        &#x27;Apple Pay Demo:A77873CD368A460BD5D3325AD76B01C16BB7F838CFFF654F9A993F4B6A9B4098&#x27;,</span><br><span class="line">    retries: 0,</span><br><span class="line">    pspId: &#x27;A77873CD368A460BD5D3325AD76B01C16BB7F838CFFF654F9A993F4B6A9B4098&#x27;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Touch-ID-付款"><a href="#Touch-ID-付款" class="headerlink" title="Touch ID 付款"></a>Touch ID 付款</h3><p>使用者 Touch ID 付款結果會透過<code>.show()</code>返回 promise 結果，也就是 Token</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Payment Token: &#123;</span><br><span class="line">    &quot;paymentData&quot;: &#123;</span><br><span class="line">        &quot;version&quot;: &quot;EC_v1&quot;,</span><br><span class="line">        &quot;data&quot;: &quot;TQf1foe8j/aDJZAMO/9z0q1Ixslykn0isD5ky/jS4OHgDBByMSfbUxUZIJ0+HjUpftl1biXgBbAQ42sZwjZh2UXc7qhZLbvVZ94DthODEQMtsgS3Jd70aB86cdmf390jRdxP08oeXgY0hqG4h16CZ8r542Rs6viVu5ViSTbP42qcfRapsm09mVSOD65/VJTDkSToHCZVmkK/xpnc9Gn+1CwMXjFXcyXAQFUNhM48ldDSUHDbvFyZ/Ip7A8hJnvV0ZodRtDqNTehYO/Z2zcC0oGrmW9u/CRoYKTuh5p4H61VdejPenruyNulkw3BWqVnCFzdR9/ZQ9jlg5zY486GabpUwMc/TtR9Xdq2hz4FoIcT9FxNqxJ0dXGb9F9yGgfU2qarlVSyJsoPSQ0PC54pmstG/RaLnhYRvrXxzyireib0=&quot;,</span><br><span class="line">        &quot;signature&quot;: &quot;MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIID4zCCA4igAwIBAgIITDBBSVGdVDYwCgYIKoZIzj0EAwIwejEuMCwGA1UEAwwlQXBwbGUgQXBwbGljYXRpb24gSW50ZWdyYXRpb24gQ0EgLSBHMzEmMCQGA1UECwwdQXBwbGUgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMB4XDTE5MDUxODAxMzI1N1oXDTI0MDUxNjAxMzI1N1owXzElMCMGA1UEAwwcZWNjLXNtcC1icm9rZXItc2lnbl9VQzQtUFJPRDEUMBIGA1UECwwLaU9TIFN5c3RlbXMxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwhV37evWx7Ihj2jdcJChIY3HsL1vLCg9hGCV2Ur0pUEbg0IO2BHzQH6DMx8cVMP36zIg1rrV1O/0komJPnwPE6OCAhEwggINMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUI/JJxE+T5O8n5sT2KGw/orv9LkswRQYIKwYBBQUHAQEEOTA3MDUGCCsGAQUFBzABhilodHRwOi8vb2NzcC5hcHBsZS5jb20vb2NzcDA0LWFwcGxlYWljYTMwMjCCAR0GA1UdIASCARQwggEQMIIBDAYJKoZIhvdjZAUBMIH+MIHDBggrBgEFBQcCAjCBtgyBs1JlbGlhbmNlIG9uIHRoaXMgY2VydGlmaWNhdGUgYnkgYW55IHBhcnR5IGFzc3VtZXMgYWNjZXB0YW5jZSBvZiB0aGUgdGhlbiBhcHBsaWNhYmxlIHN0YW5kYXJkIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHVzZSwgY2VydGlmaWNhdGUgcG9saWN5IGFuZCBjZXJ0aWZpY2F0aW9uIHByYWN0aWNlIHN0YXRlbWVudHMuMDYGCCsGAQUFBwIBFipodHRwOi8vd3d3LmFwcGxlLmNvbS9jZXJ0aWZpY2F0ZWF1dGhvcml0eS8wNAYDVR0fBC0wKzApoCegJYYjaHR0cDovL2NybC5hcHBsZS5jb20vYXBwbGVhaWNhMy5jcmwwHQYDVR0OBBYEFJRX22/VdIGGiYl2L35XhQfnm1gkMA4GA1UdDwEB/wQEAwIHgDAPBgkqhkiG92NkBh0EAgUAMAoGCCqGSM49BAMCA0kAMEYCIQC+CVcf5x4ec1tV5a+stMcv60RfMBhSIsclEAK2Hr1vVQIhANGLNQpd1t1usXRgNbEess6Hz6Pmr2y9g4CJDcgs3apjMIIC7jCCAnWgAwIBAgIISW0vvzqY2pcwCgYIKoZIzj0EAwIwZzEbMBkGA1UEAwwSQXBwbGUgUm9vdCBDQSAtIEczMSYwJAYDVQQLDB1BcHBsZSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMwHhcNMTQwNTA2MjM0NjMwWhcNMjkwNTA2MjM0NjMwWjB6MS4wLAYDVQQDDCVBcHBsZSBBcHBsaWNhdGlvbiBJbnRlZ3JhdGlvbiBDQSAtIEczMSYwJAYDVQQLDB1BcHBsZSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATwFxGEGddkhdUaXiWBB3bogKLv3nuuTeCN/EuT4TNW1WZbNa4i0Jd2DSJOe7oI/XYXzojLdrtmcL7I6CmE/1RFo4H3MIH0MEYGCCsGAQUFBwEBBDowODA2BggrBgEFBQcwAYYqaHR0cDovL29jc3AuYXBwbGUuY29tL29jc3AwNC1hcHBsZXJvb3RjYWczMB0GA1UdDgQWBBQj8knET5Pk7yfmxPYobD+iu/0uSzAPBgNVHRMBAf8EBTADAQH/MB8GA1UdIwQYMBaAFLuw3qFYM4iapIqZ3r6966/ayySrMDcGA1UdHwQwMC4wLKAqoCiGJmh0dHA6Ly9jcmwuYXBwbGUuY29tL2FwcGxlcm9vdGNhZzMuY3JsMA4GA1UdDwEB/wQEAwIBBjAQBgoqhkiG92NkBgIOBAIFADAKBggqhkjOPQQDAgNnADBkAjA6z3KDURaZsYb7NcNWymK/9Bft2Q91TaKOvvGcgV5Ct4n4mPebWZ+Y1UENj53pwv4CMDIt1UQhsKMFd2xd8zg7kGf9F3wsIW2WT8ZyaYISb1T4en0bmcubCYkhYQaZDwmSHQAAMYIBizCCAYcCAQEwgYYwejEuMCwGA1UEAwwlQXBwbGUgQXBwbGljYXRpb24gSW50ZWdyYXRpb24gQ0EgLSBHMzEmMCQGA1UECwwdQXBwbGUgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTAghMMEFJUZ1UNjANBglghkgBZQMEAgEFAKCBlTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMjEyMDQwNjQ5MTJaMCoGCSqGSIb3DQEJNDEdMBswDQYJYIZIAWUDBAIBBQChCgYIKoZIzj0EAwIwLwYJKoZIhvcNAQkEMSIEIHfRTal5qyLxEeQrq3TY05/Ht6tN8FaMFerU5ufKhvbSMAoGCCqGSM49BAMCBEYwRAIgF+ReScKgs0YEjWJ+eIIifRz0lTFAVzUtRVp97yuRgpMCIH0lORgBIUV+CSplRcsTKg5P3kjg7JN/9oPyaxiH5v0zAAAAAAAA&quot;,</span><br><span class="line">        &quot;header&quot;: &#123;</span><br><span class="line">            &quot;ephemeralPublicKey&quot;: &quot;MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE9MQf5OWHgrinv0m9LAc4CoKckDkcDN37cp3k4TX5pArfMeVXzrzHSzdvppsKgdQEgpe/9qXQ9M0lJ1A8VpnpYg==&quot;,</span><br><span class="line">            &quot;publicKeyHash&quot;: &quot;DUk3mLvfQgqZFWz9r45AsSC7Ew7mcDnbyChqPVfSG3c=&quot;,</span><br><span class="line">            &quot;transactionId&quot;: &quot;97daac01e31dcb2373191b34532ebd0f7fef29797cbc2c9526fbf4aff3ca5625&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;paymentMethod&quot;: &#123;</span><br><span class="line">        &quot;displayName&quot;: &quot;Visa xxxx&quot;,</span><br><span class="line">        &quot;network&quot;: &quot;Visa&quot;,</span><br><span class="line">        &quot;type&quot;: &quot;credit&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;transactionIdentifier&quot;: &quot;97DAAC01E31DCB2373191B34532EBD0F7FEF29797CBC2C9526FBF4AFF3CA5625&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解密相關"><a href="#解密相關" class="headerlink" title="解密相關"></a>解密相關</h3><p>以上取得的 Token 就是付款的加密資料，Apple Pay 也有提供解密的方式<br>解密這部分涉及密碼學相關 QQ。<br>官方說明裡也有對 Token 欄位的說明，其中 data 就是要解密的 Token<br><img src="4.png" alt="token欄位說明"></p>
+<p>解密步驟像文章提到的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. Verify the signature</span><br><span class="line">2. Determine which merchant public key was used</span><br><span class="line">3. Restore the symmetric key</span><br><span class="line">4. Use the symmetric key to decrypt the value of the data key</span><br><span class="line">5. Confirm that this payment has not yet been credited</span><br><span class="line">6. Verify the transaction details: currencyCode, transactionAmount, and applicationData</span><br><span class="line">7. Use the decrypted payment data to process the payment</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/passkit/apple_pay/payment_token_format_reference">官方解密步驟說明</a><br><a target="_blank" rel="noopener" href="https://medium.com/@kenchen_57904/%E8%BC%95%E9%AC%86%E8%A7%A3%E5%AF%86apple-pay-payment-token-6e7b900e8e0c">參考：輕鬆解密 Apple pay payment token</a></p>
+<p>如果自己解密以我的功力只能說會耗費非常之久，<br>找到有人有套件可以完成解密的繁雜步驟！<br><a target="_blank" rel="noopener" href="https://github.com/Kenblair1226/apple-pay-signature-and-decrypt">套件相關</a></p>
+<p>有清楚寫下使用方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取得到的token</span></span><br><span class="line"><span class="keyword">const</span> requestToken = &#123;</span><br><span class="line">    <span class="attr">data</span>: <span class="string">&#x27;&lt;encryptedData&gt;&#x27;</span>,</span><br><span class="line">    <span class="attr">version</span>: <span class="string">&#x27;EC_v1&#x27;</span>,</span><br><span class="line">    <span class="attr">signature</span>: <span class="string">&#x27;&lt;signature&gt;&#x27;</span>,</span><br><span class="line">    <span class="attr">header</span>: &#123;</span><br><span class="line">        <span class="attr">ephemeralPublicKey</span>: <span class="string">&#x27;&lt;ephemeralPublicKey&gt;&#x27;</span>,</span><br><span class="line">        <span class="attr">publicKeyHash</span>: <span class="string">&#x27;&lt;publicKeyHash&gt;&#x27;</span>,</span><br><span class="line">        <span class="attr">transactionId</span>: <span class="string">&#x27;&lt;transactionId&gt;&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// import Payment Processing Certificate的pem檔案</span></span><br><span class="line"><span class="keyword">const</span> publicCert = fs.readFileSync(</span><br><span class="line">    path.join(__dirname, <span class="string">&#x27;./publicCert.pem&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">// import Payment Processing Certificate的private key</span></span><br><span class="line"><span class="keyword">const</span> privateKey = fs.readFileSync(</span><br><span class="line">    path.join(__dirname, <span class="string">&#x27;./privateKey.pem&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> token = <span class="keyword">new</span> applePayPaymentToken(requestToken);</span><br><span class="line"><span class="keyword">const</span> decryptedToken = token.decrypt(publicCert, privateKey);</span><br><span class="line">decryptedToken</span><br><span class="line">    .then(<span class="function">(<span class="params">ret</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(ret);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(err);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Issue"><a href="#Issue" class="headerlink" title="Issue"></a>Issue</h4><p>下載套件時，發現開發者使用的其中一個套件已經沒有再維護了，所以下載會失敗。</p>
+<h4 id="解決"><a href="#解決" class="headerlink" title="解決"></a>解決</h4><p>於是我先把這個 repo 拉下來，試圖解除裡面的 bug。</p>
+<ol>
+<li><p>發現<code>fix:node-webcrypto-ossl</code>套件不再使用，我改成<code>@peculiar/webcrypto</code>套件</p>
+<p> 載入方法也從<code>const crypto = new Crypto.Crypto()</code><br> 改為<code>const crypto = new Crypto()</code></p>
+</li>
+<li><p>原本裡面的 AppleRootCA-G3.cer 可以沿用，如果過期可以自行到<a target="_blank" rel="noopener" href="https://www.apple.com/certificateauthority/">APPLE PKI</a>下載 AppleRootCA-G3.cer，一樣要附在程式，因為這個解密會需要去開啟 AppleRootCA-G3.cer 做 signature 驗證<br><img src="5.png" alt="AppleRootCA-G3.cer"></p>
+</li>
+</ol>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>一切都還只是在串接階段、測試環境，希望之後到正式環境階段沒差別。<br>研究+卡了好幾天，對憑證的申請/交換更了解，但解密方面，因為有找到相關套件，所以還沒有深入了解，還需要更多時間了解解密程序，還有密碼學相關知識。</p>
+<p>自己研究的 Code 還是放在這裡。</p>
+<hr>
+<p>資料來源：<br><a target="_blank" rel="noopener" href="https://blog.markkulab.net/2022/08/10/apple-pay-on-web-cybersource-integration/">Apple Pay on Web + Cybersource 串接筆記</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45068888">关于 Apple Pay 接入和开发</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2022/12/17/apple-pay/">https://chiderlin.github.io/2022/12/17/apple-pay/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Nodejs/"># Nodejs</a>
+                    
+                        <a href="/tags/apple-pay/"># apple pay</a>
+                    
+                        <a href="/tags/apple-pay-on-web/"># apple pay on web</a>
+                    
+                        <a href="/tags/https/"># https</a>
+                    
+                        <a href="/tags/Payment-Request-API/"># Payment Request API</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/11/15/kafka-setting/">動手架一台kafka紀錄</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
