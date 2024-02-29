@@ -243,10 +243,18 @@
 
 <h3 id="6-實際用-github-操作-repo-測試"><a href="#6-實際用-github-操作-repo-測試" class="headerlink" title="6. 實際用 github 操作 repo 測試"></a>6. 實際用 github 操作 repo 測試</h3><h3 id="7-取消原本-global-的設定"><a href="#7-取消原本-global-的設定" class="headerlink" title="7. 取消原本 global 的設定"></a>7. 取消原本 global 的設定</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">git config --global --<span class="built_in">unset</span> user.name</span></span><br><span class="line"><span class="meta">$</span><span class="bash">git config --global --<span class="built_in">unset</span> user.email</span></span><br></pre></td></tr></table></figure>
 
-<p>完成之後再用 <code>$git config --list</code>指令查看，原本設定的 <code>user.name &amp; user.email</code>就已經不見囉<br>可以在個別的專案再設定 email, user<br><code>$git config user.email &quot;your email&quot;</code><br><code>$git config user.name &quot;your name&quot;</code></p>
+<p>完成之後再用 <code>$git config --list</code>指令查看，原本設定的 <code>user.name &amp; user.email</code>就已經不見囉</p>
+<p>** 可以在個別的專案再設定 email, user<br><code>$git config user.email &quot;your email&quot;</code><br><code>$git config user.name &quot;your name&quot;</code></p>
+<h3 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h3><p>舊的 git url 連不到了，使原本設定的 remote 要更新。<br>（先設定好新的 ssh，確定新的有連到再換 url 喔～）<br><img src="1.png" alt="push不了"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">origin  git@github:xxx.git (fetch)</span><br><span class="line">origin  git@github:xxx.git (push)</span><br></pre></td></tr></table></figure>
+
+<p><code>git remote set-url origin &lt;新的url&gt;</code><br>就覆蓋掉原本舊的了。</p>
+<p><code>git remote -v</code> 重新查看會看到新的連結喔，像這樣。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">origin  git@chi:xxx.git (fetch)</span><br><span class="line">origin  git@chi:xxx.git (push)</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h3 id="個人心得紀錄"><a href="#個人心得紀錄" class="headerlink" title="個人心得紀錄"></a>個人心得紀錄</h3><p>目前把公司的設定 ssh 而已，另外一個帳號還是用 http clone，不曉得之後會不會遇到什麼問題，可能可以觀察一下再做更新。另外公鑰私鑰的部分仍還需要多了解一些，下面放的另外兩篇文章會再看一下。</p>
-<p>—<br /><br>資料來源：<br><a target="_blank" rel="noopener" href="https://medium.com/@hyWang/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%80%E5%8F%B0%E9%9B%BB%E8%85%A6%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%80%8Bgit%E5%B8%B3%E8%99%9F-907c8eadbabf">如何在一台電腦使用多個 Git 帳號</a><br><a target="_blank" rel="noopener" href="https://codecharms.me/posts/security-ssh">Security 你該知道所有關於 SSH 的那些事
+<p>—<br /><br>資料來源：<br><a target="_blank" rel="noopener" href="https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories">Changing a remote repository’s URL</a><br><a target="_blank" rel="noopener" href="https://blog.alantsai.net/posts/2016/03/ssh-config-ssh-agent-passphrase-management">config 管理多個網站的 ssh key</a><br><a target="_blank" rel="noopener" href="https://medium.com/@hyWang/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%80%E5%8F%B0%E9%9B%BB%E8%85%A6%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%80%8Bgit%E5%B8%B3%E8%99%9F-907c8eadbabf">如何在一台電腦使用多個 Git 帳號</a><br><a target="_blank" rel="noopener" href="https://codecharms.me/posts/security-ssh">Security 你該知道所有關於 SSH 的那些事
 </a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126117538">ssh agent 详解</a></p>
 
         </div>
