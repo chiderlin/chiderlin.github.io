@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>privateGPT | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">privateGPT</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 27, 2024&nbsp;&nbsp;20:39:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>用 macOS 在本機跑 PrivateGPT 紀錄。<br>可以上傳 PDF file, 讓機器人進行解析。<br><img src="privategpt.png" alt="結果圖"></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/imartinez/privateGPT</span><br><span class="line">cd privateGPT</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>下載 make</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install cmake</span><br></pre></td></tr></table></figure></li>
+<li><p>下載 pyenv 3.11 (Poetry 需要 3.11)</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.11</span><br><span class="line">pyenv local 3.11</span><br></pre></td></tr></table></figure></li>
+<li><p>Install Poetry ＋ debug</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://install.python-poetry.org | python3 -</span><br></pre></td></tr></table></figure>
+
+<p> 這邊起初在安裝的時候遇到問題</p>
+<ul>
+<li>1.我的 python 沒有 3.11</li>
+<li>2.找不到 Poetry</li>
+</ul>
+<p> 解決：</p>
+<ol>
+<li>移除原本 homebrew 下載的 python 並重新下載</li>
+<li>homebrew 下載 <code>pyenv</code></li>
+<li>設定環境變數</li>
+<li>透過 <code>pyenv</code> 下載 python 3.11.4 版本</li>
+<li>重新下載 Poetry (先 uninstall 再 install)</li>
+</ol>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">brew remove python</span><br><span class="line">brew install pyenv</span><br><span class="line"></span><br><span class="line">echo &#x27;export PATH=&quot;$HOME/.pyenv/shims:$PATH&quot;&#x27; &gt;&gt; ~/.profile</span><br><span class="line">source ~/.profile</span><br><span class="line"></span><br><span class="line">pyenv install 3.11.4</span><br><span class="line">pyenv global 3.11.4</span><br><span class="line"></span><br><span class="line">curl -sSL https://install.python-poetry.org | python3 - --uninstall</span><br><span class="line">curl -sSL https://install.python-poetry.org | python3 -</span><br></pre></td></tr></table></figure></li>
+<li><p>下載 Poetry 後，設定 Poetry 環境變數<br>這部分在下載 Poetry 時，它有給予指示。<br><img src="portry-setting.png" alt="poetry setting"></p>
+</li>
+<li><p>這時的 <code>which python</code><br>-&gt; <code>/Users/chider/.pyenv/shims/python</code></p>
+</li>
+<li><p>進到專案裡，下載 privateGPT 相關啟動套件</p>
+<ul>
+<li><p>install</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">poetry install --with ui</span><br><span class="line">poetry install --with local</span><br><span class="line">poetry run python scripts/setup</span><br></pre></td></tr></table></figure></li>
+<li><p>OSX GPU support</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_ARGS=&quot;-DLLAMA_METAL=on&quot; pip install --force-reinstall --no-cache-dir llama-cpp-python</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>Run 起來～<br><code>poetry run python -m private_gpt(or make run)</code></p>
+</li>
+</ol>
+<hr>
+<h2 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h2><h3 id="把-local-Sqllite-換成-local-docker-跑-qdrant"><a href="#把-local-Sqllite-換成-local-docker-跑-qdrant" class="headerlink" title="把 local Sqllite 換成 local docker 跑 qdrant"></a>把 local Sqllite 換成 local docker 跑 qdrant</h3><ol>
+<li><p>調整專案裡的 setting.yml</p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">qdrant:</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">http://localhost:6333</span></span><br><span class="line"><span class="comment">#path: local_data/private_gpt/qdrant</span></span><br></pre></td></tr></table></figure></li>
+<li><p>下載 qdrant docker</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker.io</span><br><span class="line">sudo docker pull qdrant/qdrant</span><br><span class="line"></span><br><span class="line">sudo docker run -p 6333:6333</span><br><span class="line">    -v &lt;path-to-project&gt;/latticefi-private-gpt/local_data/storage:qdrant/storage</span><br><span class="line">    -v &lt;path-to-project&gt;/latticefi-private-gpt/local_data/config:qdrant/config</span><br><span class="line">    qdrant/qdrant</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="建立一個-python-虛擬環境"><a href="#建立一個-python-虛擬環境" class="headerlink" title="建立一個 python 虛擬環境"></a>建立一個 python 虛擬環境</h3><p>更方便日後切換環境開發。</p>
+<ol>
+<li>建立虛擬環境 -&gt; <code>virtualenv -p python3.11 &lt;環境名稱&gt;</code></li>
+<li>進入虛擬環境 -&gt; <code>source .venv/bin/activate</code></li>
+<li>在虛擬環境安裝相關套件<ul>
+<li><code>pip install --upgrade pip poetry</code></li>
+<li><code>poetry install --with local</code></li>
+<li><code>poetry run python scripts/setup</code></li>
+</ul>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">virtualenv -p python3.11 .venv</span><br><span class="line">source .venv/bin/activate</span><br><span class="line">pip install --upgrade pip poetry</span><br><span class="line">poetry install --with local</span><br><span class="line">poetry run python scripts/setup</span><br></pre></td></tr></table></figure>
+
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>之後要啟動專案，步驟：</p>
+<ol>
+<li>啟動 qdrant container</li>
+<li>進入專案</li>
+<li>進入虛擬環境</li>
+<li>啟動程式 make run<br>OK!</li>
+</ol>
+<h2 id="參考來源："><a href="#參考來源：" class="headerlink" title="參考來源："></a>參考來源：</h2><p><a target="_blank" rel="noopener" href="https://docs.privategpt.dev/installation">Installation</a><br><a target="_blank" rel="noopener" href="https://python-poetry.org/docs/#installing-with-the-official-installer">python-poetry</a><br><a target="_blank" rel="noopener" href="https://github.com/python-poetry/install.python-poetry.org/issues/71">Poetry issue</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2024/02/27/privateGPT/">https://chiderlin.github.io/2024/02/27/privateGPT/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%81%8A%E5%A4%A9%E6%A9%9F%E5%99%A8%E4%BA%BA/"># 聊天機器人</a>
+                    
+                        <a href="/tags/ChatGPT/"># ChatGPT</a>
+                    
+                        <a href="/tags/AI/"># AI</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2023/09/06/git-rebase-vs-merge/">git _rebase_vs_merge</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
