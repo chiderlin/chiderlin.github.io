@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Chi Lin">
+
+
+
+
+
+<title>&lt;工作記錄&gt; 報表數字錯誤修復 - Mysql bug fixed | 一Chi寫程式</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSN2PDB82D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSN2PDB82D');
+</script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">一 chi 寫程式</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">一 chi 寫程式</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Category</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">&lt;工作記錄&gt; 報表數字錯誤修復 - Mysql bug fixed</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Chi Lin</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 6, 2024&nbsp;&nbsp;17:19:47</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/">資料庫</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言：問題"><a href="#前言：問題" class="headerlink" title="前言：問題"></a>前言：問題</h2><p>公司 Saas 平台做的財務報表，因為報表在最後需要顯示 balance “Y”，而有時財務人員在檢查過數字後但在報表呈現上還是顯示”N”的問題。</p>
+<p>另外也在顯示報表數字時也發現，若有多位數時，尾數的部分有可能不精準，開始 debug 的路程。<br><img src="1.png" alt="sme"></p>
+<table>
+<thead>
+<tr>
+<th>Total Liabilities</th>
+<th>SME-report (wrong)</th>
+<th>xlsx （correct)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>YTD (current year)</td>
+<td>2,849,820</td>
+<td>2,849,825</td>
+</tr>
+<tr>
+<td>FY22 (current year - 1)</td>
+<td>2,770,500</td>
+<td>2,770,502</td>
+</tr>
+<tr>
+<td>FY21 (current year - 2)</td>
+<td>2,751,160</td>
+<td>2,751,162</td>
+</tr>
+<tr>
+<td>FY20 (current year - 3)</td>
+<td>2,779,170</td>
+<td>2,779,169</td>
+</tr>
+</tbody></table>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>Debug 過程：不斷地 print log。<br>原本以爲是 code 在運算時錯誤導致寫入 db 的數字錯誤。</p>
+<p>Trace code log: figure correct<br>DB data: figure wrong<br>到寫入 db 的前一刻，都是正確的數字，我便開始懷疑起會不會是資料庫的問題？</p>
+<p>追到此 Table dataType: Float</p>
+<blockquote>
+<p>Float 可以存幾個位數？ -&gt; 有效位數七位數。</p>
+</blockquote>
+<p>剛好我的報表數字跑掉就是在七位數的尾數！<br>而使用在財務報表這種精準的數字上最好使用<code>Decimal</code></p>
+<blockquote>
+<p>Decimal 可以儲存 1~65 位數，適合需要精準數字的儲存，銀行存款/財務報表都很合適。</p>
+</blockquote>
+<p>Mysql 使用 Decimal 之後，在專案裡面的 code 也要做相對應的調整，因為公司使用 Python，Python 有 Decimal 的類別，將 Decimal 存放在 Json 裡時也要做特別的轉換才可以用 API 打出去。</p>
+<p>原本打出去的 API<code>return response</code>因為 Decimal 的關係要改為<code>return json.dumps(response, use_decimal=True)</code><br>它會將 objec 改成 string</p>
+<p>接收端的 API 從原本直接接收 json 改成先接收 string, 再改成 json object.<br>即為 <code>response.data</code> 改成 <code>JSON.parse(response.data);</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxx.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> reportData = <span class="built_in">JSON</span>.parse(response.data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="結果"><a href="#結果" class="headerlink" title="結果"></a>結果</h2><p><img src="2.png" alt="after fixed"></p>
+<p>資料來源：<br><a target="_blank" rel="noopener" href="https://n.sfs.tw/content/index/10266">[Mysql] 資料型態 int, float, double, text, char, varchar, blob 大小</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Chi Lin</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://chiderlin.github.io/2024/04/06/mysql-incorrect-value-record/">https://chiderlin.github.io/2024/04/06/mysql-incorrect-value-record/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/"># 資料庫</a>
+                    
+                        <a href="/tags/Database/"># Database</a>
+                    
+                        <a href="/tags/Mysql/"># Mysql</a>
+                    
+                        <a href="/tags/Datatype/"># Datatype</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/02/27/privateGPT/">privateGPT Local架起來</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Chi Lin | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
