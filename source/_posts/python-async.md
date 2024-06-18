@@ -1,8 +1,11 @@
 ---
-title: python_async
+title: Python async是真的異步＋多執行緒
 date: 2024-06-12 16:14:55
 tags:
-categories:
+  - Python
+  - async await
+  - FastAPI
+categories: 程式語言
 ---
 
 ### Fastapi 的 BackgroundTasks 方式做異步
