@@ -13,7 +13,7 @@
 
 
 
-<title>GCP-VM硬碟滿了怎麼辦 | 一Chi寫程式</title>
+<title>flutter-syntax | 一Chi寫程式</title>
 
 
 
@@ -130,73 +130,11 @@
                 <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
-    }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">GCP-VM硬碟滿了怎麼辦</h1>
+            <h1 class="post-title">flutter-syntax</h1>
             
                 <div class="post-meta">
                     
@@ -205,38 +143,31 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">July 4, 2022&nbsp;&nbsp;15:05:20</a>
+                        Date: <a href="#">July 3, 2025&nbsp;&nbsp;15:49:02</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E9%9B%B2%E7%AB%AF/">雲端</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h4 id="問題-google-cloud-上的硬碟滿了。"><a href="#問題-google-cloud-上的硬碟滿了。" class="headerlink" title="[問題]google cloud 上的硬碟滿了。"></a>[問題]google cloud 上的硬碟滿了。</h4><p><img src="1.png" alt="1"><br>原本開一台機器，預設的硬碟大小好像是 10GB，<br>滿了的時候，google cloud 的 ssh 視窗會連不進去，資料庫介面也會顯示 desk full 的相關資訊</p>
-<h4 id="解決-加大硬碟。"><a href="#解決-加大硬碟。" class="headerlink" title="[解決]加大硬碟。"></a>[解決]加大硬碟。</h4><h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><ol>
-<li>進入 磁碟<br><img src="2.png" alt="2"></li>
+            <ol>
+<li>constructor?<br> factory ?<br> static?</li>
 </ol>
-<hr>
+<p>這三者之間的差異</p>
 <ol start="2">
-<li>會看到很多已開的機器， 選你要加大的機器，點選編輯<br>加到多大看你的需求<br><img src="3.png" alt="3"></li>
+<li>各種變數定義方法<br>final<br>late<br>const<br>var</li>
 </ol>
-<hr>
-<ol start="3">
-<li>更新過後 ssh 還是無法進去，必須重啟機器，重開時他就會幫你重整磁碟大小到你設定的大小。<br>重啟後也就可再度使用 ssh 連進去了。<br><img src="4.png" alt="4"></li>
-</ol>
-<h1 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h1><p>ssh 進不去的期間也可以試著用 cloud shell<br>的 gcloud 指令連進去</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcloud compute ssh --zone &quot;asia-east1-b&quot; &quot;機器vm名稱&quot;  --project &quot;專案名稱(google cloud 最上方的名稱)&quot;</span><br></pre></td></tr></table></figure>
+<p>required<br>optinal<br>List<Interface> list = [];</p>
+<p>3.工廠模式 factory function(不限 flutter) -&gt; 可以另開一篇文章</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExportDataSource createExportDataSource() =&gt; ExportMobileDataSource();</span><br></pre></td></tr></table></figure>
 
-<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>還有另一種是外加硬碟的方式，而不是直接加大機器本身的硬碟大小，有機會可以再研究。</p>
+<p>使用時</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">export</span> = createExportDataSource();</span><br><span class="line"><span class="keyword">export</span>.exportToExcel(); <span class="comment">// 不用知道它是 Mobile 的還是 Web 的</span></span><br></pre></td></tr></table></figure>
+
+<p>你只要修改這個 createExportDataSource()，整個程式就會自動用新的版本，不用到處改 new ExportXXX()。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在手機端：</span></span><br><span class="line">ExportDataSource createExportDataSource() =&gt; ExportMobileDataSource();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在 Web 端（或其他平台）：</span></span><br><span class="line">ExportDataSource createExportDataSource() =&gt; ExportWebDataSource();</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -251,7 +182,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://chiderlin.github.io/2022/07/04/GCP-VM-desk-full/">https://chiderlin.github.io/2022/07/04/GCP-VM-desk-full/</a></span>
+                        <span><a href="https://chiderlin.github.io/2025/07/03/flutter-syntax/">https://chiderlin.github.io/2025/07/03/flutter-syntax/</a></span>
                     </p>
                 
                 
@@ -274,20 +205,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/Google-engine-vm/"># Google engine vm</a>
-                    
-                        <a href="/tags/Compute-Engine/"># Compute Engine</a>
-                    
-                        <a href="/tags/desk-full/"># desk full</a>
-                    
-                        <a href="/tags/%E7%A1%AC%E7%A2%9F/"># 硬碟</a>
-                    
-                        <a href="/tags/google-cloud/"># google cloud</a>
-                    
-                        <a href="/tags/VM/"># VM</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -298,10 +215,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/07/29/mariadb-version-upgrade/">MariaDB slave/master備份+升級</a>
+                <a class="prev" rel="prev" href="/2025/08/29/ai-agent-and-mcp/">ai-agent-and-mcp</a>
             
             
-            <a class="next" rel="next" href="/2022/05/18/mariadb-resync-database-replica/">MariaDB slave/master replica斷掉，讓資料重新同步</a>
+            <a class="next" rel="next" href="/2025/06/26/clean-archtecture/">clean-archtecture</a>
             
         </section>
 
