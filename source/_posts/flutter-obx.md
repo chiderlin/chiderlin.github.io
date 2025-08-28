@@ -2,6 +2,9 @@
 title: Flutter GetX & Obx概念
 date: 2025-05-14 10:01:00
 tags:
+  - App
+  - Mobile
+categories: 程式語言
 ---
 
 # 正文
