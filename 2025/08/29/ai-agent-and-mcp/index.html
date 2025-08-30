@@ -236,7 +236,10 @@
 <p>這個 Tools 定義 json 格式，像這樣：<br><code>&#123; &quot;tool&quot;: &quot;get_figma_pages&quot;, &quot;arguments&quot;: &#123;&#125; &#125;</code><br>在使用者下 Prompt 後，LLM 去找對應的 Tools 來使用 function</p>
 <p>例如有一個情境：<strong>我想知道我現在 figma 設計有哪些頁面?</strong><br>LLM 收到 prompt 後會找到<code>get_figma_pages</code>這個 function 可以使用<br>這個 function 本質上就會去呼叫 figma API 取得該使用者頁面有哪些。這邊假設 figma 回傳： <code>[&#39;home&#39;, &#39;product&#39;, &#39;about us&#39;]</code></p>
 <p>這個結果會再傳給 LLM，請他總結得出最後答案回傳給使用者文字。<br>所以 LLM 回答可能會長這樣： <strong>您的 Figma 設計檔中包含了以下頁面：首頁、產品列表、和關於我們。</strong></p>
-<p>所以前提：該服務要有提供相對的 API 去取得資料才可以用，不是平白無故輸入 prompt 給 AI 他就可以找你的私人資料回來給你。</p>
+<blockquote>
+<p>有提供相對的 API 去取得資料可以更精準的使用 AI-Agent。 另外，web browse 工具內建於每個 MCP server 服務，使用它可以做一般的網路搜尋。</p>
+</blockquote>
+<p><img src="2.jpeg" alt="youtube大佬講解很清楚！"><br><img src="1.jpeg" alt="各相關名詞"></p>
 <h3 id="到這邊為止我的個人總結："><a href="#到這邊為止我的個人總結：" class="headerlink" title="到這邊為止我的個人總結："></a>到這邊為止我的個人總結：</h3><p>後端所有的 function collect 起來放到 tools<br>LLM 被問問題時就會去瀏覽 tool 看有沒有適合的 function 可以使用<br>有的話就會拿到 API 返回資料，再丟給 LLM 總結文字回傳給使用者結果。<br><code>使用者 -&gt; 後端程式 -&gt; LLM (選擇工具) -&gt; 後端程式 (執行工具) -&gt; LLM (總結結果) -&gt; 使用者。</code></p>
 <h2 id="n8n-＆-LangChain"><a href="#n8n-＆-LangChain" class="headerlink" title="n8n ＆ LangChain"></a>n8n ＆ LangChain</h2><p>n8n 是 AI-Agent 嗎？ <strong>n8n 本身不是 agent, 而是它可以建立 agent 流程。</strong> 他也可以只是建立自動化工作流程，如果是自動化工作流程那就等同於 RPA 的功能。但因為 n8n 可以建立多個節點跟 LLM 互動，所以可以組成 Agent。但反的來說，我還沒確定 Power automate 可以做 Agent 嗎？</p>
 <p>n8n 是一個可以以 Low-Code 的方式去打 API 並把不同服務串接起來成 workflow 的平台。</p>
@@ -290,6 +293,7 @@
 <h1 id="小近況"><a href="#小近況" class="headerlink" title="小近況"></a>小近況</h1><p>最近完成專案論文，由於理解速度太慢，完全沒有用到最新最炫的新技術有點可惜，但在現在終於理解的當下也感覺到一陣愉悅，至少在工作之前花一點時間把它搞懂了。</p>
 <h1 id="資料來源："><a href="#資料來源：" class="headerlink" title="資料來源："></a>資料來源：</h1><p><a target="_blank" rel="noopener" href="https://cloud.google.com/gemini/docs/codeassist/gemini-cli">Gemini Cli</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29001189476">MCP (Model Context Protocol)，一篇就够了。</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1UQ8uz4kuIc">Youtube - 10 分钟讲清楚 Prompt, Agent, MCP 是什么</a></p>
 
         </div>
 
